@@ -920,6 +920,27 @@ def protocol_KK04(abf):
     generic_average_over_time(abf, timeSec1=.65, timeSec2=.65+.15)
     return
 
+def protocol_OVLY(abf):
+    """make overlay."""
+    assert isinstance(abf, pyabf.ABF)
+    generic_overlay(abf)
+    return
+
+def protocol_OVAP(abf):
+    """make overlay and do AP analysis."""
+    assert isinstance(abf, pyabf.ABF)
+    generic_overlay(abf)
+    generic_ap_steps(abf)
+    protocol_0111(abf)
+    return
+
+def protocol_MTMN(abf):
+    """genertic memtest probably while drug is applied."""
+    assert isinstance(abf, pyabf.ABF)
+    generic_continuous(abf)
+    generic_memtest_over_time(abf)
+    return
+
 if __name__=="__main__":
     log.critical("DO NOT RUN THIS FILE DIRECTLY")
     log.setLevel(logging.DEBUG)

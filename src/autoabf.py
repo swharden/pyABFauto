@@ -12,6 +12,8 @@ log = logging.getLogger(__name__)
 log.debug(f"autoabf imported")
 log.setLevel(level=logging.INFO)
 
+sys.path.append(R"C:\Users\swharden\Documents\GitHub\pyABF\src")
+
 import pyabf
 pyabf.abf.log.setLevel(level=logging.WARN)
 pyabf.abfHeader.log.setLevel(level=logging.WARN)
@@ -96,29 +98,31 @@ def autoAnalyzeAbf(abf, reanalyze=True):
             log.debug(f"deleting {fname}")
             os.remove(fname)
 
-    # a few manual search/replace for special titles
-    if not "permanent" in abf.protocolPath:
+    ### a few manual search/replace for special titles
 
-        # membrane-test-like protocols
-        if abf.protocol.lower() in ["Membrane Test", "membrane test"]:
-            abf.protocol = "KK01 memtest"
+    # IV-like protocols
+    if "MTIV3" in abf.protocol:
+        abf.protocol = "OVLY MTIV3"
 
-        # holding-current-monitoring in VC with memtest
-        if abf.protocol in ["10 min gap free with memt", "10secondSweepGapFree pClamp 10"]:
-            abf.protocol = "KK02 memtest time course"
-        
-        # AP gain steps
-        if abf.adcUnits[0] == "mV" and abf.protocol == "IV":
-            abf.protocol = "KK03 AP gain"
+    # AP steps
+    if "SHIV3" in abf.protocol:
+        abf.protocol = "OVAP SHIV3"
 
-        # VC with stimuator
-        if abf.protocol in ["Stimulation Vclamp"]:
-            abf.protocol = "KK04 Evoked EPSC"
+    # MT-like protocol where drug is applied
+    if "MT-mon" in abf.protocol:
+        abf.protocol = "MTMN MT-mon"
 
-    else:
-        log.warn("non-permanent protocol used!")
+    # SS uses this
+    if abf.protocol == "EPSCs Single":
+        abf.protocol = "MTMN MT-mon"
+
+    # force all SS IC steps to also make single-AP plots
+    if "steps dual" in abf.protocol and "Sarthak" in abf.abfFilePath:
+        abf.protocol = "OVAP override "+abf.protocol
 
     # if the protocol is in the autoanalysis format determine its function
+    if not "permanent" in abf.protocolPath:
+        log.warn("non-permanent protocol used! (%s)"%(abf.protocol))
     functionName = None
     if " " in abf.protocol and len(abf.protocol.split(" ")[0]) == 4:
         functionName = "protocol_"+abf.protocol.split(" ")[0]
@@ -127,7 +131,7 @@ def autoAnalyzeAbf(abf, reanalyze=True):
         if functionName and not hasattr(analysisByProtocol, functionName):
             functionName = None
 
-    # if a properly formatted protoocl was found, run its analysis
+    # if a properly formatted protocol was found, run its analysis
     if functionName:
         log.debug(f"analyzing known protocol via: {functionName}()")
         getattr(analysisByProtocol, functionName)(abf)
@@ -141,17 +145,7 @@ def autoAnalyzeAbf(abf, reanalyze=True):
         analysisByProtocol.unknown(abf)
     return
 
-
 if __name__ == "__main__":
-
-    # analyze a specific file
-    #abfFileCmRamp = PATH_DATA+"/171116sh_0014.abf"
-    #abfFileSpecificPath = R"X:\Data\F344\Aging PFC Kyle\evoked-AMPA-NMDA-ratio\14106_dic2_006.abf"
-    #autoAnalyzeAbf(abfFileSpecificPath, reanalyze=True)
-
-    # analyze a specific folder
-    autoAnalyzeFolder(R"X:\Data\F344\Aging PFC Kyle\evoked-AMPA-NMDA-ratio", reanalyze=True)
+    autoAnalyzeAbf(R"X:\Data\SD\PFC Oxytocin\Sarthaks PhD project\data\17518010.abf", reanalyze=True)
+    #autoAnalyzeFolder(R"X:\Data\SD\PFC Oxytocin\Sarthaks PhD project\data", reanalyze=True)
     print("DONE")
-
-    # TODO: memtest - show Rm, Cm, etc
-    # TODO: cm ramp
