@@ -1,8 +1,10 @@
 # pyABFauto
 **The pyABFauto project seeks to provide an analysis pipeline for ABF files (containing whole-cell patch-clamp electrophysiology data) that requires no human input.** When given a new ABF file is seen (freshly created from a rig) its header and data are read (using [pyABF](https://github.com/swharden/pyABF)), its experiment type is automatically determined (using the protocol as a hint), the appropriate analyses are performed, and several graphs of data are created and saved as PNG files. When combined with a dynamic web interface accessible to the experimenter, this allows the scientist to rapidly assess the outcome of an experiment at rig-time.
 
+**In its current state, pyABFauto should be considered as an example of how [pyABF](https://github.com/swharden/pyABF) can be used to create a rich and highly-automated electrophysiology analysis pipeline**. This project is not one which can be simply downloaded and immediately used for broad applications. While it appears rich in features, they are all highly experimental, and there is not yet a simple way for new users to adopt it. For example, it currently relies heavily on protocol filenames and ABF file comments which can be highly specific to the experiment being performed. 
+
 ## Example Output
-_A few dozen experimental protocols are supported. When an unknown protocol is used, pyABFauto takes a pretty good guess as to how to best analyze it and represent it as a series of images. Below is the output of automated analysis of some of the simplest and most commonly-used ABF protocol types._
+A few dozen experimental protocols are supported. When an unknown protocol is used, pyABFauto takes a pretty good guess as to how to best analyze it and represent it as a series of images. Below is the output of automated analysis of some of the simplest and most commonly-used ABF protocol types.
 
 ### Action Potential Analysis
 Automatic analysis of action potential shape and calculation of properties (threshold voltage, rheobase current, half-width, repolarization velocity, etc.) from voltage-clamp ramps. The first AP in response to a ramp is analyzed:
@@ -37,3 +39,9 @@ Rapid assessment of evoked currents is facilitated by visual inspection. Sweep-b
 
 The magnitude of evoked currents (and the post-stimulus delay) is visible when averaging all sweeps together. Note that the position of the optogenetic stimulus (red line) is taken from the digital output signal stored in the ABF file. If a longer optogenetic stimulation is used, the shaded area becomes wider automatically. 
 ![](images/opto-overlay.png)
+
+## Web Interface
+
+Files created by pyABFauto are displayed as a web interface using [SWHLabPHP](https://github.com/swharden/SWHLabPHP). This allows easy integration of images (TIFs acquired at rig-time, automamtically brightness/contrast-enhanced and displayed as JPG for web viewing), e-phys data (analyzed with pyABF/pyABFauto), and cell grouping (ABFs grouped by cell is a feature provided entirely by the web interface, including color-coding of cells, and addition of comments to cells).
+
+![](images/pyabf-web-interface.jpg)
