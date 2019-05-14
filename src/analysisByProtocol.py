@@ -17,6 +17,7 @@ PATH_HERE = os.path.dirname(__file__)
 PATH_DATA = os.path.abspath(os.path.dirname(__file__)+"/../../data/abfs/")
 import sys
 sys.path.insert(0, PATH_HERE+"/../../src/")
+sys.path.append(R"C:\Users\swharden\Documents\GitHub\pyABF\src")
 import pyabf
 
 import os
@@ -29,7 +30,7 @@ log.debug(f"autoabf imported")
 log.setLevel(level=logging.WARN)
 
 # default size of the images being made
-FIGSIZE = pyabf.plot.defaultFigsize
+FIGSIZE = (8, 6)
 FIGSIZE_WIDE = (FIGSIZE[0]*1.6, FIGSIZE[1]*1)
 
 # automatically generated figures are saved in this subfolder
@@ -49,7 +50,7 @@ def _secLookUp(abf, timeSec1, timeSec2, returnPoints=False):
         return timeSec1, timeSec2
 
 
-def shadeDigitalOutput(abf, digitalOutputChannel=4):
+def shadeDigitalOutput(abf, digitalOutputChannel=4, color='r'):
     """In sweep view, shade the epoch number."""
     log.debug("shading digital outputs")
     digitalWaveforms = pyabf.stimulus.digitalWaveformEpochs(abf)
@@ -59,7 +60,7 @@ def shadeDigitalOutput(abf, digitalOutputChannel=4):
         if outputState == 1:
             t1 = epochPoints[epochNumber]*abf.dataSecPerPoint
             t2 = epochPoints[epochNumber+1]*abf.dataSecPerPoint
-            plt.axvspan(t1, t2, color='r', alpha=.3, lw=0)
+            plt.axvspan(t1, t2, color=color, alpha=.3, lw=0)
 
 
 def shadeAllBackgrounds(color=(1.0, 1.0, 0.9)):
@@ -661,12 +662,14 @@ def protocol_0112(abf):
     """0112 steps dual -50 to 150 step 10.pro"""
     assert isinstance(abf, pyabf.ABF)
     generic_ap_steps(abf)
+    protocol_0111(abf)
     return
 
 def protocol_0113(abf):
     """0113 steps dual -100 to 300 step 25.pro"""
     assert isinstance(abf, pyabf.ABF)
     generic_ap_steps(abf)
+    protocol_0111(abf)
     return
 
 
@@ -674,6 +677,7 @@ def protocol_0114(abf):
     """0114 steps dual -100 to 2000 step 100.pro"""
     assert isinstance(abf, pyabf.ABF)
     generic_ap_steps(abf)
+    protocol_0111(abf)
     return
 
 
@@ -758,6 +762,32 @@ def protocol_0301(abf):
 def protocol_0302(abf):
     """0302 IC 10s IC ramp drug.pro"""
     assert isinstance(abf, pyabf.ABF)
+    generic_ap_freqPerSweep(abf)
+    generic_trace_before_after_drug(abf, isolateEpoch=None)
+    return
+
+def protocol_0303(abf):
+    """0303 IC 10s opto.pro"""
+    assert isinstance(abf, pyabf.ABF)
+    plotFigNew(abf)
+    shadeDigitalOutput(abf, 4, color='g')
+    verticalOffset = 0
+    for sweep in abf.sweepList:
+        abf.setSweep(sweep)
+        if abf.sweepUnitsY == "mV":
+            traceColor = 'b'
+        else:
+            traceColor = 'r'
+        plt.plot(abf.sweepX, abf.sweepY + verticalOffset*sweep, color=traceColor, lw=.5, alpha=.5)
+    plt.margins(0,.1)
+    plt.title(f"OVerlay of {abf.sweepCount} sweeps")
+    plotFigSave(abf, tag="opto-stacked", labelAxes=True)
+    return
+
+def protocol_0312(abf):
+    """0312 ic cosine 10s.pro"""
+    assert isinstance(abf, pyabf.ABF)
+    generic_continuous(abf)
     generic_ap_freqPerSweep(abf)
     generic_trace_before_after_drug(abf, isolateEpoch=None)
     return
@@ -865,6 +895,25 @@ def protocol_0501(abf):
     plotFigSave(abf, tag="opto-stacked", labelAxes=True)
     return
 
+
+def protocol_0502(abf):
+    """0502 opto 0.pro"""
+    assert isinstance(abf, pyabf.ABF)
+    plotFigNew(abf)
+    shadeDigitalOutput(abf, 4, color='g')
+    verticalOffset = 0
+    for sweep in abf.sweepList:
+        abf.setSweep(sweep)
+        if abf.sweepUnitsY == "mV":
+            traceColor = 'b'
+        else:
+            traceColor = 'r'
+        plt.plot(abf.sweepX, abf.sweepY + verticalOffset*sweep, color=traceColor, lw=.5, alpha=.5)
+    plt.margins(0,.1)
+    plt.title(f"OVerlay of {abf.sweepCount} sweeps")
+    plotFigSave(abf, tag="opto-stacked", labelAxes=True)
+    return
+
 def protocol_0912(abf):
     """0912 VC 20s stim PPR 40ms.pro"""
     assert isinstance(abf, pyabf.ABF)
@@ -945,7 +994,7 @@ if __name__=="__main__":
     log.critical("DO NOT RUN THIS FILE DIRECTLY")
     log.setLevel(logging.DEBUG)
     
-    fileToTest = R"X:\Data\F344\Aging PFC Kyle\evoked-AMPA-NMDA-ratio\14106_dic2_006.abf"
+    fileToTest = R"X:\Data\SD\Piriform Oxytocin\core ephys 2018\Sagittal Pilot\2018_12_04_ts_0032.abf"
     abf = pyabf.ABF(fileToTest)
     print("ABF is protocol",abf.protocol)
-    protocol_KK04(abf)
+    protocol_0312(abf)
