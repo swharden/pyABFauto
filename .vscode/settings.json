@@ -1,6 +1,6 @@
 {
     "python.linting.pylintEnabled": false,
-    "python.pythonPath": "C:\\ProgramData\\Anaconda3\\python.exe",
+    "python.pythonPath": "C:\\Users\\swharden\\AppData\\Local\\Continuum\\Anaconda3\\python.exe",
     "python.jediEnabled": false,
     "code-runner.executorMap": {
         "python": "C:\\ProgramData\\Anaconda3\\python.exe"
