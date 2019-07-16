@@ -11,14 +11,14 @@ if __name__ == "__main__":
     # print(watcher)
     # watcher.analyzeNext()
 
-    demoMemtest = R"data/19702034.abf"
+    pyABFauto.analyzeFolder(R"X:\Data\SD\Piriform Oxytocin\00 pilot experiments\2019-02-28 light firing")
+
+    # demoMemtest = R"data/19702034.abf"
     # demoIVstep = R"data/19702035.abf"
     # demoIVfast = R"data/19702036.abf"
     # demoApRamp = R"data/19702037.abf"
     # demoApSteps = R"data/19702038.abf"
-    # demoApContinuous = R"data/18109034.abf"
-
-    #pyABFauto.analyzeFolder("data")
-    pyABFauto.analyzeAbf(demoMemtest)
+    # demoApTimeTags = R"data/19228004.abf"
+    # pyABFauto.analyzeAbf(demoApTimeTags)
 
     print("DONE")

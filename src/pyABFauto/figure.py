@@ -7,6 +7,7 @@ import os
 import pyabf
 import matplotlib.pyplot as plt
 
+
 class Figure:
     def __init__(self, abf):
         assert isinstance(abf, pyabf.ABF)
@@ -41,17 +42,37 @@ class Figure:
         plt.margins(0, .05)
         self.labelAxes()
 
+    def addTagLines(self, minutes=False):
+        for i, comment in enumerate(self.abf.tagComments):
+            if minutes:
+                tagPosition = self.abf.tagTimesMin[i]
+            else:
+                tagPosition = self.abf.tagTimesSec[i]
+            plt.axvline(tagPosition, linewidth=2, color='r',
+                        alpha=.5, linestyle='--')
+
     def shadeBackground(self):
         for i, ax in enumerate(plt.gcf().axes):
             ax.set_facecolor((1.0, 0.9, 0.9))
+            ax.text(.97, .97, "WARNING: unknown protocol",
+                    transform=plt.gca().transAxes,
+                    verticalalignment='top',
+                    horizontalalignment='right',
+                    fontsize=12,
+                    color='r')
+
+    def grid(self):
+        plt.grid(alpha=.2, color='k', ls='--')
 
     def _preSaveAdjustments(self):
         plt.tight_layout()
         lowerCornerText = f"{self.abf.abfID}.abf\n{self.abf.protocol}"
         plt.gcf().text(0.005, 0.005, lowerCornerText,
                        transform=plt.gca().transAxes,
-                       fontsize=10, family='monospace',
-                       verticalalignment='bottom', color='r')
+                       fontsize=10,
+                       family='monospace',
+                       verticalalignment='bottom',
+                       color='.5')
 
     def save(self):
         self._preSaveAdjustments()
@@ -61,5 +82,8 @@ class Figure:
             os.mkdir(outputFolder)
         outputFileName = f"{self.abf.abfID}_autoanalysis.png"
         outputFile = os.path.join(outputFolder, outputFileName)
-        print("writing", outputFile)
         plt.savefig(outputFile)
+        print("  saved:", outputFile)
+
+    def close(self):
+        plt.close()

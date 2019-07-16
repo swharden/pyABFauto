@@ -1,6 +1,6 @@
-from pyABFauto.analyze import analyzeAbf, analyzeFolder
-
+import pyABFauto.analyses
 import pyABFauto.figure
 import pyABFauto.protocols
 
-import pyABFauto.monitor
+from pyABFauto.monitor import folderMonitor
+from pyABFauto.analyze import analyzeAbf, analyzeFolder
