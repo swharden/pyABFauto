@@ -11,7 +11,7 @@ if __name__ == "__main__":
     # print(watcher)
     # watcher.analyzeNext()
 
-    pyABFauto.analyzeFolder(R"X:\Data\SD\Piriform Oxytocin\00 pilot experiments\2019-02-28 light firing")
+    #pyABFauto.analyzeFolder(R"X:\Data\SD\Piriform Oxytocin\00 pilot experiments\2019-02-28 light firing")
 
     # demoMemtest = R"data/19702034.abf"
     # demoIVstep = R"data/19702035.abf"
