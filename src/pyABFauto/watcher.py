@@ -16,7 +16,6 @@ class commandFileWatcher:
 
     def __init__(self, commandFile=DEFAULT_COMMAND_FILE):
         self.commandFilePath = os.path.abspath(commandFile)
-        #self.getAbfsNeedingAnalysis()
 
     def getAbfsNeedingAnalysis(self, rescan=True):
         abfs = []
@@ -64,6 +63,7 @@ class commandFileWatcher:
 
         for abfID in abfIDs:
             if not abfID in abfGraphList:
-                abfs.append(os.path.join(folderPath, abfID+".abf"))
+                if not os.path.exists(os.path.join(folderPath, abfID+".rsv")):
+                    abfs.append(os.path.join(folderPath, abfID+".abf"))
 
         return abfs
