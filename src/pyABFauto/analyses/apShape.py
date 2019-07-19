@@ -11,13 +11,17 @@ import numpy as np
 
 def firstAP(abf, fig):
 
-    if False: # helps intellisense
+    if False:  # helps intellisense
         abf = pyabf.ABF(abf)
         #fig = pyABFauto.figure.Figure()
 
-    
+    apPadMsec = 50
+    v = pyabf.tools.ap.extract_first_ap(abf, apPadMsec)
 
-    v = pyabf.tools.ap.extract_first_ap(abf, 50)
+    # if no AP was detected, just use the first few milliseconds
+    if v is None:
+        v = abf.sweepY[:int(apPadMsec * abf.dataPointsPerMs)]
+
     t = np.arange(len(v))/abf.dataPointsPerMs
     t = t - t[int(len(t)/2)]
     dv = np.diff(v) * abf.dataRate / 1000
