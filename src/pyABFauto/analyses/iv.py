@@ -34,14 +34,21 @@ def step(abf, fig, timeSteadyStart, timeSteadyEnd, timeTailStart, timeTailEnd):
         currentsB[sweepNumber] = np.mean(abf.sweepY[i1B:i2B])
         voltagesA[sweepNumber] = abf.sweepC[iCenterA]
 
-    ax1 = plt.subplot(221)
+    if (abf.sweepLengthSec < 2):
+        subplotNumberA = 121
+        subplotNumberB = 122
+    else:
+        subplotNumberA = 221
+        subplotNumberB = 222
+
+    ax1 = plt.subplot(subplotNumberA)
     plt.title("All Sweeps (%d)" % abf.sweepCount)
     fig.plotStacked()
     plt.axvspan(timeSteadyStart, timeSteadyEnd,
                 alpha=.2, color='r', lw=0,
                 label="steady")
 
-    ax2 = plt.subplot(222)
+    ax2 = plt.subplot(subplotNumberB)
     fig.grid()
     plt.title("Steady State Current")
     plt.plot(voltagesA, currentsA, '.-', ms=10, color='r')
@@ -49,6 +56,9 @@ def step(abf, fig, timeSteadyStart, timeSteadyEnd, timeTailStart, timeTailEnd):
     plt.axvline(-70, color='k', alpha=.2, ls='--')
     plt.ylabel(abf.sweepLabelY)
     plt.xlabel(abf.sweepLabelC)
+
+    if (abf.sweepLengthSec < 2):
+        return
 
     ax1 = plt.subplot(223)
     plt.title("Region of Interest")
