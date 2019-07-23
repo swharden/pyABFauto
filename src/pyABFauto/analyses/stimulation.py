@@ -3,6 +3,8 @@
 """
 
 import pyabf
+import pyabf.tools
+
 import pyABFauto
 
 import matplotlib.pyplot as plt
@@ -67,9 +69,11 @@ def figureTestOptoResponse(abf, fig, optoEpochNumber=3):
     plt.axvspan(optoTimeOn, optoTimeOff, alpha=.5, color='y', edgecolor='y')
 
 
-def figureTestElectricalResponse(abf, fig, stimEpochNumber=3):
+def figureTestElectricalResponseVC(abf, fig, stimEpochNumber=3):
     assert isinstance(abf, pyabf.ABF)
     assert isinstance(fig, pyABFauto.figure.Figure)
+    
+    mt = pyabf.tools.Memtest(abf)
 
     optoPointOn = abf.sweepEpochs.p1s[stimEpochNumber]
     optoPointOff = abf.sweepEpochs.p2s[stimEpochNumber]
@@ -77,16 +81,22 @@ def figureTestElectricalResponse(abf, fig, stimEpochNumber=3):
     optoTimeOn = optoPointOn * abf.dataSecPerPoint
     optoTimeOff = optoPointOff * abf.dataSecPerPoint
 
-    dataPadSec = 0.1
-    dataPadPoints = int(dataPadSec * abf.dataRate)
-    displayPoint1 = int(optoPointOn - dataPadPoints)
-    displayPoint2 = int(optoPointOff + dataPadPoints)
+    displayPoint1 = int(optoPointOn - 0.03 * abf.dataRate)
+    displayPoint2 = int(optoPointOff + 0.05 * abf.dataRate)
 
-    baseline = [optoTimeOn - dataPadSec, optoTimeOn - dataPadSec/2]
+    baseline = [optoTimeOn - .02, optoTimeOn - .01]
 
+    measure = [optoTimeOff + .003, optoTimeOff + .015]
+    measureI1 = int(measure[0] * abf.dataRate)
+    measureI2 = int(measure[1] * abf.dataRate)
+    means = np.full(abf.sweepCount, np.nan)
+
+    plt.subplot(221)
+    fig.grid()
     plt.title("Electrical Response (%d sweeps)" % abf.sweepCount)
     for sweepNumber in abf.sweepList:
         abf.setSweep(sweepNumber, baseline=baseline)
+        means[sweepNumber] = np.mean(abf.sweepY[measureI1:measureI2])
         plt.plot(abf.sweepX[displayPoint1:displayPoint2],
                  abf.sweepY[displayPoint1:displayPoint2],
                  alpha=.2, color='.5')
@@ -97,5 +107,38 @@ def figureTestElectricalResponse(abf, fig, stimEpochNumber=3):
     plt.ylabel(abf.sweepLabelY)
     plt.xlabel(abf.sweepLabelX)
     plt.margins(0, .1)
-    plt.axvspan(optoTimeOn, optoTimeOff, alpha=.5, color='y', edgecolor='y')
+    plt.axvspan(optoTimeOn, optoTimeOff, alpha=.5, color='y')
+    plt.axvspan(baseline[0], baseline[1], alpha=.2, color='k')
+    plt.axvspan(measure[0], measure[1], alpha=.2, color='r')
     plt.axis([None, None, -100, 100])
+
+    plt.subplot(222)
+    fig.grid()
+    plt.title("Evoked Current")
+    plt.axhline(0, color='k', ls='--')
+    sweepTimesSec = np.arange(abf.sweepCount) * abf.sweepIntervalSec
+    sweepTimesMin = sweepTimesSec / 60
+    plt.plot(sweepTimesMin, means, '.-')
+    fig.addTagLines(minutes=True)
+    plt.ylabel("Evoked Current (pA)")
+    plt.xlabel("Experiment Time (minutes)")
+    plt.margins(.1, .3)
+
+    plt.subplot(223)
+    fig.grid()
+    plt.title(mt.Ih.name)
+    plt.ylabel(mt.Ih.units)
+    plt.xlabel("Experiment Time (minutes)")
+    plt.plot(mt.Ih.values, '.-')
+    plt.margins(.1, .3)
+    fig.addTagLines(minutes=True)
+
+    plt.subplot(224)
+    fig.grid()
+    plt.title(mt.Ra.name)
+    plt.ylabel(mt.Ra.units)
+    plt.xlabel("Experiment Time (minutes)")
+    plt.plot(mt.Ra.values, '.-')
+    fig.addTagLines(minutes=True)
+    plt.margins(.1, .3)
+    plt.axis([None, None, 0, None])
