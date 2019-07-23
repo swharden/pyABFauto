@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 import pyABFauto
 import pyABFauto.protocols
 import pyABFauto.analyses
+import pyABFauto.logging
 import pyABFauto.analyses.unknown
 
 
@@ -22,10 +23,13 @@ def analyzeFolder(folderPath):
 
 
 def analyzeAbf(abfPath):
+    abfPath = os.path.abspath(abfPath)
     print("auto-analyzing", os.path.basename(abfPath))
     abf = pyabf.ABF(abfPath)
     protocolID = abf.protocol.split(" ")[0]
     protocolFunctionName = "analyze_%s" % (protocolID)
+
+    pyABFauto.logging.log(f"Analyzing [{abfPath}] with protocol [{protocolID}]")
 
     fig = pyABFauto.figure.Figure(abf)
     plt.title(abf.abfID+".abf")
@@ -33,7 +37,7 @@ def analyzeAbf(abfPath):
         analaysisFunction = getattr(pyABFauto.protocols, protocolFunctionName)
         analaysisFunction(abf, fig)
     else:
-        print(f"  WARNING: unknown protocol ({abf.protocol})")
+        pyABFauto.logging.warn(f"unknown protocol")
         if abf.dataLengthMin > 2:
             pyABFauto.analyses.unknown.continuous(abf, fig)
         else:
