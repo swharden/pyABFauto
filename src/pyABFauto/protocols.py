@@ -36,10 +36,10 @@ def analyze_0203(abf, fig):
     pyABFauto.analyses.iv.step(abf, fig, .5, .95, 2.566, 2.59)
 
 def analyze_0501(abf, fig):
-    pyABFauto.analyses.stimulation.figureTestOptoResponse(abf, fig, optoEpochNumber=3)
+    pyABFauto.analyses.stimulation.optoResponse(abf, fig, optoEpochNumber=3)
 
 def analyze_0502(abf, fig):
-    pyABFauto.analyses.stimulation.figureTestOptoResponse(abf, fig, optoEpochNumber=3)
+    pyABFauto.analyses.stimulation.optoResponse(abf, fig, optoEpochNumber=3)
 
 def analyze_0602(abf, fig):
     pyABFauto.analyses.stimulation.figureTestElectricalResponseVC(abf, fig, stimEpochNumber=3)
