@@ -1,0 +1,2 @@
+python watcher.py
+pause
