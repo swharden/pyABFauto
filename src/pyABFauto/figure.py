@@ -35,10 +35,15 @@ class Figure:
         plt.margins(0, .05)
         self.labelAxes()
 
-    def plotContinuous(self):
+    def plotContinuous(self, startAtSec=0, minutes = False):
+        i1 = int(startAtSec * self.abf.dataRate)
         for sweepNumber in self.abf.sweepList:
             self.abf.setSweep(sweepNumber, absoluteTime=True)
-            plt.plot(self.abf.sweepX, self.abf.sweepY, color='b')
+            Xs = self.abf.sweepX[i1:]
+            Ys = self.abf.sweepY[i1:]
+            if minutes:
+                Xs /= 60
+            plt.plot(Xs, Ys, color='b', lw=.5)
         plt.margins(0, .05)
         self.labelAxes()
 

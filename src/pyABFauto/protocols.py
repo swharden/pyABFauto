@@ -17,29 +17,63 @@ import pyABFauto.analyses.stimulation
 def analyze_0111(abf, fig):
     pyABFauto.analyses.apShape.firstAP(abf, fig)
 
+
 def analyze_0112(abf, fig):
     pyABFauto.analyses.apGain.step(abf, fig, .14, .65, 1.64, 2.15)
 
+
 def analyze_0113(abf, fig):
     pyABFauto.analyses.apGain.step(abf, fig, .14, .65, 1.64, 2.15)
-    
+
+
 def analyze_0114(abf, fig):
     pyABFauto.analyses.apGain.step(abf, fig, .14, .65, 1.64, 2.15)
 
+
 def analyze_0201(abf, fig):
     pyABFauto.analyses.memtest.figureMemtest(abf, fig)
-    
+
+
 def analyze_0202(abf, fig):
     pyABFauto.analyses.iv.step(abf, fig, 2.3, 2.5, 2.566, 2.59)
+
 
 def analyze_0203(abf, fig):
     pyABFauto.analyses.iv.step(abf, fig, .5, .95, 2.566, 2.59)
 
+
+def analyze_0401(abf, fig):
+    pyABFauto.analyses.memtest.figureOverTime(abf, fig)
+
+
+def analyze_0402(abf, fig):
+    pyABFauto.analyses.memtest.figureOverTime(abf, fig)
+
+
+def analyze_0403(abf, fig):
+    pyABFauto.analyses.memtest.figureOverTime(abf, fig)
+
+
+def analyze_0404(abf, fig):
+    pyABFauto.analyses.memtest.figureOverTime(abf, fig)
+
+
+def analyze_0405(abf, fig):
+    pyABFauto.analyses.memtest.figureOverTime(abf, fig)
+
+
+def analyze_0406(abf, fig):
+    pyABFauto.analyses.memtest.figureOverTime(abf, fig)
+
+
 def analyze_0501(abf, fig):
     pyABFauto.analyses.stimulation.optoResponse(abf, fig, optoEpochNumber=3)
+
 
 def analyze_0502(abf, fig):
     pyABFauto.analyses.stimulation.optoResponse(abf, fig, optoEpochNumber=3)
 
+
 def analyze_0602(abf, fig):
-    pyABFauto.analyses.stimulation.figureTestElectricalResponseVC(abf, fig, stimEpochNumber=3)
+    pyABFauto.analyses.stimulation.figureTestElectricalResponseVC(
+        abf, fig, stimEpochNumber=3)
