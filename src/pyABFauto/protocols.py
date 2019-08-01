@@ -12,7 +12,7 @@ import pyABFauto.analyses.iv
 import pyABFauto.analyses.apShape
 import pyABFauto.analyses.apGain
 import pyABFauto.analyses.stimulation
-
+import pyABFauto.analyses.timeCourse
 
 def analyze_0111(abf, fig):
     pyABFauto.analyses.apShape.firstAP(abf, fig)
@@ -40,6 +40,10 @@ def analyze_0202(abf, fig):
 
 def analyze_0203(abf, fig):
     pyABFauto.analyses.iv.step(abf, fig, .5, .95, 2.566, 2.59)
+
+
+def analyze_0304(abf, fig):
+    pyABFauto.analyses.timeCourse.apFreqOverTime(abf, fig)
 
 
 def analyze_0401(abf, fig):

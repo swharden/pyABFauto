@@ -46,6 +46,8 @@ class Figure:
             plt.plot(Xs, Ys, color='b', lw=.5)
         plt.margins(0, .05)
         self.labelAxes()
+        if (minutes):
+            plt.xlabel("time (minutes)")
 
     def addTagLines(self, minutes=False):
         for i, comment in enumerate(self.abf.tagComments):
