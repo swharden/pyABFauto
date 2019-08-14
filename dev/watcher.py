@@ -6,6 +6,7 @@ and analyzes new ABFs as they appear.
 import os
 import sys
 import time
+import datetime
 
 assert os.path.exists("../src/pyABFauto")
 
@@ -14,16 +15,19 @@ sys.path.append(
 sys.path.append("../src/")
 import pyABFauto
 
-
 def watchForever(delaySec=5):
     while True:
-        print("\n"*5)
         watcher = pyABFauto.commandFileWatcher()
         abfPaths = watcher.getAbfsNeedingAnalysis()
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        print(f"[{timestamp}] {len(abfPaths)} ABFs require analysis.")
         for i, abfPath in enumerate(abfPaths):
             print(f"analyzing {i+i} of {len(abfPaths)} ABFs...")
-            pyABFauto.analyzeAbf(abfPath)
-        print(f"waiting {delaySec} seconds before rescanning...")
+            try:
+                pyABFauto.analyzeAbf(abfPath)
+            except Exception as ex:
+                print(f"\n\n### EXCEPTION: {abfPath}\n{ex}\n\n")
+        #print(f"waiting {delaySec} seconds before rescanning...")
         time.sleep(delaySec)
 
 
