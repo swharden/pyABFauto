@@ -38,6 +38,7 @@ def figureTestOptoResponse(abf, fig, optoEpochNumber=3):
 
     optoTimeOn = optoPointOn * abf.dataSecPerPoint
     optoTimeOff = optoPointOff * abf.dataSecPerPoint
+    optoDuration = optoTimeOff - optoTimeOn
 
     dataPadSec = 0.2
     dataPadPoints = int(dataPadSec * abf.dataRate)
@@ -58,7 +59,7 @@ def figureTestOptoResponse(abf, fig, optoEpochNumber=3):
     plt.ylabel(abf.sweepLabelY)
     plt.xlabel(abf.sweepLabelX)
     plt.margins(0, .1)
-    plt.axvspan(optoTimeOn, optoTimeOff, color='y', edgecolor='y')
+    plt.axvspan(optoTimeOn, optoTimeOff, alpha=.5, color='y', edgecolor='y')
 
     plt.subplot(212)
     plt.title("Average Sweep")

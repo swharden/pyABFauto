@@ -14,6 +14,7 @@ import pyABFauto.analyses.apGain
 import pyABFauto.analyses.stimulation
 import pyABFauto.analyses.timeCourse
 
+
 def analyze_0111(abf, fig):
     pyABFauto.analyses.apShape.firstAP(abf, fig)
 
@@ -75,7 +76,11 @@ def analyze_0501(abf, fig):
 
 
 def analyze_0502(abf, fig):
-    pyABFauto.analyses.stimulation.optoResponse(abf, fig, optoEpochNumber=3)
+    pyABFauto.analyses.stimulation.optoResponse(abf, fig, optoEpochNumber=2)
+
+
+def analyze_0503(abf, fig):
+    pyABFauto.analyses.stimulation.optoResponse(abf, fig, optoEpochNumber=2)
 
 
 def analyze_0602(abf, fig):
