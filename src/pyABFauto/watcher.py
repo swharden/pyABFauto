@@ -20,15 +20,15 @@ class commandFileWatcher:
     def getAbfsNeedingAnalysis(self, rescan=True):
         abfs = []
         for folder in self.getFolderListFromCommandsFile():
-            print(f"Scanning for unanalyzed ABS:", folder)
             newABFs = self.getAbfsNeedingAnalysisInAFolder(folder)
-            print(f"  Identified {len(newABFs)} ABFs needing analysis")
+            if (len(newABFs) > 0):
+                print(f"  Identified {len(newABFs)} ABFs needing analysis")
             abfs += newABFs
         return abfs
 
     def getFolderListFromCommandsFile(self):
         assert os.path.exists(self.commandFilePath)
-        print("Reading command file:", self.commandFilePath)
+        #print("Reading command file:", self.commandFilePath)
         folders = []
         with open(self.commandFilePath) as f:
             lines = f.read().split("\n")
@@ -44,7 +44,6 @@ class commandFileWatcher:
             if os.path.exists(line):
                 line = os.path.abspath(line)
                 if not line in folders:
-                    print("  watching folder:", line)
                     folders.append(line)
             else:
                 print("  ERROR: folder does not exist:", line)
