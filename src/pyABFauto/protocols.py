@@ -82,6 +82,9 @@ def analyze_0502(abf, fig):
 def analyze_0503(abf, fig):
     pyABFauto.analyses.stimulation.optoResponse(abf, fig, optoEpochNumber=2)
 
+def analyze_0504(abf, fig):
+    pyABFauto.analyses.stimulation.optoResponse(abf, fig, optoEpochNumber=2)
+
 
 def analyze_0602(abf, fig):
     pyABFauto.analyses.stimulation.figureTestElectricalResponseVC(

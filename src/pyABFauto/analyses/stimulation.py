@@ -62,7 +62,12 @@ def figureTestOptoResponse(abf, fig, optoEpochNumber=3):
     plt.axvspan(optoTimeOn, optoTimeOff, alpha=.5, color='y', edgecolor='y')
 
     plt.subplot(212)
-    plt.title("Average Sweep")
+    
+    optoPeriod = abf.sweepEpochs.pulsePeriods[optoEpochNumber] / abf.dataRate
+    optoHz = 1 / optoPeriod
+    optoDur = abf.sweepEpochs.pulseWidths[optoEpochNumber] / abf.dataRate * 1000
+
+    plt.title(f"Average Sweep ({optoHz}Hz of {optoDur}ms pulses)")
     for sweepNumber in abf.sweepList:
         abf.setSweep(sweepNumber, baseline=baseline)
         plt.plot(abf.sweepX[displayPoint1:displayPoint2],
