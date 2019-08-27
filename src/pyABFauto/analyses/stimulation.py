@@ -64,6 +64,8 @@ def figureTestOptoResponse(abf, fig, optoEpochNumber=3):
     plt.subplot(212)
     
     optoPeriod = abf.sweepEpochs.pulsePeriods[optoEpochNumber] / abf.dataRate
+    if (optoPeriod==0):
+        optoPeriod = 1
     optoHz = 1 / optoPeriod
     optoDur = abf.sweepEpochs.pulseWidths[optoEpochNumber] / abf.dataRate * 1000
 
