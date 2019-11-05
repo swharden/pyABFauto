@@ -27,10 +27,10 @@ class Figure:
         plt.ylabel(self.abf.sweepLabelY)
         plt.xlabel(self.abf.sweepLabelX)
 
-    def plotStacked(self):
+    def plotStacked(self, vertOffset = 0):
         for sweepNumber in self.abf.sweepList:
             self.abf.setSweep(sweepNumber)
-            plt.plot(self.abf.sweepX, self.abf.sweepY,
+            plt.plot(self.abf.sweepX, self.abf.sweepY + vertOffset * sweepNumber,
                      color=self.sweepColor(), alpha=.5)
         plt.margins(0, .05)
         self.labelAxes()
