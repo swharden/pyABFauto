@@ -43,6 +43,10 @@ def analyze_0203(abf, fig):
     pyABFauto.analyses.iv.step(abf, fig, .5, .95, 2.566, 2.59)
 
 
+def analyze_0301(abf, fig):
+    pyABFauto.analyses.timeCourse.apFreqOverTime(abf, fig)
+
+
 def analyze_0304(abf, fig):
     pyABFauto.analyses.timeCourse.apFreqOverTime(abf, fig)
 
