@@ -35,12 +35,12 @@ def firstAP(abf, fig):
     plt.xlabel("Time (ms)")
 
     plt.subplot(222)
-    plt.title("First AP ($\\Delta$V)")
+    plt.title("First AP ($\\Delta$V/$\\Delta$t)")
     fig.grid()
     plt.plot(t[:-1], dv, color='r')
     plt.margins(0, .1)
-    plt.ylabel("$\\Delta$ Potential (mV/s)")
-    plt.xlabel("Time (ms)")
+    plt.ylabel("mV/ms")
+    plt.xlabel("ms")
     plt.axis([-10, 10, None, None])
 
     plt.subplot(223)
@@ -50,8 +50,8 @@ def firstAP(abf, fig):
     plt.margins(0, .1)
 
     plt.subplot(224)
-    plt.title("First AP ($\\Delta$V/V)")
+    plt.title("First AP ($\\Delta$V/$\\Delta$t)")
     fig.grid()
     plt.plot(v[1:], dv, '.-', color='C1')
-    plt.ylabel("$\\Delta$ Potential (mV/s)")
-    plt.xlabel(abf.sweepLabelY)
+    plt.ylabel("mV/ms")
+    plt.xlabel("ms")
