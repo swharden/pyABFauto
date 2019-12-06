@@ -47,6 +47,10 @@ def step(abf, fig, timeSteadyStart, timeSteadyEnd, timeTailStart, timeTailEnd):
     plt.axvspan(timeSteadyStart, timeSteadyEnd,
                 alpha=.2, color='r', lw=0,
                 label="steady")
+    plt.axvspan(timeTailStart, timeTailEnd,
+                alpha=.2, color='b', lw=0,
+                label="tail")
+    plt.legend(loc="upper left", fontsize=10)
 
     ax2 = plt.subplot(subplotNumberB)
     fig.grid()

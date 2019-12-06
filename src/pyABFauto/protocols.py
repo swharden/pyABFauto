@@ -36,11 +36,11 @@ def analyze_0201(abf, fig):
 
 
 def analyze_0202(abf, fig):
-    pyABFauto.analyses.iv.step(abf, fig, 2.3, 2.5, 2.566, 2.59)
+    pyABFauto.analyses.iv.step(abf, fig, 2.3, 2.5, 2.566, 2.7)
 
 
 def analyze_0203(abf, fig):
-    pyABFauto.analyses.iv.step(abf, fig, .5, .95, 2.566, 2.59)
+    pyABFauto.analyses.iv.step(abf, fig, .5, .95, 2.566, 2.7)
 
 
 def analyze_0301(abf, fig):
