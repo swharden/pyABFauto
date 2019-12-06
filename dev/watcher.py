@@ -20,14 +20,15 @@ def watchForever(delaySec=5):
         watcher = pyABFauto.commandFileWatcher()
         abfPaths = watcher.getAbfsNeedingAnalysis()
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        print(f"[{timestamp}] {len(abfPaths)} ABFs require analysis.")
-        for i, abfPath in enumerate(abfPaths):
-            print(f"analyzing {i+i} of {len(abfPaths)} ABFs...")
-            try:
-                pyABFauto.analyzeAbf(abfPath)
-            except Exception as ex:
-                print(f"\n\n### EXCEPTION: {abfPath}\n{ex}\n\n")
-        #print(f"waiting {delaySec} seconds before rescanning...")
+        if len(abfPaths):
+            print(f"[{timestamp}] {len(abfPaths)} ABFs require analysis.")
+            for i, abfPath in enumerate(abfPaths):
+                print(f"analyzing {i+1} of {len(abfPaths)} ABFs...")
+                try:
+                    pyABFauto.analyzeAbf(abfPath)
+                except Exception as ex:
+                    print(f"\n\n### EXCEPTION: {abfPath}\n{ex}\n\n")
+            print(f"waiting for new ABFs...")
         time.sleep(delaySec)
 
 
