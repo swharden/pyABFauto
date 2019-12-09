@@ -98,9 +98,16 @@ def analyze_0506(abf, fig):
 def analyze_0507(abf, fig):
     pyABFauto.analyses.stimulation.optoResponse(abf, fig, optoEpochNumber=2)
 
+def analyze_0600(abf, fig):
+    pyABFauto.analyses.stimulation.figureTestElectricalTrainVC(
+        abf, fig, stimEpochNumber=3)
 
 def analyze_0602(abf, fig):
     pyABFauto.analyses.stimulation.figureTestElectricalResponseVC(
+        abf, fig, stimEpochNumber=3)
+
+def analyze_0603(abf, fig):
+    pyABFauto.analyses.stimulation.figureTestElectricalTrainVC(
         abf, fig, stimEpochNumber=3)
 
 def analyze_xxxx(abf, fig):

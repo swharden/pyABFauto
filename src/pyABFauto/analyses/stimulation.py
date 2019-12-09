@@ -235,3 +235,78 @@ def figureTestElectricalResponseVC(abf, fig, stimEpochNumber=3):
     fig.addTagLines(minutes=True)
     plt.margins(.1, .3)
     plt.axis([None, None, 0, None])
+
+def figureTestElectricalTrainVC(abf, fig, stimEpochNumber=3):
+    assert isinstance(abf, pyabf.ABF)
+    assert isinstance(fig, pyABFauto.figure.Figure)
+
+    mt = pyabf.tools.Memtest(abf)
+
+    optoPointOn = abf.sweepEpochs.p1s[stimEpochNumber]
+    optoTimeOn = optoPointOn * abf.dataSecPerPoint
+    optoPointOff = abf.sweepEpochs.p2s[stimEpochNumber]
+    optoTimeOff = optoPointOff * abf.dataSecPerPoint
+    baseline = [optoTimeOn - .02, optoTimeOn - .01]
+
+    displayPoint1 = int(optoPointOn - 0.03 * abf.dataRate)
+    displayPoint2 = displayPoint1 + int(0.3 * abf.dataRate)
+
+    sweepTimesSec = np.arange(abf.sweepCount) * abf.sweepIntervalSec
+    sweepTimesMin = sweepTimesSec / 60
+
+    plt.subplot(221)
+    fig.grid()
+    plt.title("Electrical Response (%d sweeps)" % abf.sweepCount)
+    for sweepNumber in abf.sweepList:
+        abf.setSweep(sweepNumber, baseline=baseline)
+        plt.plot(abf.sweepX[displayPoint1:displayPoint2],
+                 abf.sweepY[displayPoint1:displayPoint2],
+                 alpha=.2, color='.5')
+    meanSweep = getMeanSweep(abf, baseline=baseline)
+    plt.plot(abf.sweepX[displayPoint1:displayPoint2],
+             meanSweep[displayPoint1:displayPoint2],
+             color='b')
+    plt.ylabel(abf.sweepLabelY)
+    plt.xlabel(abf.sweepLabelX)
+    plt.margins(0, .1)
+    plt.axvspan(optoTimeOn, optoTimeOff, alpha=.5, color='y')
+    plt.axvspan(baseline[0], baseline[1], alpha=.2, color='k')
+    plt.axis([None, optoTimeOn + .05, -100, 100])
+
+    plt.subplot(222)
+    fig.grid()
+    plt.title("Electrical Response (%d sweeps)" % abf.sweepCount)
+    for sweepNumber in abf.sweepList:
+        abf.setSweep(sweepNumber, baseline=baseline)
+        plt.plot(abf.sweepX[displayPoint1:displayPoint2],
+                 abf.sweepY[displayPoint1:displayPoint2],
+                 alpha=.2, color='.5')
+    meanSweep = getMeanSweep(abf, baseline=baseline)
+    plt.plot(abf.sweepX[displayPoint1:displayPoint2],
+             meanSweep[displayPoint1:displayPoint2],
+             color='b')
+    plt.ylabel(abf.sweepLabelY)
+    plt.xlabel(abf.sweepLabelX)
+    plt.margins(0, .1)
+    plt.axvspan(optoTimeOn, optoTimeOff, alpha=.5, color='y')
+    plt.axvspan(baseline[0], baseline[1], alpha=.2, color='k')
+    plt.axis([None, None, -100, 100])
+
+    plt.subplot(223)
+    fig.grid()
+    plt.title(mt.Ih.name)
+    plt.ylabel(mt.Ih.units)
+    plt.xlabel("Experiment Time (minutes)")
+    plt.plot(sweepTimesMin, mt.Ih.values, '.-')
+    plt.margins(.1, .3)
+    fig.addTagLines(minutes=True)
+
+    plt.subplot(224)
+    fig.grid()
+    plt.title(mt.Ra.name)
+    plt.ylabel(mt.Ra.units)
+    plt.xlabel("Experiment Time (minutes)")
+    plt.plot(sweepTimesMin, mt.Ra.values, '.-')
+    fig.addTagLines(minutes=True)
+    plt.margins(.1, .3)
+    plt.axis([None, None, 0, None])
