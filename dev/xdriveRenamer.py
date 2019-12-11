@@ -1,5 +1,6 @@
 """
-This script finds all autoanalysis folders named "swhlab" and renames them to "_autoanalysis"
+This script finds all autoanalysis folders named "swhlab" 
+so they can ultimately be renamed to "_autoanalysis" (if they contain ABF analysis data)
 """
 
 import os
@@ -20,4 +21,4 @@ def locateAutoanalysisFolders(rootPath, oldName="swhlab"):
 
 
 if __name__ == "__main__":
-    locateAutoanalysisFolders(r"X:\Data")
+    locateAutoanalysisFolders(r"D:\X_Drive\Data")
