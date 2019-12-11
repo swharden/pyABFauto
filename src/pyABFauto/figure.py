@@ -6,7 +6,7 @@ Customize styling here.
 import os
 import pyabf
 import matplotlib.pyplot as plt
-
+import pyABFauto
 
 class Figure:
     def __init__(self, abf):
@@ -83,7 +83,7 @@ class Figure:
 
     def save(self):
         self._preSaveAdjustments()
-        outputFolder = os.path.dirname(self.abf.abfFilePath) + "/swhlab"
+        outputFolder = os.path.dirname(self.abf.abfFilePath) + "/" + pyABFauto.AUTOANALYSIS_FOLDER_NAME
         outputFolder = os.path.abspath(outputFolder)
         if not os.path.exists(outputFolder):
             os.mkdir(outputFolder)

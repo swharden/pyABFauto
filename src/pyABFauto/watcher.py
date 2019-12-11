@@ -56,7 +56,7 @@ class commandFileWatcher:
         abfFiles = [os.path.basename(x) for x in abfFiles]
         abfIDs = [os.path.splitext(x)[0] for x in abfFiles]
 
-        abfGraphs = glob.glob(folderPath+"/swhlab/*.png")
+        abfGraphs = glob.glob(folderPath+"/"+pyABFauto.AUTOANALYSIS_FOLDER_NAME+"/*.png")
         abfGraphs = [os.path.basename(x) for x in abfGraphs]
         abfGraphList = ",".join(abfGraphs)
 
