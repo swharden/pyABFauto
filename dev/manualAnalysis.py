@@ -7,7 +7,7 @@ import pyABFauto
 
 if __name__ == "__main__":
 
-    pyABFauto.analyzeAbf(R"X:\Data\SD\ERC-Oxytocin\fishing\abfs\2019_11_05_DIC2_0021.abf")
+    pyABFauto.analyzeAbf(R"X:\Data\C57\Subiculum-OXT\pilot\2020-02-11-retroPVN\2020_02_13_0030.abf")
 
     # abfFolderPath = R"X:\Data\SD\Piriform Oxytocin\00 pilot experiments\2019-01-08 stim TR L3P"
     # watcher = pyABFauto.monitor.folderMonitor(abfFolderPath)

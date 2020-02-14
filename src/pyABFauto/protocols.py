@@ -20,15 +20,20 @@ def analyze_0111(abf, fig):
 
 
 def analyze_0112(abf, fig):
-    pyABFauto.analyses.apGain.step(abf, fig, .14, .65, 1.64, 2.15)
+    pyABFauto.analyses.apGain.doubleStep(abf, fig, .14, .65, 1.64, 2.15)
 
 
 def analyze_0113(abf, fig):
-    pyABFauto.analyses.apGain.step(abf, fig, .14, .65, 1.64, 2.15)
+    pyABFauto.analyses.apGain.doubleStep(abf, fig, .14, .65, 1.64, 2.15)
 
 
 def analyze_0114(abf, fig):
-    pyABFauto.analyses.apGain.step(abf, fig, .14, .65, 1.64, 2.15)
+    pyABFauto.analyses.apGain.doubleStep(abf, fig, .14, .65, 1.64, 2.15)
+
+
+def analyze_0115(abf, fig):
+    pyABFauto.analyses.apGain.singleStep(abf, fig, .54685, 1.54685)
+    pass
 
 
 def analyze_0201(abf, fig):
@@ -36,11 +41,11 @@ def analyze_0201(abf, fig):
 
 
 def analyze_0202(abf, fig):
-    pyABFauto.analyses.iv.step(abf, fig, 2.3, 2.5, 2.566, 2.7)
+    pyABFauto.analyses.iv.doubleStep(abf, fig, 2.3, 2.5, 2.566, 2.7)
 
 
 def analyze_0203(abf, fig):
-    pyABFauto.analyses.iv.step(abf, fig, .5, .95, 2.566, 2.7)
+    pyABFauto.analyses.iv.doubleStep(abf, fig, .5, .95, 2.566, 2.7)
 
 
 def analyze_0301(abf, fig):

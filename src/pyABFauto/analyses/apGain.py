@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def step(abf, fig, timeStartA, timeEndA, timeStartB, timeEndB):
+def doubleStep(abf, fig, timeStartA, timeEndA, timeStartB, timeEndB):
     assert isinstance(abf, pyabf.ABF)
     assert isinstance(fig, pyABFauto.figure.Figure)
 
@@ -60,3 +60,48 @@ def step(abf, fig, timeStartA, timeEndA, timeStartB, timeEndB):
     plt.title("From Hyperpolarization")
     fig.plotStacked(100)
     plt.axis([timeStartB-.1, timeEndB+.1, None, None])
+    
+def singleStep(abf, fig, timeStartA, timeEndA):
+    assert isinstance(abf, pyabf.ABF)
+    assert isinstance(fig, pyABFauto.figure.Figure)
+
+    pointStartA = int(abf.dataRate * timeStartA)
+    pointEndA = int(abf.dataRate * timeEndA)
+    pointCenterA = int((pointStartA + pointEndA) / 2)
+
+    currentsA = [0]*abf.sweepCount
+    freqsA = [0]*abf.sweepCount
+    freqsB = [0]*abf.sweepCount
+    for sweepNumber in abf.sweepList:
+        abf.setSweep(sweepNumber)
+        points = pyabf.tools.ap.ap_points_currentSweep(abf)
+        pointsA = [x for x in points if x >= pointStartA and x <= pointEndA]
+        freqsA[sweepNumber] = len(pointsA)/(timeEndA-timeStartA)
+        currentsA[sweepNumber] = abf.sweepC[pointCenterA]
+
+    ax1 = plt.subplot(221)
+    plt.title("All Sweeps (%d)" % abf.sweepCount)
+    fig.plotStacked()
+    plt.axvspan(timeStartA, timeEndA, alpha=.2, color='r', lw=0)
+
+    ax2 = plt.subplot(222)
+    fig.grid()
+    plt.title("AP Gain")
+    plt.plot(currentsA, freqsA, '.-')
+    plt.legend(loc="lower right", fontsize=8)
+    plt.ylabel("AP Frequency (Hz)")
+    plt.xlabel(abf.sweepLabelC)
+
+    ax1 = plt.subplot(223)
+    plt.title("From Rest Potential")
+    fig.plotStacked(100)
+    plt.axis([timeStartA-.1, timeEndA+.1, None, None])
+
+    ax1 = plt.subplot(224)
+    plt.title("Full Recording")
+    fig.plotContinuous()
+    vCenter = abf.sweepY[0]
+    vPad = 10
+    plt.autoscale()
+    plt.grid(alpha=.5)
+    plt.axis([None, None, vCenter - vPad, vCenter + vPad])
