@@ -40,7 +40,7 @@ def firstAP(abf, fig):
     plt.plot(t[:-1], dv, color='r')
     plt.margins(0, .1)
     plt.ylabel("mV/ms")
-    plt.xlabel("ms")
+    plt.xlabel("mV")
     plt.axis([-10, 10, None, None])
 
     plt.subplot(223)
@@ -54,4 +54,4 @@ def firstAP(abf, fig):
     fig.grid()
     plt.plot(v[1:], dv, '.-', color='C1')
     plt.ylabel("mV/ms")
-    plt.xlabel("ms")
+    plt.xlabel("mV")
