@@ -17,8 +17,13 @@ import pyABFauto.analyses.unknown
 
 
 def analyzeFolder(folderPath):
-    abfs = glob.glob(folderPath+"/*.abf")
-    for abfPath in abfs:
+
+    for tifPath in glob.glob(folderPath+"/*.TIF"):
+        if tifPath.endswith(".TIF"):
+            print("lowercasing TIF file:", os.path.basename(tifPath))
+            os.rename(tifPath, tifPath.replace(".TIF", ".tif"))
+
+    for abfPath in glob.glob(folderPath+"/*.abf"):
         analyzeAbf(abfPath)
 
 
