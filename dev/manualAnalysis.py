@@ -7,14 +7,14 @@ import pyABFauto
 
 if __name__ == "__main__":
 
-    pyABFauto.analyzeAbf(R"X:\Data\C57\Subiculum-OXT\pilot\2020-02-11-retroPVN\2020_02_13_0030.abf")
+    pyABFauto.analyzeAbf(R"X:\Data\DIC2\2016\2016-04\2016-04-26\16426001.abf")
 
     # abfFolderPath = R"X:\Data\SD\Piriform Oxytocin\00 pilot experiments\2019-01-08 stim TR L3P"
     # watcher = pyABFauto.monitor.folderMonitor(abfFolderPath)
     # print(watcher)
     # watcher.analyzeNext()
 
-    #pyABFauto.analyzeFolder(R"X:\Data\SD\Piriform Oxytocin\00 pilot experiments\2019-02-28 light firing")
+    #pyABFauto.analyzeFolder(R"X:\Data\DIC2\2016\2016-04\2016-04-26")
 
     # demoMemtest = R"data/19702034.abf"
     # demoIVstep = R"data/19702035.abf"

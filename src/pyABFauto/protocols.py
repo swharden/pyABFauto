@@ -33,8 +33,9 @@ def analyze_0114(abf, fig):
 
 def analyze_0115(abf, fig):
     pyABFauto.analyses.apGain.singleStep(abf, fig, .54685, 1.54685)
-    pass
 
+def analyze_3(abf, fig): # 3 SHIV3
+    pyABFauto.analyses.apGain.singleStep(abf, fig, 1.07, 1.07+1)
 
 def analyze_0201(abf, fig):
     pyABFauto.analyses.memtest.figureMemtest(abf, fig)
@@ -42,6 +43,10 @@ def analyze_0201(abf, fig):
 
 def analyze_0202(abf, fig):
     pyABFauto.analyses.iv.step(abf, fig, 2.3, 2.5, 2.566, 2.7)
+
+
+def analyze_1(abf, fig): # 1 MTIV3
+    pyABFauto.analyses.iv.step(abf, fig, 1.45, 1.45 + .5, 2, 2.2)
 
 
 def analyze_0203(abf, fig):
@@ -78,6 +83,14 @@ def analyze_0405(abf, fig):
 
 def analyze_0406(abf, fig):
     pyABFauto.analyses.memtest.figureOverTime(abf, fig)
+
+
+def analyze_6(abf, fig): # 6 MT-mon
+    analyze_0405(abf, fig)
+
+
+def analyze_EPSCs(abf, fig): # SS
+    analyze_0405(abf, fig)
 
 
 def analyze_0501(abf, fig):
@@ -117,3 +130,4 @@ def analyze_0603(abf, fig):
 
 def analyze_xxxx(abf, fig):
     pyABFauto.analyses.stimulation.optoResponse(abf, fig, optoEpochNumber=3)
+
