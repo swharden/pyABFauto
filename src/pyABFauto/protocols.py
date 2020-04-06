@@ -90,6 +90,10 @@ def analyze_0406(abf, fig):
 
 def analyze_6(abf, fig): # 6 MT-mon
     analyze_0405(abf, fig)
+    
+
+def analyze_MT_mon_2(abf, fig): # MT-mon_2 (SS)
+    analyze_0405(abf, fig)
 
 
 def analyze_EPSCs(abf, fig): # SS
