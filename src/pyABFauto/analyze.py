@@ -28,6 +28,7 @@ def analyzeAbf(abfPath):
 
     protocolID = abf.protocol.split(" ")[0]
     protocolFunctionName = "analyze_%s" % (protocolID)
+    protocolFunctionName = protocolFunctionName.replace("-", "_")
 
     pyABFauto.logging.log(f"Analyzing [{abfPath}] with protocol [{protocolID}]")
 
