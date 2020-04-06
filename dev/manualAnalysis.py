@@ -28,15 +28,24 @@ def lowercaseTifs(abfFolder):
             print("LOWERCASING:", tifPath)
             os.rename(tifPath, tifPath.replace(".TIF", ".tif"))
 
+def deleteStatsFiles(abfFolder):
+    for statsFilePath in glob.glob(abfFolder+"/*.sta"):
+        print("deleting stats file:", statsFilePath)
+        os.remove(statsFilePath)
+
 if __name__ == "__main__":
 
-    analyzeThis = R"X:\Data\DIC2\2017\2017-01\2017-01-18"
-
-    if os.path.isdir(analyzeThis):
-        lowercaseTifs(analyzeThis)
-        addFakeParentImages(analyzeThis)
-        pyABFauto.analyzeFolder(analyzeThis)
-    else:
-        pyABFauto.analyzeAbf(analyzeThis)
+    for analyzeThis in [
+        R"X:/Data/DIC3/2017/2017-08/2017-08-29",
+        R"X:/Data/DIC3/2017/2017-08/2017-08-30",
+        R"X:/Data/DIC3/2017/2017-09/2017-09-08",
+    ]:
+        if os.path.isdir(analyzeThis):
+            deleteStatsFiles(analyzeThis)
+            lowercaseTifs(analyzeThis)
+            addFakeParentImages(analyzeThis)
+            pyABFauto.analyzeFolder(analyzeThis)
+        else:
+            pyABFauto.analyzeAbf(analyzeThis)
 
     print("DONE")
