@@ -14,12 +14,28 @@ sys.path.append(
     R"C:\Users\swharden\Documents\GitHub\pyABFauto\src\pyABFauto\src")
 sys.path.append("../src/")
 import pyABFauto
+import imaging 
 
 def watchForever(delaySec=5):
     while True:
-        watcher = pyABFauto.commandFileWatcher()
-        abfPaths = watcher.getAbfsNeedingAnalysis()
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        watcher = pyABFauto.commandFileWatcher()
+
+        # convert new TIFs
+        tifPaths = watcher.getTifsNeedingAnalysis()
+        if len(tifPaths):
+            print(f"[{timestamp}] {len(tifPaths)} TIFs require conversion.")
+            for tifPath in tifPaths:
+                tifFolder = os.path.dirname(tifPath)
+                tifName = os.path.basename(tifPath)
+                tifOutFolder = tifFolder+"/_autoanalysis/"
+                if not os.path.exists(tifOutFolder):
+                    os.mkdir(tifOutFolder)
+                tifOutPath = tifOutFolder + tifName + ".jpg"
+                imaging.convertTifToJpg(tifPath, tifOutPath)
+
+        # analyze new ABFs
+        abfPaths = watcher.getAbfsNeedingAnalysis()
         if len(abfPaths):
             print(f"[{timestamp}] {len(abfPaths)} ABFs require analysis.")
             for i, abfPath in enumerate(abfPaths):
@@ -29,9 +45,10 @@ def watchForever(delaySec=5):
                 except Exception as ex:
                     print(f"\n\n### EXCEPTION: {abfPath}\n{ex}\n\n")
             print(f"waiting for new ABFs...")
+
+        # wait and repeat
         time.sleep(delaySec)
 
 
 if __name__ == "__main__":
     watchForever()
-    print("DONE")
