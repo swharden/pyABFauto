@@ -90,7 +90,7 @@ class Figure:
         outputFileName = f"{self.abf.abfID}_autoanalysis.png"
         outputFile = os.path.join(outputFolder, outputFileName)
         plt.savefig(outputFile)
-        print("  saved:", outputFile)
+        print("saved:", outputFile)
 
     def close(self):
         plt.close()
