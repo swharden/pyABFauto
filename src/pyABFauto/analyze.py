@@ -23,14 +23,16 @@ def analyzeFolder(folderPath):
 
 def analyzeAbf(abfPath):
     abfPath = os.path.abspath(abfPath)
-    print("auto-analyzing", os.path.basename(abfPath))
+    #print("auto-analyzing", os.path.basename(abfPath))
     abf = pyabf.ABF(abfPath)
 
     protocolID = abf.protocol.split(" ")[0]
     protocolFunctionName = "analyze_%s" % (protocolID)
     protocolFunctionName = protocolFunctionName.replace("-", "_")
+    protocolFunctionName = protocolFunctionName.replace(".", "_")
 
-    pyABFauto.logging.log(f"Analyzing [{abfPath}] with protocol [{protocolID}]")
+    print()
+    print(f"Analyzing [{abfPath}] with protocol [{protocolID}]")
 
     fig = pyABFauto.figure.Figure(abf)
     plt.title(abf.abfID+".abf")
@@ -38,7 +40,7 @@ def analyzeAbf(abfPath):
         analaysisFunction = getattr(pyABFauto.protocols, protocolFunctionName)
         analaysisFunction(abf, fig)
     else:
-        pyABFauto.logging.warn(f"unknown protocol ({abf.protocol}) needs function ({protocolFunctionName})")
+        print(f"WARNING: unknown protocol ({abf.protocol}) needs function ({protocolFunctionName})")
         if abf.dataLengthMin > 2:
             pyABFauto.analyses.unknown.continuous(abf, fig)
         else:
