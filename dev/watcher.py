@@ -32,7 +32,11 @@ def watchForever(delaySec=5):
                 if not os.path.exists(tifOutFolder):
                     os.mkdir(tifOutFolder)
                 tifOutPath = tifOutFolder + tifName + ".jpg"
-                imaging.convertTifToJpg(tifPath, tifOutPath)
+                try:
+                    imaging.convertTifToJpg(tifPath, tifOutPath)
+                except Exception as e:
+                    print(f"TIF conversion failed for: {tifPath}")
+                    print(e)
 
         # analyze new ABFs
         abfPaths = watcher.getAbfsNeedingAnalysis()
