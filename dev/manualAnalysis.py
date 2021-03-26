@@ -3,9 +3,10 @@ import sys
 import glob
 import pyabf
 import shutil
-assert os.path.exists("../src/pyABFauto")
 
-sys.path.append("../src/")
+REPO_FOLDER = os.path.dirname(os.path.dirname(__file__))
+assert os.path.exists(REPO_FOLDER + "/src/pyABFauto")
+sys.path.append(REPO_FOLDER + "/src/")
 import pyABFauto
 
 def addFakeParentImages(abfFolder, parentProtocols = ['0201 memtest', '1 MTIV3']):
@@ -36,9 +37,7 @@ def deleteStatsFiles(abfFolder):
 if __name__ == "__main__":
 
     for analyzeThis in [
-        R"X:/Data/DIC3/2017/2017-08/2017-08-29",
-        R"X:/Data/DIC3/2017/2017-08/2017-08-30",
-        R"X:/Data/DIC3/2017/2017-09/2017-09-08",
+        R"X:/Data/AT1-Cre-AT2-eGFP/nodose-ChR2-mCherry/abfs/",
     ]:
         if os.path.isdir(analyzeThis):
             deleteStatsFiles(analyzeThis)

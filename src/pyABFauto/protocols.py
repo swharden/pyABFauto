@@ -113,10 +113,8 @@ def analyze_EPSCs(abf, fig): # SS
 def analyze_0501(abf, fig):
     pyABFauto.analyses.stimulation.optoResponse(abf, fig, optoEpochNumber=3)
 
-
 def analyze_0502(abf, fig):
     pyABFauto.analyses.stimulation.optoResponse(abf, fig, optoEpochNumber=2)
-
 
 def analyze_0503(abf, fig):
     pyABFauto.analyses.stimulation.optoResponse(abf, fig, optoEpochNumber=2)
@@ -132,6 +130,18 @@ def analyze_0506(abf, fig):
 
 def analyze_0507(abf, fig):
     pyABFauto.analyses.stimulation.optoResponse(abf, fig, optoEpochNumber=2)
+
+def analyze_0509(abf, fig):
+    pyABFauto.analyses.stimulation.optoResponse(abf, fig, optoEpochNumber=2)
+
+def analyze_0512(abf, fig):
+    pyABFauto.analyses.stimulation.optoResponse(abf, fig, optoEpochNumber=3)
+
+def analyze_0513(abf, fig):
+    pyABFauto.analyses.stimulation.optoResponse(abf, fig, optoEpochNumber=3)
+
+def analyze_0514(abf, fig):
+    pyABFauto.analyses.stimulation.optoResponse(abf, fig, optoEpochNumber=3)
 
 def analyze_0600(abf, fig):
     pyABFauto.analyses.stimulation.figureTestElectricalTrainVC(
