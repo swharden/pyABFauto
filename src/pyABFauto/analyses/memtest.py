@@ -16,12 +16,28 @@ def figureMemtest(abf, fig):
     assert isinstance(fig, pyABFauto.figure.Figure)
 
     mt = pyabf.tools.Memtest(abf)
+    summary = mt.summary.replace("+/-", "±").replace("MOhm", "MΩ")
 
-    plt.title("Membrane Test (%d sweeps)" % abf.sweepCount)
+    # calculate RMS noise
+    lastPreSweepIndex = abf.sweepEpochs.p2s[0]
+    rmsNoiseBySweep = np.zeros(abf.sweepCount)
+    for sweepIndex in range(abf.sweepCount):
+        abf.setSweep(sweepIndex)
+        preSweepValues = abf.sweepY[0:lastPreSweepIndex]
+        sweepStdev = np.std(preSweepValues)
+        rmsNoiseBySweep[sweepIndex] = sweepStdev
+    rmsNoise = np.min(rmsNoiseBySweep)
+    summary += f"\nRMS Noise: {round(rmsNoise, 3)} pA"
 
-    bbox = dict(facecolor='#FFFFFF66', edgecolor='#00000066',
+    # determine lowpass filter
+    filterHz = abf._adcSection.fTelegraphFilter[0]
+    summary += f"\nLowpass Filter: {filterHz/1000:.02f} kHz"
+
+    plt.title(f"{abf.sweepCount} Sweep Membrane Test")
+
+    bbox = dict(facecolor='#DDDDDD66', edgecolor='#00000000',
                 boxstyle='round,pad=.4')
-    plt.gca().text(0.96, 0.96, mt.summary, verticalalignment='top',
+    plt.gca().text(0.96, 0.96, summary, verticalalignment='top',
                    horizontalalignment='right',
                    transform=plt.gca().transAxes, fontsize=10,
                    bbox=bbox, family='monospace')
