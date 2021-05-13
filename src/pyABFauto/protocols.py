@@ -43,6 +43,10 @@ def analyze_0115(abf, fig):
     pyABFauto.analyses.apGain.singleStep(abf, fig, .54685, 1.54685)
 
 
+def analyze_0119(abf, fig):
+    pyABFauto.analyses.apGain.singleStep(abf, fig, 3.15631, 7.15631)
+
+
 def analyze_3(abf, fig):  # 3 SHIV3
     pyABFauto.analyses.apGain.singleStep(abf, fig, 1.07, 1.07+1)
 
