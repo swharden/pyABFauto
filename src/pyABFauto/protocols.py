@@ -98,6 +98,12 @@ def analyze_0406(abf, fig):
     pyABFauto.analyses.memtest.figureOverTime(abf, fig)
 
 
+def analyze_0422(abf, fig):
+    pyABFauto.analyses.memtest.figureOverTime(abf, fig)
+
+def analyze_0423(abf, fig):
+    pyABFauto.analyses.memtest.figureOverTime(abf, fig)
+
 def analyze_6(abf, fig): # 6 MT-mon
     analyze_0405(abf, fig)
     
