@@ -23,10 +23,13 @@ def analyzeFolder(folderPath):
 
 def analyzeAbf(abfPath):
     abfPath = os.path.abspath(abfPath)
-    #print("auto-analyzing", os.path.basename(abfPath))
     abf = pyabf.ABF(abfPath)
-
     protocolID = abf.protocol.split(" ")[0]
+
+    # manual replacements here for improperly named protocols
+    if protocolID == "SpritzProtocol-10s-ISI":
+        protocolID = "jefftau"
+
     protocolFunctionName = "analyze_%s" % (protocolID)
     protocolFunctionName = protocolFunctionName.replace("-", "_")
     protocolFunctionName = protocolFunctionName.replace(".", "_")

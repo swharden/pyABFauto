@@ -13,6 +13,7 @@ import pyABFauto.analyses.apShape
 import pyABFauto.analyses.apGain
 import pyABFauto.analyses.stimulation
 import pyABFauto.analyses.timeCourse
+import pyABFauto.analyses.jeff
 
 
 def analyze_0111(abf, fig):
@@ -201,3 +202,6 @@ def analyze_Signal(abf, fig):  # SS spike fidelity
 
 def analyze_xxxx(abf, fig):
     pyABFauto.analyses.stimulation.optoResponse(abf, fig, optoEpochNumber=3)
+
+def analyze_jefftau(abf, fig):
+    pyABFauto.analyses.jeff.tau(abf, fig)
