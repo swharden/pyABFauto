@@ -5,6 +5,7 @@ to calcaulate mean passive membrane properties.
 
 import pyabf
 import pyabf.tools
+import pyabf.tools.memtest
 import pyABFauto
 
 import matplotlib.pyplot as plt
@@ -15,7 +16,7 @@ def figureMemtest(abf, fig):
     assert isinstance(abf, pyabf.ABF)
     assert isinstance(fig, pyABFauto.figure.Figure)
 
-    mt = pyabf.tools.Memtest(abf)
+    mt = pyabf.tools.memtest.Memtest(abf)
     summary = mt.summary.replace("+/-", "±").replace("MOhm", "MΩ")
 
     # calculate RMS noise

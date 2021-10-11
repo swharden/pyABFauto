@@ -4,6 +4,7 @@
 
 import pyabf
 import pyabf.tools
+import pyabf.tools.memtest
 
 import pyABFauto
 
@@ -89,7 +90,7 @@ def figureShowOptoResponseOverTime(abf, fig, optoEpochNumber=3):
     assert isinstance(abf, pyabf.ABF)
     assert isinstance(fig, pyABFauto.figure.Figure)
 
-    mt = pyabf.tools.Memtest(abf)
+    mt = pyabf.tools.memtest.Memtest(abf)
 
     optoPointOn = abf.sweepEpochs.p1s[optoEpochNumber]
     optoPointOff = abf.sweepEpochs.p2s[optoEpochNumber]
@@ -165,7 +166,7 @@ def figureTestElectricalResponseVC(abf, fig, stimEpochNumber=3):
     assert isinstance(abf, pyabf.ABF)
     assert isinstance(fig, pyABFauto.figure.Figure)
 
-    mt = pyabf.tools.Memtest(abf)
+    mt = pyabf.tools.memtest.Memtest(abf)
 
     optoPointOn = abf.sweepEpochs.p1s[stimEpochNumber]
     optoPointOff = abf.sweepEpochs.p2s[stimEpochNumber]
@@ -240,7 +241,7 @@ def figureTestElectricalTrainVC(abf, fig, stimEpochNumber=3):
     assert isinstance(abf, pyabf.ABF)
     assert isinstance(fig, pyABFauto.figure.Figure)
 
-    mt = pyabf.tools.Memtest(abf)
+    mt = pyabf.tools.memtest.Memtest(abf)
 
     optoPointOn = abf.sweepEpochs.p1s[stimEpochNumber]
     optoTimeOn = optoPointOn * abf.dataSecPerPoint
