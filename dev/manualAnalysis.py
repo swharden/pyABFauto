@@ -37,7 +37,7 @@ def deleteStatsFiles(abfFolder):
 if __name__ == "__main__":
 
     for analyzeThis in [
-        R"X:/Data/Alchem/SR Interneurons Ach Spritz/09-17-2021/2021_09_17_DIC1_0012.abf",
+        R"X:/Data/Alchem/Physostigmine/10-08-2021/2021_10_08_DIC1_0003.abf",
     ]:
         if os.path.isdir(analyzeThis):
             deleteStatsFiles(analyzeThis)

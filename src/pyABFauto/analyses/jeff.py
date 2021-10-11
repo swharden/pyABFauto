@@ -108,13 +108,14 @@ def plotAreaBySweep(abf: pyabf.ABF, ax: matplotlib.axes.Axes, epoch: int = 3):
     puffTimeStart = abf.sweepEpochs.p1s[epoch] / abf.sampleRate
     puffTimeEnd = abf.sweepEpochs.p2s[epoch] / abf.sampleRate
 
-    baselineStart = puffTimeStart - .1
-    baselineEnd = puffTimeStart
-    baselineMean = getMean(abf, baselineStart, baselineEnd)
-
     values = []
     for i in range(abf.sweepCount):
         abf.setSweep(i)
+
+        baselineStart = puffTimeStart - .1
+        baselineEnd = puffTimeStart
+        baselineMean = getMean(abf, baselineStart, baselineEnd)
+
         mean = getMean(abf, puffTimeEnd, puffTimeEnd+.5) - baselineMean
         values.append(mean)
 
@@ -130,13 +131,14 @@ def plotTimeAfterBySweep(abf: pyabf.ABF, ax: matplotlib.axes.Axes, epoch: int = 
     puffTimeStart = abf.sweepEpochs.p1s[epoch] / abf.sampleRate
     puffTimeEnd = abf.sweepEpochs.p2s[epoch] / abf.sampleRate
 
-    baselineStart = puffTimeStart - .1
-    baselineEnd = puffTimeStart
-    baselineMean = getMean(abf, baselineStart, baselineEnd)
-
     values = []
     for i in range(abf.sweepCount):
         abf.setSweep(i)
+
+        baselineStart = puffTimeStart - .1
+        baselineEnd = puffTimeStart
+        baselineMean = getMean(abf, baselineStart, baselineEnd)
+
         mean = getMean(abf, puffTimeEnd+.5, puffTimeEnd+.6) - baselineMean
         values.append(mean)
 
