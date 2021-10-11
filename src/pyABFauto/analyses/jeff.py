@@ -16,11 +16,10 @@ def getAntiPeakIndex(sweep: np.ndarray, sampleRate: int, start: float, end: floa
     return minIndex + i1
 
 
-def getMean(abf: pyabf.ABF, start: float, end: float, baseline: float = 0) -> float:
+def getMean(abf: pyabf.ABF, start: float, end: float) -> float:
     i1 = int(start * abf.sampleRate)
     i2 = int(end * abf.sampleRate)
-    subtracted = abf.sweepY - baseline
-    return np.mean(subtracted[i1:i2])
+    return np.mean(abf.sweepY[i1:i2])
 
 
 def getCurveIndexes(sweep: np.ndarray, antipeakIndex: int, baselineMean: float,
@@ -116,7 +115,7 @@ def plotAreaBySweep(abf: pyabf.ABF, ax: matplotlib.axes.Axes, epoch: int = 3):
     values = []
     for i in range(abf.sweepCount):
         abf.setSweep(i)
-        mean = getMean(abf, puffTimeEnd, puffTimeEnd+.5, baselineMean)
+        mean = getMean(abf, puffTimeEnd, puffTimeEnd+.5) - baselineMean
         values.append(mean)
 
     ax.plot(abf.sweepTimesMin, values, '.-', color='g')
@@ -138,7 +137,7 @@ def plotTimeAfterBySweep(abf: pyabf.ABF, ax: matplotlib.axes.Axes, epoch: int = 
     values = []
     for i in range(abf.sweepCount):
         abf.setSweep(i)
-        mean = getMean(abf, puffTimeEnd+.5, puffTimeEnd+.6, baselineMean)
+        mean = getMean(abf, puffTimeEnd+.5, puffTimeEnd+.6) - baselineMean
         values.append(mean)
 
     ax.plot(abf.sweepTimesMin, values, '.-', color='m')
@@ -150,7 +149,6 @@ def plotTimeAfterBySweep(abf: pyabf.ABF, ax: matplotlib.axes.Axes, epoch: int = 
 
 def addTagLines(abf: pyabf.ABF, ax: matplotlib.axes.Axes):
     for tagTime in abf.tagTimesMin:
-        print(tagTime)
         ax.axvline(tagTime, linewidth=2, color='r', alpha=.5, linestyle='--')
 
 
@@ -160,5 +158,3 @@ def tau(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     plotTauBySweep(abf, axs[0, 1])
     plotAreaBySweep(abf, axs[1, 0])
     plotTimeAfterBySweep(abf, axs[1, 1])
-
-    #plt.plot(abf.sweepX, abf.sweepY)
