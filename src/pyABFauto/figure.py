@@ -71,8 +71,10 @@ class Figure:
     def grid(self):
         plt.grid(alpha=.2, color='k', ls='--')
 
-    def _preSaveAdjustments(self):
+    def _preSaveAdjustments(self, stampFilename = False):
         plt.tight_layout()
+        if not stampFilename:
+            return
         lowerCornerText = f"{self.abf.abfID}.abf\n{self.abf.protocol}"
         plt.gcf().text(0.005, 0.005, lowerCornerText,
                        transform=plt.gca().transAxes,
