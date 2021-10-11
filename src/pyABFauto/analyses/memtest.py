@@ -50,7 +50,7 @@ def figureOverTime(abf, fig):
     assert isinstance(abf, pyabf.ABF)
     assert isinstance(fig, pyABFauto.figure.Figure)
 
-    mt = pyabf.tools.Memtest(abf)
+    mt = pyabf.tools.memtest.Memtest(abf)
 
     sweepTimesSec = np.arange(abf.sweepCount) * abf.sweepIntervalSec
     sweepTimesMin = sweepTimesSec / 60
