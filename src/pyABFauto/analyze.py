@@ -27,8 +27,8 @@ def analyzeAbf(abfPath):
     protocolID = abf.protocol.split(" ")[0]
 
     # manual replacements here for improperly named protocols
-    if protocolID == "SpritzProtocol-10s-ISI":
-        protocolID = "jefftau"
+    if "SpritzProtocol" in protocolID:
+        protocolID = "0913"
 
     protocolFunctionName = "analyze_%s" % (protocolID)
     protocolFunctionName = protocolFunctionName.replace("-", "_")
