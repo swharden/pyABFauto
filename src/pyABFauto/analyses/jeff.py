@@ -117,10 +117,12 @@ def plotAreaBySweep(abf: pyabf.ABF, ax: matplotlib.axes.Axes, epoch: int = 3):
         baselineMean = getMean(abf, baselineStart, baselineEnd)
 
         mean = getMean(abf, puffTimeEnd, puffTimeEnd+.5) - baselineMean
-        values.append(mean)
+        area = mean * .5
+
+        values.append(area)
 
     ax.plot(abf.sweepTimesMin, values, '.-', color='g')
-    ax.set_ylabel("Mean pA over 1s")
+    ax.set_ylabel("Area (pA*s)")
     ax.set_xlabel("Time (minutes)")
     ax.grid(alpha=.5, ls='--')
     addTagLines(abf, ax)
