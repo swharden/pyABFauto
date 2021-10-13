@@ -36,7 +36,7 @@ def convertTifToJpg(tifFilePath, jpgFilePath, autoContrast=True):
 
 def autoConvertToPNG(tifFilePath: str, pngFilePath: str):
     # ensure AutoTIF is in your system path
-    cmd = 'AutoTIF.exe "{tifFilePath}" "{pngFilePath}"'
+    cmd = f'AutoTIF.exe "{tifFilePath}" "{pngFilePath}"'
     print("  " + cmd)
     os.system(cmd)
 
