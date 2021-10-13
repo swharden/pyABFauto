@@ -8,6 +8,7 @@ import pyabf
 import matplotlib.pyplot as plt
 import pyABFauto
 
+
 class Figure:
     def __init__(self, abf):
         assert isinstance(abf, pyabf.ABF)
@@ -27,7 +28,7 @@ class Figure:
         plt.ylabel(self.abf.sweepLabelY)
         plt.xlabel(self.abf.sweepLabelX)
 
-    def plotStacked(self, vertOffset = 0):
+    def plotStacked(self, vertOffset=0):
         for sweepNumber in self.abf.sweepList:
             self.abf.setSweep(sweepNumber)
             plt.plot(self.abf.sweepX, self.abf.sweepY + vertOffset * sweepNumber,
@@ -35,7 +36,7 @@ class Figure:
         plt.margins(0, .05)
         self.labelAxes()
 
-    def plotContinuous(self, startAtSec=0, minutes = False):
+    def plotContinuous(self, startAtSec=0, minutes=False):
         i1 = int(startAtSec * self.abf.dataRate)
         for sweepNumber in self.abf.sweepList:
             self.abf.setSweep(sweepNumber, absoluteTime=True)
@@ -71,7 +72,7 @@ class Figure:
     def grid(self):
         plt.grid(alpha=.2, color='k', ls='--')
 
-    def _preSaveAdjustments(self, stampFilename = False):
+    def _preSaveAdjustments(self, stampFilename=False):
         plt.tight_layout()
         if not stampFilename:
             return
@@ -85,7 +86,8 @@ class Figure:
 
     def save(self):
         self._preSaveAdjustments()
-        outputFolder = os.path.dirname(self.abf.abfFilePath) + "/" + pyABFauto.AUTOANALYSIS_FOLDER_NAME
+        outputFolder = os.path.dirname(
+            self.abf.abfFilePath) + "/" + pyABFauto.AUTOANALYSIS_FOLDER_NAME
         outputFolder = os.path.abspath(outputFolder)
         if not os.path.exists(outputFolder):
             os.mkdir(outputFolder)
