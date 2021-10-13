@@ -31,9 +31,11 @@ def watchForever(delaySec=5):
                 tifOutFolder = tifFolder+"/_autoanalysis/"
                 if not os.path.exists(tifOutFolder):
                     os.mkdir(tifOutFolder)
-                tifOutPath = tifOutFolder + tifName + ".jpg"
                 try:
-                    imaging.convertTifToJpg(tifPath, tifOutPath)
+                    #tifOutPath = tifOutFolder + tifName + ".jpg"
+                    tifOutPath = tifOutFolder + tifName + ".png"
+                    #imaging.convertTifToJpg(tifPath, tifOutPath)
+                    imaging.autoConvertToPNG(tifPath, tifOutPath)
                 except Exception as e:
                     print(f"TIF conversion failed for: {tifPath}")
                     print(e)

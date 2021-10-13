@@ -34,6 +34,13 @@ def convertTifToJpg(tifFilePath, jpgFilePath, autoContrast=True):
         convertWithImageMagick(tifFilePath, jpgFilePath)
 
 
+def autoConvertToPNG(tifFilePath: str, pngFilePath: str):
+    # ensure AutoTIF is in your system path
+    cmd = 'AutoTIF.exe "{tifFilePath}" "{pngFilePath}"'
+    print("  " + cmd)
+    os.system(cmd)
+
+
 if __name__ == "__main__":
     print("TEST")
     testIn = R"X:\Data\C57\ECB-pilot\PIR\Jordan\2020_07_01_0005.tif"
