@@ -4,6 +4,7 @@ import pyabf.filter
 import pyabf.tools
 import pyabf.tools.ap
 import pyABFauto
+import pyABFauto.figure
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -55,12 +56,13 @@ def doubleStep(abf, fig, timeStartA, timeEndA, timeStartB, timeEndB):
     plt.title("From Rest Potential")
     fig.plotStacked(100)
     plt.axis([timeStartA-.1, timeEndA+.1, None, None])
-    
+
     ax1 = plt.subplot(224)
     plt.title("From Hyperpolarization")
     fig.plotStacked(100)
     plt.axis([timeStartB-.1, timeEndB+.1, None, None])
-    
+
+
 def singleStep(abf, fig, timeStartA, timeEndA):
     assert isinstance(abf, pyabf.ABF)
     assert isinstance(fig, pyABFauto.figure.Figure)
@@ -105,3 +107,28 @@ def singleStep(abf, fig, timeStartA, timeEndA):
     plt.autoscale()
     plt.grid(alpha=.5)
     plt.axis([None, None, vCenter - vPad, vCenter + vPad])
+
+
+def restPotential(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
+    pyabf.filter.gaussian(abf, 1)
+    xs = abf.getAllXs()
+    ys = abf.getAllYs()
+    rmp = np.nanmean(ys)
+
+    plt.grid(alpha=.5, ls='--')
+    plt.plot(xs, ys, alpha=.7)
+    plt.axhline(rmp, lw=3, color='r', ls='--')
+
+    t = plt.gca().text(.97, .97, f"RMP = {rmp:.02f} mV",
+                       transform=plt.gca().transAxes,
+                       verticalalignment='top',
+                       horizontalalignment='right',
+                       fontsize=22,
+                       family='monospace',
+                       color='k')
+
+    plt.title(abf.abfID + ".abf")
+    plt.ylabel("Membrane Potential (mV)")
+    plt.xlabel("Time (seconds)")
+    plt.margins(0, .1)
+    plt.tight_layout()

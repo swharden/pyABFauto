@@ -28,6 +28,10 @@ def analyze_5(abf, fig):  # 5 ramp gain
     pyABFauto.analyses.apShape.firstAP(abf, fig)
 
 
+def analyze_0110(abf, fig):
+    pyABFauto.analyses.apGain.restPotential(abf, fig)
+
+
 def analyze_0112(abf, fig):
     pyABFauto.analyses.apGain.doubleStep(abf, fig, .14, .65, 1.64, 2.15)
 
