@@ -62,12 +62,14 @@ class Figure:
     def shadeBackground(self):
         for i, ax in enumerate(plt.gcf().axes):
             ax.set_facecolor((1.0, 0.9, 0.9))
-            ax.text(.97, .97, "WARNING: unknown protocol",
-                    transform=plt.gca().transAxes,
-                    verticalalignment='top',
-                    horizontalalignment='right',
-                    fontsize=12,
-                    color='r')
+            t = ax.text(.97, .97, "WARNING: unsupported protocol",
+                        transform=plt.gca().transAxes,
+                        verticalalignment='top',
+                        horizontalalignment='right',
+                        fontsize=22,
+                        family='monospace',
+                        color='k')
+            t.set_bbox(dict(facecolor='#FFFF00', edgecolor='k', lw=2))
 
     def grid(self):
         plt.grid(alpha=.2, color='k', ls='--')
