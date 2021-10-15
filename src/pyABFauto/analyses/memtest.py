@@ -57,16 +57,14 @@ def figureOverTime(abf, fig):
 
     plt.subplot(221)
     fig.grid()
-    plt.title(mt.Ih.name)
-    plt.ylabel(mt.Ih.units)
+    plt.ylabel("Current (pA)")
     plt.plot(sweepTimesMin, mt.Ih.values, '.', color='b')
     plt.margins(0, .2)
     fig.addTagLines(minutes=True)
 
     plt.subplot(222)
     fig.grid()
-    plt.title(mt.Rm.name)
-    plt.ylabel(mt.Rm.units)
+    plt.ylabel("Membrane Resistance (MΩ)")
     plt.plot(sweepTimesMin, mt.Rm.values, '.', color='r')
     plt.margins(0, .2)
     plt.axis([None, None, 0, None])
@@ -74,8 +72,7 @@ def figureOverTime(abf, fig):
 
     plt.subplot(223)
     fig.grid()
-    plt.title(mt.Ra.name)
-    plt.ylabel(mt.Ra.units)
+    plt.ylabel("Access Resistance (MΩ)")
     plt.plot(sweepTimesMin, mt.Ra.values, '.', color='k')
     plt.margins(0, .2)
     plt.axis([None, None, 0, None])
