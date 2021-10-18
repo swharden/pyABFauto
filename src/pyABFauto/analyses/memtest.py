@@ -80,7 +80,6 @@ def figureOverTime(abf, fig):
 
     plt.subplot(224)
     fig.grid()
-    plt.title("Full Recording")
     fig.plotContinuous(startAtSec=.5, minutes=True)
     fig.addTagLines(minutes=True)
 
