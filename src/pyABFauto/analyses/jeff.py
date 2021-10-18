@@ -146,7 +146,7 @@ def plotPeakBySweep(abf: pyabf.ABF, ax: matplotlib.axes.Axes, epoch: int = 3):
         baselineStart = puffTimeStart - .1
         baselineEnd = puffTimeStart
         baselineMean = getMean(abf, baselineStart, baselineEnd)
-        antipeak = getMin(abf, puffTimeEnd, puffTimeEnd+.5) - baselineMean
+        antipeak = getMin(abf, puffTimeEnd, puffTimeEnd+.5)
         values.append(abs(antipeak - baselineMean))
 
     ax.plot(abf.sweepTimesMin, values, '.-', color='k')
