@@ -185,6 +185,10 @@ def analyze_0600(abf, fig):
         abf, fig, stimEpochNumber=3)
 
 
+def analyze_0601(abf, fig):
+    pyABFauto.analyses.stimulation.figureVariedPulseTime(abf, fig)
+
+
 def analyze_0602(abf, fig):
     pyABFauto.analyses.stimulation.figureTestElectricalResponseVC(
         abf, fig, stimEpochNumber=3)

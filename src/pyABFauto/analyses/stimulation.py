@@ -5,6 +5,7 @@
 import pyabf
 import pyabf.tools
 import pyabf.tools.memtest
+import pyabf.filter
 
 import pyABFauto
 
@@ -311,3 +312,23 @@ def figureTestElectricalTrainVC(abf, fig, stimEpochNumber=3):
     fig.addTagLines(minutes=True)
     plt.margins(.1, .3)
     plt.axis([None, None, 0, None])
+
+def figureVariedPulseTime(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
+
+    epoch = 3
+    stimTimeStart = abf.sweepEpochs.p1s[epoch] / abf.sampleRate
+    viewIndex1 = int((stimTimeStart-.1) * abf.sampleRate)
+    viewIndex2 = int((stimTimeStart+.2) * abf.sampleRate)
+    plt.axhline(0, color='k', ls='--')
+
+    pyabf.filter.gaussian(abf, 1)
+    plt.grid(alpha=.5, ls='--')
+    for sweepIndex in range(abf.sweepCount):
+        abf.setSweep(sweepIndex, baseline=[stimTimeStart-.1, stimTimeStart])
+        xs = abf.sweepX[viewIndex1:viewIndex2]
+        ys = abf.sweepY[viewIndex1:viewIndex2]
+        plt.plot(xs, ys, alpha = .5, color='b')
+        
+    plt.ylabel("Δ Current (pA)")
+    plt.xlabel("Time (seconds)")
+    plt.margins(0, .1)
