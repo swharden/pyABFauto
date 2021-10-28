@@ -10,6 +10,25 @@ import matplotlib.axes
 import numpy as np
 
 
+def get_threshold_and_rheobase(abf: pyabf.ABF):
+
+    for sweep in range(abf.sweepCount):
+        abf.setSweep(sweep)
+        apPoints = pyabf.tools.ap.ap_points_currentSweep(abf)
+        if len(apPoints):
+            firstPoint = apPoints[0]
+            break
+    else:
+        return (None, None)
+
+    # back up 5ms from peak depolarization
+    firstPoint -= 5 * abf.dataPointsPerMs
+
+    voltage = abf.sweepY[firstPoint]
+    current = abf.sweepC[firstPoint]
+    return (voltage, current)
+
+
 def firstAP(abf, fig):
 
     if False:  # helps intellisense
@@ -34,6 +53,16 @@ def firstAP(abf, fig):
     plt.margins(0, .1)
     plt.ylabel(abf.sweepLabelY)
     plt.xlabel("Time (ms)")
+
+    threshold, rheobase = get_threshold_and_rheobase(abf)
+
+    summary = f"Threshold:\n{threshold:.01f} mV\n\nRheobase:\n{rheobase:.01f} pA"
+    bbox = dict(facecolor='#DDDDDD66', edgecolor='#00000000',
+                boxstyle='round,pad=.4')
+    plt.gca().text(0.04, 0.94, summary, verticalalignment='top',
+                   horizontalalignment='left',
+                   transform=plt.gca().transAxes, fontsize=10,
+                   bbox=bbox, family='monospace')
 
     plt.subplot(222)
     plt.title("First AP ($\\Delta$V/$\\Delta$t)")
