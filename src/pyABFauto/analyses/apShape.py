@@ -99,9 +99,8 @@ def getAdp(abf: pyabf.ABF, sweep: int,
 
     adpStartIndex = int(adpStartTime * abf.sampleRate)
     adpEndIndex = int(adpEndTime * abf.sampleRate)
-    adpSpanMSec = (adpEndTime - adpStartTime) / 1000
     adpAbsolute = abf.sweepY[adpStartIndex:adpEndIndex] - baseline
-    adpArea = np.sum(adpAbsolute) * adpSpanMSec  # mV * ms
+    adpArea = np.mean(adpAbsolute) * (adpEndTime - adpStartTime)  # mV * sec
 
     return adpArea
 
@@ -113,16 +112,21 @@ def plotFirstSweepADP(abf: pyabf.ABF, ax: matplotlib.axes.Axes):
     baselineIndex1 = int(baseline1 * abf.sampleRate)
     baselineIndex2 = int(baseline2 * abf.sampleRate)
     baseline = np.mean(abf.sweepY[baselineIndex1:baselineIndex2])
+    ax.axhline(baseline, ls='--', color='k',
+               label=f"{baseline:.03f} mV")
 
     adpStartIndex = abf.sweepEpochs.p1s[3]
     adpStartTime = adpStartIndex / abf.sampleRate
     adpEndTime = adpStartTime + .5
     adpArea = getAdp(abf, 0, baseline1, baseline2, adpStartTime, adpEndTime)
 
-    ax.axvspan(adpStartTime, adpEndTime, alpha=.1,
-               color='r', label=f"ADP {adpArea:.02f} mV∙ms")
-    ax.axhline(baseline, ls='--', color='k', label="baseline")
-    ax.legend()
+    # shade area under ADP
+    adpStartIndex = int(abf.sampleRate * adpStartTime)
+    adpEndIndex = int(abf.sampleRate * adpEndTime)
+    adpXs = abf.sweepX[adpStartIndex:adpEndIndex]
+    adpYs = abf.sweepY[adpStartIndex:adpEndIndex]
+    ax.fill_between(adpXs, adpYs, baseline, alpha=.2, color='r',
+                    label=f"{adpArea:.03f} mV∙s")
 
     # only show a small portion of the sweep
     time1 = 1
@@ -138,6 +142,7 @@ def plotFirstSweepADP(abf: pyabf.ABF, ax: matplotlib.axes.Axes):
     ax.set_xlabel("Time (seconds)")
     ax.set_ylabel("Potential (mV)")
     ax.margins(0, .1)
+    ax.legend(loc="upper left")
 
 
 def plotAdpOverTime(abf: pyabf.ABF, ax: matplotlib.axes.Axes):
