@@ -56,7 +56,11 @@ def firstAP(abf, fig):
 
     threshold, rheobase = get_threshold_and_rheobase(abf)
 
-    summary = f"Threshold:\n{threshold:.01f} mV\n\nRheobase:\n{rheobase:.01f} pA"
+    if threshold:
+        summary = f"Threshold:\n{threshold:.01f} mV\n\nRheobase:\n{rheobase:.01f} pA"
+    else:
+        summary = "no AP detected"
+        
     bbox = dict(facecolor='#DDDDDD66', edgecolor='#00000000',
                 boxstyle='round,pad=.4')
     plt.gca().text(0.04, 0.94, summary, verticalalignment='top',
