@@ -215,5 +215,6 @@ def analyze_Signal(abf, fig):  # SS spike fidelity
 def analyze_xxxx(abf, fig):
     pyABFauto.analyses.stimulation.optoResponse(abf, fig, optoEpochNumber=3)
 
+
 def analyze_0913(abf, fig):
     pyABFauto.analyses.jeff.tau(abf, fig)
