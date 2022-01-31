@@ -196,11 +196,12 @@ def figureTestElectricalResponseVC(abf, fig, stimEpochNumber=3):
         means[sweepNumber] = np.mean(abf.sweepY[measureI1:measureI2])
         plt.plot(abf.sweepX[displayPoint1:displayPoint2],
                  abf.sweepY[displayPoint1:displayPoint2],
-                 alpha=.2, color='.5')
-    meanSweep = getMeanSweep(abf, baseline=baseline)
-    plt.plot(abf.sweepX[displayPoint1:displayPoint2],
-             meanSweep[displayPoint1:displayPoint2],
-             color='b')
+                 alpha=.4, color='b')
+    #meanSweep = getMeanSweep(abf, baseline=baseline)
+    #plt.plot(abf.sweepX[displayPoint1:displayPoint2],
+             #meanSweep[displayPoint1:displayPoint2],
+             #color='b')
+    plt.axhline(0, color='k', ls='--')
     plt.ylabel(abf.sweepLabelY)
     plt.xlabel(abf.sweepLabelX)
     plt.margins(0, .1)
@@ -237,6 +238,11 @@ def figureTestElectricalResponseVC(abf, fig, stimEpochNumber=3):
     fig.addTagLines(minutes=True)
     plt.margins(.1, .3)
     plt.axis([None, None, 0, None])
+
+    plt.ylabel("Evoked Current (mV)")
+    plt.xlabel("Experiment Time (minutes)")
+    plt.margins(.1, .3)
+
 
 def figureTestElectricalTrainVC(abf, fig, stimEpochNumber=3):
     assert isinstance(abf, pyabf.ABF)
