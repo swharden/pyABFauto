@@ -1,4 +1,5 @@
 import pyabf
+import pyabf.filter
 import pyabf.tools
 import pyabf.tools.ap
 
@@ -60,7 +61,7 @@ def firstAP(abf, fig):
         summary = f"Threshold:\n{threshold:.01f} mV\n\nRheobase:\n{rheobase:.01f} pA"
     else:
         summary = "no AP detected"
-        
+
     bbox = dict(facecolor='#DDDDDD66', edgecolor='#00000000',
                 boxstyle='round,pad=.4')
     plt.gca().text(0.04, 0.94, summary, verticalalignment='top',
@@ -182,3 +183,28 @@ def adp(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     plotFirstSweepADP(abf, axs[0])
     plotAdpOverTime(abf, axs[1])
     plt.tight_layout()
+
+
+def adp2(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
+
+    baseline1 = 3
+    baseline2 = 5
+    baselineIndex1 = int(baseline1 * abf.sampleRate)
+    baselineIndex2 = int(baseline2 * abf.sampleRate)
+    plt.axhline(0, ls='--', color='k')
+
+    pyabf.filter.gaussian(abf, 10)
+    cmap = plt.cm.get_cmap('viridis')
+    for sweepIndex in abf.sweepList[::-1]:
+        abf.setSweep(sweepIndex)
+        color = cmap(sweepIndex/abf.sweepCount)
+        baseline = np.mean(abf.sweepY[baselineIndex1:baselineIndex2])
+        plt.plot(abf.sweepX, abf.sweepY - baseline, color=color,
+                 alpha=1, label=f"sweep {sweepIndex+1}")
+
+    plt.grid(alpha=.5, ls='--')
+    plt.xlabel("Time (seconds)")
+    plt.ylabel("Δ Potential (mV)")
+    plt.margins(0, .1)
+    plt.legend(loc="upper right")
+    plt.axis([None, None, -10, 10])

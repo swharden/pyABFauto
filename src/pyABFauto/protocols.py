@@ -56,6 +56,10 @@ def analyze_0123(abf, fig):
     pyABFauto.analyses.apShape.adp(abf, fig)
 
 
+def analyze_0127(abf, fig):
+    pyABFauto.analyses.apShape.adp2(abf, fig)
+
+
 def analyze_3(abf, fig):  # 3 SHIV3
     pyABFauto.analyses.apGain.singleStep(abf, fig, 1.07, 1.07+1)
 
