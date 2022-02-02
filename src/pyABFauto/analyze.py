@@ -8,6 +8,7 @@ import os
 import glob
 import pyabf
 import matplotlib.pyplot as plt
+import traceback
 
 import pyABFauto
 import pyABFauto.protocols
@@ -43,7 +44,10 @@ def analyzeAbf(abfPath):
         analaysisFunction = getattr(pyABFauto.protocols, protocolFunctionName)
         try:
             analaysisFunction(abf, fig)
-        except:
+        except Exception as e:
+            print("EXCEPTION!!!")
+            print(e)
+            traceback.print_exc()
             pyABFauto.analyses.unknown.crash(abf, fig)
     else:
         print(
