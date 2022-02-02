@@ -41,9 +41,13 @@ def analyzeAbf(abfPath):
     plt.title(abf.abfID+".abf")
     if hasattr(pyABFauto.protocols, protocolFunctionName):
         analaysisFunction = getattr(pyABFauto.protocols, protocolFunctionName)
-        analaysisFunction(abf, fig)
+        try:
+            analaysisFunction(abf, fig)
+        except:
+            pyABFauto.analyses.unknown.crash(abf, fig)
     else:
-        print(f"WARNING: unknown protocol ({abf.protocol}) needs function ({protocolFunctionName})")
+        print(
+            f"WARNING: unknown protocol ({abf.protocol}) needs function ({protocolFunctionName})")
         if abf.dataLengthMin > 2:
             pyABFauto.analyses.unknown.continuous(abf, fig)
         else:

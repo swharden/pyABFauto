@@ -14,3 +14,8 @@ def continuous(abf, fig):
     fig.plotContinuous()
     fig.addTagLines()
     fig.shadeBackground()
+
+def crash(abf, fig):
+    fig.plotContinuous()
+    fig.addTagLines()
+    fig.shadeBackground("ERROR: crashed analyzing this file")

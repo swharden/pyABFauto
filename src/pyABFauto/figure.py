@@ -59,10 +59,10 @@ class Figure:
             plt.axvline(tagPosition, linewidth=2, color='r',
                         alpha=.5, linestyle='--')
 
-    def shadeBackground(self):
+    def shadeBackground(self, message="WARNING: unsupported protocol"):
         for i, ax in enumerate(plt.gcf().axes):
             ax.set_facecolor((1.0, 0.9, 0.9))
-            t = ax.text(.97, .97, "WARNING: unsupported protocol",
+            t = ax.text(.97, .97, message,
                         transform=plt.gca().transAxes,
                         verticalalignment='top',
                         horizontalalignment='right',
