@@ -31,13 +31,13 @@ def analyzeAbf(abfPath):
 
     with open(abfPath, 'rb') as f:
         firstFourBytes = f.read(4)
-        if str(firstFourBytes) == R"b'MM\x00*'":
-            print(f"WARNING: this file is actually a TIF: {abfPath}")
-            tifPath = abfPath + "_NotAnABF_" + \
-                str(random.random())[2:] + ".tif"
-            print(f"Renaming it to: {tifPath}")
-            shutil.move(abfPath, tifPath)
-            return
+    if str(firstFourBytes) == R"b'MM\x00*'":
+        print(f"WARNING: this file is actually a TIF: {abfPath}")
+        tifPath = abfPath + "_NotAnABF_" + \
+            str(random.random())[2:] + ".tif"
+        print(f"Renaming it to: {tifPath}")
+        shutil.move(abfPath, tifPath)
+        return
 
     abf = pyabf.ABF(abfPath)
     protocolID = abf.protocol.split(" ")[0]
