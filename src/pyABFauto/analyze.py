@@ -29,8 +29,6 @@ def analyzeFolder(folderPath):
 
 
 def analyzeAbf(abfPath):
-    tracemalloc.start()
-
     abfPath = os.path.abspath(abfPath)
 
     with open(abfPath, 'rb') as f:
@@ -77,11 +75,3 @@ def analyzeAbf(abfPath):
             pyABFauto.analyses.unknown.stacked(abf, fig)
     fig.save()
     fig.close()
-
-    memory = tracemalloc.get_traced_memory()[0]/1e6
-    print(f"memory before GC: {memory} MB")
-
-    gc.collect()
-    memory = tracemalloc.get_traced_memory()[0]/1e6
-    print(f"memory after GC: {memory} MB")
-    tracemalloc.stop()
