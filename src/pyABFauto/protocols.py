@@ -217,6 +217,16 @@ def analyze_0607(abf, fig):
         abf, fig, stimEpochNumber=4)
 
 
+def analyze_0611(abf, fig):
+    pyABFauto.analyses.stimulation.figureTestElectricalResponseVC(
+        abf, fig, stimEpochNumber=4, measureOffset2=.03)
+
+
+def analyze_0613(abf, fig):
+    pyABFauto.analyses.stimulation.figureTestElectricalResponseVC(
+        abf, fig, stimEpochNumber=4, measureOffset2=.03)
+
+
 def analyze_Signal(abf, fig):  # SS spike fidelity
     if abf.sweepUnitsY == "pA":
         pyABFauto.analyses.stimulation.optoResponse(

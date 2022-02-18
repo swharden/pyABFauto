@@ -64,12 +64,13 @@ def figureTestOptoResponse(abf, fig, optoEpochNumber=3):
     plt.axvspan(optoTimeOn, optoTimeOff, alpha=.5, color='y', edgecolor='y')
 
     plt.subplot(212)
-    
+
     optoPeriod = abf.sweepEpochs.pulsePeriods[optoEpochNumber] / abf.dataRate
-    if (optoPeriod==0):
+    if (optoPeriod == 0):
         optoPeriod = 1
     optoHz = 1 / optoPeriod
-    optoDur = abf.sweepEpochs.pulseWidths[optoEpochNumber] / abf.dataRate * 1000
+    optoDur = abf.sweepEpochs.pulseWidths[optoEpochNumber] / \
+        abf.dataRate * 1000
 
     plt.title(f"Average Sweep ({optoHz}Hz of {optoDur}ms pulses)")
     for sweepNumber in abf.sweepList:
@@ -163,7 +164,8 @@ def figureShowOptoResponseOverTime(abf, fig, optoEpochNumber=3):
     plt.margins(.1, .3)
     plt.axis([None, None, 0, None])
 
-def figureTestElectricalResponseVC(abf, fig, stimEpochNumber=3):
+
+def figureTestElectricalResponseVC(abf, fig, stimEpochNumber=3, measureOffset1=.003, measureOffset2=.015):
     assert isinstance(abf, pyabf.ABF)
     assert isinstance(fig, pyABFauto.figure.Figure)
 
@@ -180,7 +182,7 @@ def figureTestElectricalResponseVC(abf, fig, stimEpochNumber=3):
 
     baseline = [optoTimeOn - .02, optoTimeOn - .01]
 
-    measure = [optoTimeOff + .003, optoTimeOff + .015]
+    measure = [optoTimeOff + measureOffset1, optoTimeOff + measureOffset2]
     measureI1 = int(measure[0] * abf.dataRate)
     measureI2 = int(measure[1] * abf.dataRate)
     means = np.full(abf.sweepCount, np.nan)
@@ -198,9 +200,9 @@ def figureTestElectricalResponseVC(abf, fig, stimEpochNumber=3):
                  abf.sweepY[displayPoint1:displayPoint2],
                  alpha=.4, color='b')
     #meanSweep = getMeanSweep(abf, baseline=baseline)
-    #plt.plot(abf.sweepX[displayPoint1:displayPoint2],
-             #meanSweep[displayPoint1:displayPoint2],
-             #color='b')
+    # plt.plot(abf.sweepX[displayPoint1:displayPoint2],
+        # meanSweep[displayPoint1:displayPoint2],
+        # color='b')
     plt.axhline(0, color='k', ls='--')
     plt.ylabel(abf.sweepLabelY)
     plt.xlabel(abf.sweepLabelX)
@@ -240,7 +242,7 @@ def figureTestElectricalResponseVC(abf, fig, stimEpochNumber=3):
     plt.axis([None, None, 0, None])
 
 
-def figureTestElectricalResponseIC(abf: pyabf.ABF, fig: pyABFauto.figure.Figure, stimEpochNumber:int = 3):
+def figureTestElectricalResponseIC(abf: pyabf.ABF, fig: pyABFauto.figure.Figure, stimEpochNumber: int = 3):
 
     optoPointOn = abf.sweepEpochs.p1s[stimEpochNumber]
     optoPointOff = abf.sweepEpochs.p2s[stimEpochNumber]
@@ -271,9 +273,9 @@ def figureTestElectricalResponseIC(abf: pyabf.ABF, fig: pyABFauto.figure.Figure,
                  abf.sweepY[displayPoint1:displayPoint2],
                  alpha=.4, color='b')
     #meanSweep = getMeanSweep(abf, baseline=baseline)
-    #plt.plot(abf.sweepX[displayPoint1:displayPoint2],
-             #meanSweep[displayPoint1:displayPoint2],
-             #color='b')
+    # plt.plot(abf.sweepX[displayPoint1:displayPoint2],
+        # meanSweep[displayPoint1:displayPoint2],
+        # color='b')
     plt.axhline(0, color='k', ls='--')
     plt.ylabel(abf.sweepLabelY)
     plt.xlabel(abf.sweepLabelX)
@@ -369,6 +371,7 @@ def figureTestElectricalTrainVC(abf, fig, stimEpochNumber=3):
     plt.margins(.1, .3)
     plt.axis([None, None, 0, None])
 
+
 def figureVariedPulseTime(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
 
     epoch = 3
@@ -383,8 +386,8 @@ def figureVariedPulseTime(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
         abf.setSweep(sweepIndex, baseline=[stimTimeStart-.1, stimTimeStart])
         xs = abf.sweepX[viewIndex1:viewIndex2]
         ys = abf.sweepY[viewIndex1:viewIndex2]
-        plt.plot(xs, ys, alpha = .5, color='b')
-        
+        plt.plot(xs, ys, alpha=.5, color='b')
+
     plt.ylabel("Δ Current (pA)")
     plt.xlabel("Time (seconds)")
     plt.margins(0, .1)
