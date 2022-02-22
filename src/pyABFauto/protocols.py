@@ -12,6 +12,7 @@ import pyABFauto.analyses.iv
 import pyABFauto.analyses.apShape
 import pyABFauto.analyses.apGain
 import pyABFauto.analyses.stimulation
+import pyABFauto.analyses.dsi
 import pyABFauto.analyses.timeCourse
 import pyABFauto.analyses.jeff
 
@@ -218,13 +219,15 @@ def analyze_0607(abf, fig):
 
 
 def analyze_0611(abf, fig):
-    pyABFauto.analyses.stimulation.figureTestElectricalResponseVC(
-        abf, fig, stimEpochNumber=4, measureOffset2=.03)
+    pyABFauto.analyses.dsi.evokedInwardCurrent(abf, fig)
+
+
+def analyze_0612(abf, fig):
+    pyABFauto.analyses.dsi.singleSweepWithProtocol(abf, fig)
 
 
 def analyze_0613(abf, fig):
-    pyABFauto.analyses.stimulation.figureTestElectricalResponseVC(
-        abf, fig, stimEpochNumber=4, measureOffset2=.03)
+    pyABFauto.analyses.dsi.evokedInwardCurrent(abf, fig)
 
 
 def analyze_Signal(abf, fig):  # SS spike fidelity

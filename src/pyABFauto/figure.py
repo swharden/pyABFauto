@@ -71,6 +71,18 @@ class Figure:
                         color='k')
             t.set_bbox(dict(facecolor='#FFFF00', edgecolor='k', lw=2))
 
+    def drawAxisCenterText(self, message: str):
+        plt.gca().text(x=.5,
+                       y=.5,
+                       s=message,
+                       transform=plt.gca().transAxes,
+                       verticalalignment='center',
+                       horizontalalignment='center',
+                       fontsize=120,
+                       fontweight=800,
+                       color='k',
+                       alpha=.1)
+
     def grid(self):
         plt.grid(alpha=.2, color='k', ls='--')
 
