@@ -48,6 +48,9 @@ def analyzeAbf(abfPath):
     if "SpritzProtocol" in protocolID:
         protocolID = "0913"
 
+    if protocolID == "Persistent":
+        protocolID = "0313"
+
     protocolFunctionName = "analyze_%s" % (protocolID)
     protocolFunctionName = protocolFunctionName.replace("-", "_")
     protocolFunctionName = protocolFunctionName.replace(".", "_")

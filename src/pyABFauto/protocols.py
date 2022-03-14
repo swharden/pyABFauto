@@ -101,6 +101,10 @@ def analyze_0304(abf, fig):
     pyABFauto.analyses.timeCourse.apFreqOverTime(abf, fig)
 
 
+def analyze_0313(abf, fig):
+    pyABFauto.analyses.timeCourse.gradedFiring(abf, fig)
+
+
 def analyze_0401(abf, fig):
     pyABFauto.analyses.memtest.figureOverTime(abf, fig)
 
