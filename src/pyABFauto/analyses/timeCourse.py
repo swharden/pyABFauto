@@ -73,10 +73,13 @@ def gradedFiring(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     plt.grid(alpha=.5, ls='--')
     plt.ylabel("AP Frequency (Hz)")
     plt.xlabel("Time (sec)")
-    plt.plot(apTimes[1:], 1.0/np.diff(apTimes), '.', alpha=.5)
-    plt.axis([None, None, 0, 40])
+
+    apFreqs = 1.0/np.diff(apTimes)
+    maxSaneFreq = max([x for x in apFreqs if x < 100])
+    plt.plot(apTimes[1:], apFreqs, '.', alpha=.5)
+    plt.axis([None, None, 0, maxSaneFreq])
     leftBottomEdgeOnly()
 
-    plt.tight_layout()
     plt.subplot(311)
     plt.margins(0, .1)
+    plt.tight_layout()
