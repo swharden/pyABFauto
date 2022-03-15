@@ -15,10 +15,17 @@ import pyABFauto.analyses.stimulation
 import pyABFauto.analyses.dsi
 import pyABFauto.analyses.timeCourse
 import pyABFauto.analyses.jeff
+import pyABFauto.analyses.unknown
+
+
+def warnIfBadUnits(abf: pyabf.ABF):
+    if (abf.adcUnits[0] != "mV"):
+        pyABFauto.analyses.unknown.badunits()
 
 
 def analyze_0111(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.apShape.firstAP(abf, fig)
+    warnIfBadUnits(abf)
 
 
 def analyze_1_(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):  # SS VC memtest
@@ -31,34 +38,42 @@ def analyze_5(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):  # 5 ramp gain
 
 def analyze_0110(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.apGain.restPotential(abf, fig)
+    warnIfBadUnits(abf)
 
 
 def analyze_0112(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.apGain.doubleStep(abf, fig, .14, .65, 1.64, 2.15)
+    warnIfBadUnits(abf)
 
 
 def analyze_0113(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.apGain.doubleStep(abf, fig, .14, .65, 1.64, 2.15)
+    warnIfBadUnits(abf)
 
 
 def analyze_0114(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.apGain.doubleStep(abf, fig, .14, .65, 1.64, 2.15)
+    warnIfBadUnits(abf)
 
 
 def analyze_0115(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.apGain.singleStep(abf, fig, .54685, 1.54685)
+    warnIfBadUnits(abf)
 
 
 def analyze_0119(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.apGain.singleStep(abf, fig, 3.15631, 7.15631)
+    warnIfBadUnits(abf)
 
 
 def analyze_0123(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.apShape.adp(abf, fig)
+    warnIfBadUnits(abf)
 
 
 def analyze_0127(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.apShape.adp2(abf, fig)
+    warnIfBadUnits(abf)
 
 
 def analyze_3(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):  # 3 SHIV3
