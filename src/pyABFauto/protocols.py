@@ -17,224 +17,224 @@ import pyABFauto.analyses.timeCourse
 import pyABFauto.analyses.jeff
 
 
-def analyze_0111(abf, fig):
+def analyze_0111(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.apShape.firstAP(abf, fig)
 
 
-def analyze_1_(abf, fig):  # SS VC memtest
+def analyze_1_(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):  # SS VC memtest
     pyABFauto.analyses.apShape.firstAP(abf, fig)
 
 
-def analyze_5(abf, fig):  # 5 ramp gain
+def analyze_5(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):  # 5 ramp gain
     pyABFauto.analyses.apShape.firstAP(abf, fig)
 
 
-def analyze_0110(abf, fig):
+def analyze_0110(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.apGain.restPotential(abf, fig)
 
 
-def analyze_0112(abf, fig):
+def analyze_0112(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.apGain.doubleStep(abf, fig, .14, .65, 1.64, 2.15)
 
 
-def analyze_0113(abf, fig):
+def analyze_0113(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.apGain.doubleStep(abf, fig, .14, .65, 1.64, 2.15)
 
 
-def analyze_0114(abf, fig):
+def analyze_0114(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.apGain.doubleStep(abf, fig, .14, .65, 1.64, 2.15)
 
 
-def analyze_0115(abf, fig):
+def analyze_0115(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.apGain.singleStep(abf, fig, .54685, 1.54685)
 
 
-def analyze_0119(abf, fig):
+def analyze_0119(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.apGain.singleStep(abf, fig, 3.15631, 7.15631)
 
 
-def analyze_0123(abf, fig):
+def analyze_0123(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.apShape.adp(abf, fig)
 
 
-def analyze_0127(abf, fig):
+def analyze_0127(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.apShape.adp2(abf, fig)
 
 
-def analyze_3(abf, fig):  # 3 SHIV3
+def analyze_3(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):  # 3 SHIV3
     pyABFauto.analyses.apGain.singleStep(abf, fig, 1.07, 1.07+1)
 
 
-def analyze_3_(abf, fig):  # 3.
+def analyze_3_(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):  # 3.
     pyABFauto.analyses.apGain.singleStep(abf, fig, .14665, .14665 + .5)
 
 
-def analyze_0201(abf, fig):
+def analyze_0201(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.memtest.figureMemtest(abf, fig)
 
 
-def analyze_0202(abf, fig):
+def analyze_0202(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.iv.step(abf, fig, 2.3, 2.5, 2.566, 2.7)
 
 
-def analyze_2_(abf, fig):
+def analyze_2_(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.iv.step(abf, fig, .8, .8 + .25, 2.566, 2.7)
 
 
-def analyze_1(abf, fig):  # 1 MTIV3
+def analyze_1(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):  # 1 MTIV3
     pyABFauto.analyses.iv.step(abf, fig, 1.45, 1.45 + .5, 1.07, 1.07 + .2)
 
 
-def analyze_0203(abf, fig):
+def analyze_0203(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.iv.step(abf, fig, .5, .95, 2.566, 2.7)
 
 
-def analyze_0301(abf, fig):
+def analyze_0301(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.timeCourse.apFreqOverTime(abf, fig)
 
 
-def analyze_RestMemPotential(abf, fig):
+def analyze_RestMemPotential(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.timeCourse.apFreqOverTime(abf, fig)
 
 
-def analyze_0304(abf, fig):
+def analyze_0304(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.timeCourse.apFreqOverTime(abf, fig)
 
 
-def analyze_0313(abf, fig):
+def analyze_0313(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.timeCourse.gradedFiring(abf, fig)
 
 
-def analyze_0401(abf, fig):
+def analyze_0401(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.memtest.figureOverTime(abf, fig)
 
 
-def analyze_0402(abf, fig):
+def analyze_0402(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.memtest.figureOverTime(abf, fig)
 
 
-def analyze_0403(abf, fig):
+def analyze_0403(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.memtest.figureOverTime(abf, fig)
 
 
-def analyze_0404(abf, fig):
+def analyze_0404(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.memtest.figureOverTime(abf, fig)
 
 
-def analyze_0405(abf, fig):
+def analyze_0405(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.memtest.figureOverTime(abf, fig)
 
 
-def analyze_0406(abf, fig):
+def analyze_0406(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.memtest.figureOverTime(abf, fig)
 
 
-def analyze_0422(abf, fig):
+def analyze_0422(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.memtest.figureOverTime(abf, fig)
 
 
-def analyze_0423(abf, fig):
+def analyze_0423(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.memtest.figureOverTime(abf, fig)
 
 
-def analyze_6(abf, fig):  # 6 MT-mon
+def analyze_6(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):  # 6 MT-mon
     analyze_0405(abf, fig)
 
 
-def analyze_MT_mon_2(abf, fig):  # MT-mon_2 (SS)
+def analyze_MT_mon_2(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):  # MT-mon_2 (SS)
     analyze_0405(abf, fig)
 
 
-def analyze_EPSCs(abf, fig):  # SS
+def analyze_EPSCs(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):  # SS
     analyze_0405(abf, fig)
 
 
-def analyze_0501(abf, fig):
+def analyze_0501(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.stimulation.optoResponse(abf, fig, optoEpochNumber=3)
 
 
-def analyze_0502(abf, fig):
+def analyze_0502(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.stimulation.optoResponse(abf, fig, optoEpochNumber=2)
 
 
-def analyze_0503(abf, fig):
+def analyze_0503(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.stimulation.optoResponse(abf, fig, optoEpochNumber=2)
 
 
-def analyze_0504(abf, fig):
+def analyze_0504(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.stimulation.optoResponse(abf, fig, optoEpochNumber=2)
 
 
-def analyze_0505(abf, fig):
+def analyze_0505(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.stimulation.optoResponse(abf, fig, optoEpochNumber=2)
 
 
-def analyze_0506(abf, fig):
+def analyze_0506(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.stimulation.optoResponse(abf, fig, optoEpochNumber=2)
 
 
-def analyze_0507(abf, fig):
+def analyze_0507(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.stimulation.optoResponse(abf, fig, optoEpochNumber=2)
 
 
-def analyze_0509(abf, fig):
+def analyze_0509(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.stimulation.optoResponse(abf, fig, optoEpochNumber=2)
 
 
-def analyze_0512(abf, fig):
+def analyze_0512(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.stimulation.optoResponse(abf, fig, optoEpochNumber=3)
 
 
-def analyze_0513(abf, fig):
+def analyze_0513(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.stimulation.optoResponse(abf, fig, optoEpochNumber=3)
 
 
-def analyze_0514(abf, fig):
+def analyze_0514(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.stimulation.optoResponse(abf, fig, optoEpochNumber=3)
 
 
-def analyze_0600(abf, fig):
+def analyze_0600(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.stimulation.figureTestElectricalTrainVC(
         abf, fig, stimEpochNumber=3)
 
 
-def analyze_0601(abf, fig):
+def analyze_0601(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.stimulation.figureVariedPulseTime(abf, fig)
 
 
-def analyze_0602(abf, fig):
+def analyze_0602(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.stimulation.figureTestElectricalResponseVC(
         abf, fig, stimEpochNumber=3)
 
 
-def analyze_0602(abf, fig):
+def analyze_0602(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.stimulation.figureTestElectricalResponseVC(
         abf, fig, stimEpochNumber=3)
 
 
-def analyze_0606(abf, fig):
+def analyze_0606(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.stimulation.figureTestElectricalResponseIC(
         abf, fig, stimEpochNumber=2)
 
 
-def analyze_0607(abf, fig):
+def analyze_0607(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.stimulation.figureTestElectricalResponseVC(
         abf, fig, stimEpochNumber=4)
 
 
-def analyze_0611(abf, fig):
+def analyze_0611(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.dsi.evokedInwardCurrent(abf, fig)
 
 
-def analyze_0612(abf, fig):
+def analyze_0612(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.dsi.singleSweepWithProtocol(abf, fig)
 
 
-def analyze_0613(abf, fig):
+def analyze_0613(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.dsi.evokedInwardCurrent(abf, fig)
 
 
-def analyze_Signal(abf, fig):  # SS spike fidelity
+def analyze_Signal(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):  # SS spike fidelity
     if abf.sweepUnitsY == "pA":
         pyABFauto.analyses.stimulation.optoResponse(
             abf, fig, optoEpochNumber=4)
@@ -243,9 +243,9 @@ def analyze_Signal(abf, fig):  # SS spike fidelity
         pyABFauto.analyses.timeCourse.apFreqOverTime(abf, fig)
 
 
-def analyze_xxxx(abf, fig):
+def analyze_xxxx(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.stimulation.optoResponse(abf, fig, optoEpochNumber=3)
 
 
-def analyze_0913(abf, fig):
+def analyze_0913(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.jeff.tau(abf, fig)
