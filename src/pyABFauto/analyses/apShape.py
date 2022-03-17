@@ -207,4 +207,4 @@ def adp2(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     plt.ylabel("Δ Potential (mV)")
     plt.margins(0, .1)
     plt.legend(loc="upper right")
-    plt.axis([None, None, -10, 10])
+    plt.axis([None, None, -10, 20])
