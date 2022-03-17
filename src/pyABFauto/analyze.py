@@ -6,6 +6,7 @@ Code here determines if ABFs can be analyzed with predefined protocols.
 
 import os
 import glob
+import pathlib
 from posixpath import basename
 from random import Random, random
 import pyabf
@@ -25,6 +26,9 @@ import pyABFauto.analyses.unknown
 
 def analyzeFolder(folderPath):
     for abfPath in glob.glob(folderPath+"/*.abf"):
+        rsvFilePath = str(abfPath).replace(".abf", ".rsv")
+        if pathlib.Path(rsvFilePath).exists:
+            continue
         analyzeAbf(abfPath)
 
 
