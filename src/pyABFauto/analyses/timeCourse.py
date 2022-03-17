@@ -83,3 +83,28 @@ def gradedFiring(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     plt.subplot(311)
     plt.margins(0, .1)
     plt.tight_layout()
+
+
+def wideningStep(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
+    cmap = plt.cm.get_cmap('viridis')
+    for sweepIndex in range(abf.sweepCount):
+        abf.setSweep(sweepIndex)
+
+        plt.subplot(2, 2, 1)
+        plt.grid(alpha=.5, ls='--')
+        plt.plot(abf.sweepX, abf.sweepY,
+                 color=cmap(sweepIndex/abf.sweepCount))
+        plt.margins(0, .1)
+
+        plt.subplot(2, 2, 3)
+        plt.grid(alpha=.5, ls='--')
+        offset = abf.sweepIntervalSec * sweepIndex
+        plt.plot(abf.sweepX + offset, abf.sweepY,
+                 color=cmap(sweepIndex/abf.sweepCount))
+        plt.margins(0, .1)
+
+        plt.subplot(1, 2, 2)
+        plt.grid(alpha=.5, ls='--')
+        plt.plot(abf.sweepX, abf.sweepY,
+                 color=cmap(sweepIndex/abf.sweepCount))
+        plt.axis([5, 10, -80, 0])

@@ -76,6 +76,11 @@ def analyze_0127(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     warnIfBadUnits(abf)
 
 
+def analyze_0128(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
+    pyABFauto.analyses.apShape.adp2(abf, fig)
+    warnIfBadUnits(abf)
+
+
 def analyze_3(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):  # 3 SHIV3
     pyABFauto.analyses.apGain.singleStep(abf, fig, 1.07, 1.07+1)
 
@@ -118,6 +123,10 @@ def analyze_0304(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
 
 def analyze_0313(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.timeCourse.gradedFiring(abf, fig)
+
+
+def analyze_0315(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
+    pyABFauto.analyses.timeCourse.wideningStep(abf, fig)
 
 
 def analyze_0401(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
