@@ -72,8 +72,4 @@ def watchForever(delaySec=5):
 if __name__ == "__main__":
 
     while True:
-        try:
-            watchForever()
-        except Exception as ex:
-            print(f"\n\n### HIGH LEVEL EXCEPTION: \n{ex}\n\n")
-            time.sleep(10)
+        watchForever()
