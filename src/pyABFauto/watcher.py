@@ -35,10 +35,14 @@ class commandFileWatcher:
         return tifs
 
     def getFolderListFromCommandsFile(self):
-        assert os.path.exists(self.commandFilePath)
         folders = []
+
+        if not os.path.exists(self.commandFilePath):
+            return folders
+
         with open(self.commandFilePath) as f:
             lines = f.read().split("\n")
+
         for line in lines:
             line = line.strip()
             if len(line) < 3:
@@ -54,6 +58,7 @@ class commandFileWatcher:
                     folders.append(line)
             else:
                 print("  ERROR: folder does not exist:", line)
+
         return folders
 
     def getAbfsNeedingAnalysisInAFolder(self, folderPath):
