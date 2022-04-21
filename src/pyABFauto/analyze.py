@@ -25,16 +25,18 @@ import pyABFauto.analyses.unknown
 
 
 def analyzeFolder(folderPath):
+    print("analyzing folder:", folderPath)
     for abfPath in glob.glob(folderPath+"/*.abf"):
         rsvFilePath = str(abfPath).replace(".abf", ".rsv")
-        if pathlib.Path(rsvFilePath).exists:
+        if pathlib.Path(rsvFilePath).exists():
+            print("skipping ABF with RSV:", rsvFilePath)
             continue
         analyzeAbf(abfPath)
 
 
 def analyzeAbf(abfPath):
     abfPath = os.path.abspath(abfPath)
-
+    print("analyzing ABF:", abfPath)
     with open(abfPath, 'rb') as f:
         firstFourBytes = f.read(4)
     if str(firstFourBytes) == R"b'MM\x00*'":
