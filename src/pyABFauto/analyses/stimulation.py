@@ -199,7 +199,7 @@ def figureTestElectricalResponseVC(abf, fig, stimEpochNumber=3, measureOffset1=.
         plt.plot(abf.sweepX[displayPoint1:displayPoint2],
                  abf.sweepY[displayPoint1:displayPoint2],
                  alpha=.4, color='b')
-    #meanSweep = getMeanSweep(abf, baseline=baseline)
+    # meanSweep = getMeanSweep(abf, baseline=baseline)
     # plt.plot(abf.sweepX[displayPoint1:displayPoint2],
         # meanSweep[displayPoint1:displayPoint2],
         # color='b')
@@ -272,7 +272,7 @@ def figureTestElectricalResponseIC(abf: pyabf.ABF, fig: pyABFauto.figure.Figure,
         plt.plot(abf.sweepX[displayPoint1:displayPoint2],
                  abf.sweepY[displayPoint1:displayPoint2],
                  alpha=.4, color='b')
-    #meanSweep = getMeanSweep(abf, baseline=baseline)
+    # meanSweep = getMeanSweep(abf, baseline=baseline)
     # plt.plot(abf.sweepX[displayPoint1:displayPoint2],
         # meanSweep[displayPoint1:displayPoint2],
         # color='b')
@@ -390,4 +390,25 @@ def figureVariedPulseTime(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
 
     plt.ylabel("Δ Current (pA)")
     plt.xlabel("Time (seconds)")
+    plt.margins(0, .1)
+
+
+def shadeEpoch(abf: pyabf.ABF, epochIndex: int, color: str):
+    t1 = abf.sweepEpochs.p1s[epochIndex] / abf.sampleRate
+    t2 = abf.sweepEpochs.p2s[epochIndex] / abf.sampleRate
+    plt.axvspan(t1, t2, alpha=.2, color=color)
+
+
+def swichr(abf: pyabf.ABF, fig: pyABFauto.figure.Figure, blueEpoch: int, redEpoch: int):
+
+    plt.grid(alpha=.5, ls='--')
+    shadeEpoch(abf, blueEpoch, 'b')
+    shadeEpoch(abf, redEpoch, 'r')
+
+    for sweepIndex in range(abf.sweepCount):
+        abf.setSweep(sweepIndex)
+        plt.plot(abf.sweepX, abf.sweepY, color='b')
+
+    plt.ylabel(abf.sweepLabelY)
+    plt.xlabel(abf.sweepLabelX)
     plt.margins(0, .1)

@@ -217,6 +217,14 @@ def analyze_0514(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.stimulation.optoResponse(abf, fig, optoEpochNumber=3)
 
 
+def analyze_0516(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
+    pyABFauto.analyses.stimulation.swichr(abf, fig, 2, 4)
+
+
+def analyze_0517(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
+    pyABFauto.analyses.stimulation.swichr(abf, fig, 3, 5)
+
+
 def analyze_0600(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.stimulation.figureTestElectricalTrainVC(
         abf, fig, stimEpochNumber=3)
