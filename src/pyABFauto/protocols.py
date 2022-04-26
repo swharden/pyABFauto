@@ -225,6 +225,10 @@ def analyze_0517(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.stimulation.swichr(abf, fig, 3, 5)
 
 
+def analyze_0518(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
+    pyABFauto.analyses.stimulation.swichrStacked(abf, fig, 5, 7, 100)
+
+
 def analyze_0600(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.stimulation.figureTestElectricalTrainVC(
         abf, fig, stimEpochNumber=3)

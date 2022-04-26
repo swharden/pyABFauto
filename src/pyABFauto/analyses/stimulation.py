@@ -412,3 +412,22 @@ def swichr(abf: pyabf.ABF, fig: pyABFauto.figure.Figure, blueEpoch: int, redEpoc
     plt.ylabel(abf.sweepLabelY)
     plt.xlabel(abf.sweepLabelX)
     plt.margins(0, .1)
+
+
+def swichrStacked(abf: pyabf.ABF, fig: pyABFauto.figure.Figure, blueEpoch: int, redEpoch: int, stackDelta: float):
+
+    plt.grid(alpha=.5, ls='--')
+    shadeEpoch(abf, blueEpoch, 'b')
+    shadeEpoch(abf, redEpoch, 'r')
+
+    pyabf.filter.gaussian(abf, 10)
+
+    for sweepIndex in range(abf.sweepCount):
+        abf.setSweep(sweepIndex)
+        ys = abf.sweepY + sweepIndex * stackDelta
+        ys[:abf.sweepEpochs.p2s[blueEpoch - 2]] = np.nan
+        plt.plot(abf.sweepX, ys, color='b', lw=.5)
+
+    plt.ylabel(abf.sweepLabelY)
+    plt.xlabel(abf.sweepLabelX)
+    plt.margins(0, .1)
