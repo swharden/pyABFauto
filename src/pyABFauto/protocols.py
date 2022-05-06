@@ -86,6 +86,18 @@ def analyze_0129(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     warnIfBadUnits(abf)
 
 
+def analyze_0130(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
+    fig.plotContinuous()
+    fig.addTagLines()
+    warnIfBadUnits(abf)
+
+
+def analyze_0131(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
+    fig.plotContinuous()
+    fig.addTagLines()
+    warnIfBadUnits(abf)
+
+
 def analyze_3(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):  # 3 SHIV3
     pyABFauto.analyses.apGain.singleStep(abf, fig, 1.07, 1.07+1)
 
