@@ -7,10 +7,12 @@ import shutil
 REPO_FOLDER = os.path.dirname(os.path.dirname(__file__))
 assert os.path.exists(REPO_FOLDER + "/src/pyABFauto")
 sys.path.append(REPO_FOLDER + "/src/")
-import pyABFauto
+if True:
+    import pyABFauto
 
-def addFakeParentImages(abfFolder, parentProtocols = ['0201 memtest', '1 MTIV3']):
-    tifSourcePath=R"X:\Users_Public\Scott\x.tif"
+
+def addFakeParentImages(abfFolder, parentProtocols=['0201 memtest', '1 MTIV3']):
+    tifSourcePath = R"X:\Users_Public\Scott\x.tif"
     for abfPath in glob.glob(abfFolder+"/*.abf"):
         abf = pyabf.ABF(abfPath, loadData=False)
         for protocol in parentProtocols:
@@ -22,6 +24,7 @@ def addFakeParentImages(abfFolder, parentProtocols = ['0201 memtest', '1 MTIV3']
                     print("CREATING:", tifFilePath)
                     shutil.copy(tifSourcePath, tifFilePath)
 
+
 def lowercaseTifs(abfFolder):
     for tifPath in glob.glob(abfFolder+"/*.TIF"):
         if tifPath.endswith(".TIF"):
@@ -29,20 +32,22 @@ def lowercaseTifs(abfFolder):
             print("LOWERCASING:", tifPath)
             os.rename(tifPath, tifPath.replace(".TIF", ".tif"))
 
+
 def deleteStatsFiles(abfFolder):
     for statsFilePath in glob.glob(abfFolder+"/*.sta"):
         print("deleting stats file:", statsFilePath)
         os.remove(statsFilePath)
 
+
 if __name__ == "__main__":
 
     for analyzeThis in [
-        R"X:/Data/SD/practice/Todd/BLA Pup Cholinergics/2021_10_13_DIC3_0006.abf",
+        R"X:/Data/zProjects/Aging and Cholinergics/experiments/10 uM CCh (bath app)/2022-05-04-DIC2/",
     ]:
         if os.path.isdir(analyzeThis):
-            deleteStatsFiles(analyzeThis)
-            lowercaseTifs(analyzeThis)
-            addFakeParentImages(analyzeThis)
+            # deleteStatsFiles(analyzeThis)
+            # lowercaseTifs(analyzeThis)
+            # addFakeParentImages(analyzeThis)
             pyABFauto.analyzeFolder(analyzeThis)
         else:
             pyABFauto.analyzeAbf(analyzeThis)
