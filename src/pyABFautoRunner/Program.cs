@@ -15,11 +15,11 @@ process.StartInfo.RedirectStandardOutput = false;
 
 while (true)
 {
-    Console.WriteLine($"{DateTime.Now} Starting process...");
+    Console.ForegroundColor = ConsoleColor.Yellow;
+    Console.WriteLine($"{DateTime.Now} Restarting: {pyFilePath}");
+    Console.ResetColor();
 
     process.Start();
     while (!process.HasExited)
         Thread.Sleep(1000);
-
-    Console.WriteLine($"{DateTime.Now} Process has exited.");
 }

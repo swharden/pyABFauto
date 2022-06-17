@@ -11,6 +11,10 @@ import sys
 import os
 import imaging
 
+# automatically exit after a fixed amount of time
+START_TIME = time.time()
+MAX_RUN_TIME_SEC = 60 * 60
+
 REPO_FOLDER = os.path.dirname(os.path.dirname(__file__))
 assert os.path.exists(REPO_FOLDER + "/src/pyABFauto")
 sys.path.append(REPO_FOLDER + "/src/")
@@ -21,6 +25,11 @@ if True:
 def watchForever(delaySec=5):
     tracemalloc.start()
     while True:
+
+        runTime = time.time() - START_TIME
+        if runTime > MAX_RUN_TIME_SEC:
+            print("Maximum run time exceeded. EXITING.")
+            return
 
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         watcher = pyABFauto.commandFileWatcher()
@@ -70,6 +79,4 @@ def watchForever(delaySec=5):
 
 
 if __name__ == "__main__":
-
-    while True:
-        watchForever()
+    watchForever()
