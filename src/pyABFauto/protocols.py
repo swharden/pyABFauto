@@ -16,6 +16,7 @@ import pyABFauto.analyses.dsi
 import pyABFauto.analyses.timeCourse
 import pyABFauto.analyses.jeff
 import pyABFauto.analyses.unknown
+import pyABFauto.analyses.amy
 
 
 def warnIfBadUnits(abf: pyabf.ABF):
@@ -176,6 +177,10 @@ def analyze_0422(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
 
 def analyze_0423(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.memtest.figureOverTime(abf, fig)
+
+
+def analyze_0425(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
+    pyABFauto.analyses.amy.showRamp(abf, fig)
 
 
 def analyze_6(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):  # 6 MT-mon
