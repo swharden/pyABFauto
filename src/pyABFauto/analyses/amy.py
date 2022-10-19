@@ -22,6 +22,7 @@ def showRamp(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
 
     measureTime = 9.79779
     measurePoint = int(9.79779 * abf.dataRate)
+    baselineRange = [13.5, 14.5]
 
     plt.subplot(221)
     for i in range(abf.sweepCount):
@@ -32,10 +33,11 @@ def showRamp(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     plt.xlabel("Time (seconds)")
     plt.margins(0, .1)
     plt.axvline(measureTime, color='r', ls='--', alpha=.5)
+    plt.axvspan(baselineRange[0], baselineRange[1], alpha=.2, color='r')
 
     plt.subplot(222)
     for i in range(abf.sweepCount):
-        abf.setSweep(i)
+        abf.setSweep(i, baseline=baselineRange)
         plt.plot(abf.sweepX, abf.sweepY, color=colors[i])
     plt.title("Ramp")
     plt.ylabel("Current (pA)")
@@ -46,7 +48,7 @@ def showRamp(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
 
     plt.subplot(223)
     for i in range(abf.sweepCount):
-        abf.setSweep(i)
+        abf.setSweep(i, baseline=baselineRange)
         i1 = int(measurePoint - abf.dataRate * .02)
         i2 = int(measurePoint + abf.dataRate * .02)
         xs = abf.sweepX[i1:i2]
@@ -62,7 +64,7 @@ def showRamp(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     xs = [.025 + .25 * x for x in range(abf.sweepCount)]
     ys = [None] * abf.sweepCount
     for i in range(abf.sweepCount):
-        abf.setSweep(i)
+        abf.setSweep(i, baseline=baselineRange)
         ys[i] = abf.sweepY[measurePoint]
         plt.plot(xs[i], ys[i], '.', ms=15, color=colors[i])
     plt.xlabel("Δt (sec)")
