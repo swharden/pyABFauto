@@ -70,15 +70,17 @@ def showRamp(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     plt.xlabel("Δt (sec)")
     plt.ylabel("Current (pA)")
 
-    p0 = (ys[0], ys[-1], 1)  # start with values near those we expect
-    params, cv = scipy.optimize.curve_fit(expAssoc, xs, ys, p0)
-    y0, plateau, K = params
-    span = plateau - y0
-    tau = 1 / K
-
-    xs2 = np.arange(0, 4, .1)
-    ys2 = [expAssoc(x, y0, plateau, K) for x in xs2]
-    plt.plot(xs2, ys2, color='k', ls='--')
-    plt.title(f"Span = {span:.02f} pA, τ = {tau:.02f} sec")
+    try:
+        p0 = (ys[0], ys[-1], 1)  # start with values near those we expect
+        params, cv = scipy.optimize.curve_fit(expAssoc, xs, ys, p0)
+        y0, plateau, K = params
+        span = plateau - y0
+        tau = 1 / K
+        xs2 = np.arange(0, 4, .1)
+        ys2 = [expAssoc(x, y0, plateau, K) for x in xs2]
+        plt.plot(xs2, ys2, color='k', ls='--')
+        plt.title(f"Span = {span:.02f} pA, τ = {tau:.02f} sec")
+    except RuntimeError:
+        plt.title(f"CURVE FIT FAILED")
 
     plt.tight_layout()
