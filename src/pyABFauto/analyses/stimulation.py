@@ -431,3 +431,13 @@ def swichrStacked(abf: pyabf.ABF, fig: pyABFauto.figure.Figure, blueEpoch: int, 
     plt.ylabel(abf.sweepLabelY)
     plt.xlabel(abf.sweepLabelX)
     plt.margins(0, .1)
+
+
+def bpAP(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
+    for sweepIndex in range(abf.sweepCount):
+        abf.setSweep(sweepIndex)
+        plt.plot(abf.sweepX, abf.sweepY, color='b', lw=.5)
+    plt.ylabel(abf.sweepLabelY)
+    plt.xlabel(abf.sweepLabelX)
+    plt.margins(0, .1)
+    plt.grid(alpha=.5, ls='--')

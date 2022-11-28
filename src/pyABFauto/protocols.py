@@ -292,6 +292,10 @@ def analyze_0613(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.dsi.evokedInwardCurrent(abf, fig)
 
 
+def analyze_0804(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
+    pyABFauto.analyses.stimulation.bpAP(abf, fig)
+
+
 def analyze_Signal(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):  # SS spike fidelity
     if abf.sweepUnitsY == "pA":
         pyABFauto.analyses.stimulation.optoResponse(
