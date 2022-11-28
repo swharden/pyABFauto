@@ -441,3 +441,38 @@ def bpAP(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     plt.xlabel(abf.sweepLabelX)
     plt.margins(0, .1)
     plt.grid(alpha=.5, ls='--')
+
+
+def uncaging(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
+
+    uncagingEpoch = 5
+    uncagingIndex = abf.sweepEpochs.p1s[uncagingEpoch]
+    uncagingTime = uncagingIndex / abf.sampleRate
+    viewStart = uncagingTime - .5
+    viewEnd = uncagingTime + 1
+    viewStartIndex = int(viewStart * abf.sampleRate)
+    viewEndIndex = int(viewEnd * abf.sampleRate)
+
+    # show everything
+    plt.subplot(211)
+    for sweepIndex in range(abf.sweepCount):
+        abf.setSweep(sweepIndex)
+        plt.plot(abf.sweepX, abf.sweepY, color='b', lw=.5)
+    plt.axvline(uncagingTime, color='r', ls='--')
+    plt.ylabel(abf.sweepLabelY)
+    plt.xlabel(abf.sweepLabelX)
+    plt.margins(0, .1)
+    plt.grid(alpha=.5, ls='--')
+
+    # show uncaging point
+    plt.subplot(212)
+    for sweepIndex in range(abf.sweepCount):
+        abf.setSweep(sweepIndex)
+        ys = abf.sweepY[viewStartIndex:viewEndIndex]
+        xs = abf.sweepX[viewStartIndex:viewEndIndex]
+        plt.plot(xs, ys, color='b', lw=.5, alpha=.5)
+    plt.axvline(uncagingTime, color='r', ls='--')
+    plt.ylabel(abf.sweepLabelY)
+    plt.xlabel(abf.sweepLabelX)
+    plt.margins(0, .1)
+    plt.grid(alpha=.5, ls='--')

@@ -296,6 +296,14 @@ def analyze_0804(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.stimulation.bpAP(abf, fig)
 
 
+def analyze_0807(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
+    pyABFauto.analyses.stimulation.uncaging(abf, fig)
+
+
+def analyze_0913(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
+    pyABFauto.analyses.jeff.tau(abf, fig)
+
+
 def analyze_Signal(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):  # SS spike fidelity
     if abf.sweepUnitsY == "pA":
         pyABFauto.analyses.stimulation.optoResponse(
@@ -307,7 +315,3 @@ def analyze_Signal(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):  # SS spike fi
 
 def analyze_xxxx(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.stimulation.optoResponse(abf, fig, optoEpochNumber=3)
-
-
-def analyze_0913(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
-    pyABFauto.analyses.jeff.tau(abf, fig)
