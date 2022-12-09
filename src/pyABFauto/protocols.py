@@ -17,6 +17,7 @@ import pyABFauto.analyses.timeCourse
 import pyABFauto.analyses.jeff
 import pyABFauto.analyses.unknown
 import pyABFauto.analyses.amy
+import pyABFauto.analyses.freq
 
 
 def warnIfBadUnits(abf: pyabf.ABF):
@@ -315,3 +316,7 @@ def analyze_Signal(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):  # SS spike fi
 
 def analyze_xxxx(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.stimulation.optoResponse(abf, fig, optoEpochNumber=3)
+
+
+def analyze_EEG_2_Channel_Protocol(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
+    pyABFauto.analyses.freq.plotSpectrogramAndPowerOverTime(abf, fig)
