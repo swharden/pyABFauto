@@ -68,6 +68,11 @@ def analyze_0119(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     warnIfBadUnits(abf)
 
 
+def analyze_0119b(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
+    pyABFauto.analyses.apGain.singleStep(abf, fig, 3.15631, 7.15631)
+    warnIfBadUnits(abf)
+
+
 def analyze_0123(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.apShape.adp(abf, fig)
     warnIfBadUnits(abf)
