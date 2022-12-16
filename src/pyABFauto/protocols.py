@@ -18,6 +18,7 @@ import pyABFauto.analyses.jeff
 import pyABFauto.analyses.unknown
 import pyABFauto.analyses.amy
 import pyABFauto.analyses.freq
+import pyABFauto.analyses.todd
 
 
 def warnIfBadUnits(abf: pyabf.ABF):
@@ -308,6 +309,10 @@ def analyze_0807(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
 
 def analyze_0913(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.jeff.tau(abf, fig)
+
+
+def analyze_0915(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
+    pyABFauto.analyses.todd.vc_ican(abf, fig)
 
 
 def analyze_Signal(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):  # SS spike fidelity
