@@ -84,3 +84,4 @@ def analyzeAbf(abfPath):
             pyABFauto.analyses.unknown.stacked(abf, fig)
     fig.save()
     fig.close()
+    plt.close('all')
