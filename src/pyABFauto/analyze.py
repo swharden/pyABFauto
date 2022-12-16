@@ -24,6 +24,12 @@ import pyABFauto.logging
 import pyABFauto.analyses.unknown
 
 
+class TerminalColors:
+    YELLOW = '\u001b[33m'
+    MAGENTA = '\u001b[35m'
+    WHITE = '\u001b[0m'
+
+
 def analyzeFolder(folderPath):
     print("analyzing folder:", folderPath)
     for abfPath in glob.glob(folderPath+"/*.abf"):
@@ -71,13 +77,17 @@ def analyzeAbf(abfPath):
         try:
             analaysisFunction(abf, fig)
         except Exception as e:
+            print(TerminalColors.MAGENTA)
             print("EXCEPTION!!!")
             print(e)
             traceback.print_exc()
+            print(TerminalColors.WHITE)
             pyABFauto.analyses.unknown.crash(abf, fig)
     else:
-        print(
-            f"WARNING: unknown protocol ({abf.protocol}) needs function ({protocolFunctionName})")
+        print(TerminalColors.MAGENTA)
+        print(f"WARNING: unknown protocol ({abf.protocol}) " + 
+            f"does not have function ({protocolFunctionName})")
+        print(TerminalColors.WHITE)
         if abf.dataLengthMin > 2:
             pyABFauto.analyses.unknown.continuous(abf, fig)
         else:
