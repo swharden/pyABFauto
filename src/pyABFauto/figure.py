@@ -5,9 +5,11 @@ Customize styling here.
 
 import os
 import pyabf
+import matplotlib
 import matplotlib.pyplot as plt
 import pyABFauto
 
+matplotlib.use("Agg")
 
 class Figure:
     def __init__(self, abf):
