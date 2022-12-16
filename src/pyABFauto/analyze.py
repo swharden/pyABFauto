@@ -16,6 +16,7 @@ import random
 import shutil
 import tracemalloc
 import gc
+import psutil
 
 import pyABFauto
 import pyABFauto.protocols
@@ -28,6 +29,17 @@ class TerminalColors:
     YELLOW = '\u001b[33m'
     MAGENTA = '\u001b[35m'
     WHITE = '\u001b[0m'
+    CYAN = '\u001b[36m'
+
+
+def printYellow(message: str):
+    print(f"{TerminalColors.YELLOW}{message}{TerminalColors.WHITE}")
+
+def printMagenta(message: str):
+    print(f"{TerminalColors.MAGENTA}{message}{TerminalColors.WHITE}")
+
+def printCyan(message: str):
+    print(f"{TerminalColors.CYAN}{message}{TerminalColors.WHITE}")
 
 
 def analyzeFolder(folderPath):
@@ -42,6 +54,7 @@ def analyzeFolder(folderPath):
 
 def analyzeAbf(abfPath):
     abfPath = os.path.abspath(abfPath)
+    print()
     print("analyzing ABF:", abfPath)
     with open(abfPath, 'rb') as f:
         firstFourBytes = f.read(4)
@@ -67,27 +80,21 @@ def analyzeAbf(abfPath):
     protocolFunctionName = protocolFunctionName.replace("-", "_")
     protocolFunctionName = protocolFunctionName.replace(".", "_")
 
-    print()
     print(f"Analyzing [{abfPath}] with protocol [{protocolID}]")
 
     fig = pyABFauto.figure.Figure(abf)
     plt.title(abf.abfID+".abf")
     if hasattr(pyABFauto.protocols, protocolFunctionName):
-        analaysisFunction = getattr(pyABFauto.protocols, protocolFunctionName)
+        analysisFunction = getattr(pyABFauto.protocols, protocolFunctionName)
         try:
-            analaysisFunction(abf, fig)
+            analysisFunction(abf, fig)
         except Exception as e:
-            print(TerminalColors.MAGENTA)
-            print("EXCEPTION!!!")
-            print(e)
+            printMagenta(f"EXCEPTION!!!\n{e}\n")
             traceback.print_exc()
-            print(TerminalColors.WHITE)
             pyABFauto.analyses.unknown.crash(abf, fig)
     else:
-        print(TerminalColors.MAGENTA)
-        print(f"WARNING: unknown protocol ({abf.protocol}) " + 
-            f"does not have function ({protocolFunctionName})")
-        print(TerminalColors.WHITE)
+        printMagenta(f"WARNING: unknown protocol ({abf.protocol}) " +
+              f"does not have function ({protocolFunctionName})")
         if abf.dataLengthMin > 2:
             pyABFauto.analyses.unknown.continuous(abf, fig)
         else:
@@ -95,3 +102,8 @@ def analyzeAbf(abfPath):
     fig.save()
     fig.close()
     plt.close('all')
+    gc.collect()
+    del(abf.sweepY)
+    del(abf.sweepX)
+    del(abf)
+    printCyan(f"MEMORY: {psutil.Process().memory_info().rss / 1e6} MB")
