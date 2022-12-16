@@ -311,6 +311,10 @@ def analyze_0913(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.jeff.tau(abf, fig)
 
 
+def analyze_0914(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
+    pyABFauto.analyses.todd.vc_ican(abf, fig)
+
+
 def analyze_0915(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.todd.vc_ican(abf, fig)
 
