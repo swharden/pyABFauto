@@ -35,8 +35,10 @@ class TerminalColors:
 def printYellow(message: str):
     print(f"{TerminalColors.YELLOW}{message}{TerminalColors.WHITE}")
 
+
 def printMagenta(message: str):
     print(f"{TerminalColors.MAGENTA}{message}{TerminalColors.WHITE}")
+
 
 def printCyan(message: str):
     print(f"{TerminalColors.CYAN}{message}{TerminalColors.WHITE}")
@@ -94,7 +96,7 @@ def analyzeAbf(abfPath):
             pyABFauto.analyses.unknown.crash(abf, fig)
     else:
         printMagenta(f"WARNING: unknown protocol ({abf.protocol}) " +
-              f"does not have function ({protocolFunctionName})")
+                     f"does not have function ({protocolFunctionName})")
         if abf.dataLengthMin > 2:
             pyABFauto.analyses.unknown.continuous(abf, fig)
         else:
