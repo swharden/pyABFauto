@@ -11,16 +11,27 @@ import pyABFauto
 
 matplotlib.use("Agg")
 
+
 class Figure:
     def __init__(self, abf):
         assert isinstance(abf, pyabf.ABF)
         self.abf = abf
         self._setup()
 
-    def sweepColor(self,  colormap="Dark2", reverse=False):
-        colormap = plt.get_cmap(colormap)
-        sweepFraction = self.abf.sweepNumber/len(self.abf.sweepList)
-        color = colormap(1 - sweepFraction)
+    def sweepColor(self,  reverse=False):
+        #colormap = plt.get_cmap("rainbow")
+
+        # quantized colors from turbo with yellow omitted
+        # https://ai.googleblog.com/2019/08/turbo-improved-rainbow-colormap-for.html
+        colormap = matplotlib.colors.LinearSegmentedColormap.from_list(
+            name="custom",
+            colors=["#466be3", "#29bbec", "#30f199",
+                    "#edd03a", "#fb8023", "#d23104"])
+
+        sweepCount = len(self.abf.sweepList)
+        sweepCount = max(sweepCount, 2)
+        sweepFraction = self.abf.sweepNumber / (sweepCount - 1)
+        color = colormap(sweepFraction)
         return color
 
     def _setup(self):
@@ -30,11 +41,11 @@ class Figure:
         plt.ylabel(self.abf.sweepLabelY)
         plt.xlabel(self.abf.sweepLabelX)
 
-    def plotStacked(self, vertOffset=0):
+    def plotStacked(self, vertOffset=0, alpha=.5):
         for sweepNumber in self.abf.sweepList:
             self.abf.setSweep(sweepNumber)
             plt.plot(self.abf.sweepX, self.abf.sweepY + vertOffset * sweepNumber,
-                     color=self.sweepColor(), alpha=.5)
+                     color=self.sweepColor(), alpha=alpha)
         plt.margins(0, .05)
         self.labelAxes()
 

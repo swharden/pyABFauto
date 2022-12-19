@@ -38,8 +38,8 @@ def doubleStep(abf, fig, timeStartA, timeEndA, timeStartB, timeEndB):
     ax1 = plt.subplot(221)
     plt.title("All Sweeps (%d)" % abf.sweepCount)
     fig.plotStacked()
-    plt.axvspan(timeStartA, timeEndA, alpha=.2, color='r', lw=0)
-    plt.axvspan(timeStartB, timeEndB, alpha=.2, color='b', lw=0)
+    plt.axvspan(timeStartA, timeEndA, alpha=.1, color='r', lw=0)
+    plt.axvspan(timeStartB, timeEndB, alpha=.1, color='b', lw=0)
 
     ax2 = plt.subplot(222)
     fig.grid()
@@ -53,13 +53,21 @@ def doubleStep(abf, fig, timeStartA, timeEndA, timeStartB, timeEndB):
     plt.xlabel(abf.sweepLabelC)
 
     ax1 = plt.subplot(223)
-    plt.title("From Rest Potential")
-    fig.plotStacked(100)
+    plt.title("From Rest")
+    fig.plotStacked(100, alpha=1)
+    plt.ylabel("Stacked Sweeps")
+    plt.yticks([], None)
+    plt.axvline(timeStartA, alpha=.2, color='k', ls='--')
+    plt.axvline(timeEndA, alpha=.2, color='k', ls='--')
     plt.axis([timeStartA-.1, timeEndA+.1, None, None])
 
     ax1 = plt.subplot(224)
     plt.title("From Hyperpolarization")
-    fig.plotStacked(100)
+    fig.plotStacked(100, alpha=1)
+    plt.ylabel("Stacked Sweeps")
+    plt.yticks([], None)
+    plt.axvline(timeStartB, alpha=.2, color='k', ls='--')
+    plt.axvline(timeEndB, alpha=.2, color='k', ls='--')
     plt.axis([timeStartB-.1, timeEndB+.1, None, None])
 
 

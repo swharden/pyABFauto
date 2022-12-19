@@ -43,14 +43,14 @@ def step(abf, fig, timeSteadyStart, timeSteadyEnd, timeTailStart, timeTailEnd):
 
     ax1 = plt.subplot(subplotNumberA)
     plt.title("All Sweeps (%d)" % abf.sweepCount)
-    fig.plotStacked()
+    fig.plotStacked(alpha=1)
     plt.axvspan(timeSteadyStart, timeSteadyEnd,
-                alpha=.2, color='r', lw=0,
+                alpha=.1, color='r', lw=0,
                 label="steady")
     plt.axvspan(timeTailStart, timeTailEnd,
-                alpha=.2, color='b', lw=0,
+                alpha=.1, color='b', lw=0,
                 label="tail")
-    plt.legend(loc="upper left", fontsize=10)
+    #plt.legend(loc="upper left", fontsize=10)
 
     ax2 = plt.subplot(subplotNumberB)
     fig.grid()
@@ -65,13 +65,13 @@ def step(abf, fig, timeSteadyStart, timeSteadyEnd, timeTailStart, timeTailEnd):
         return
 
     ax1 = plt.subplot(223)
-    plt.title("Region of Interest")
-    fig.plotStacked()
-    plt.axvspan(timeSteadyStart, timeSteadyEnd, alpha=.2,
+    plt.title("Steady and Tail Currents")
+    fig.plotStacked(alpha=1)
+    plt.axvspan(timeSteadyStart, timeSteadyEnd, alpha=.1,
                 color='r', lw=0, label="steady")
-    plt.axvspan(timeTailStart, timeTailEnd, alpha=.2,
+    plt.axvspan(timeTailStart, timeTailEnd, alpha=.1,
                 color='b', lw=0, label="tail")
-    plt.legend(loc="upper left", fontsize=10)
+    #plt.legend(loc="upper left", fontsize=10)
     plt.axis([timeSteadyStart - .05, timeTailEnd + .05, None, None])
 
     ax2 = plt.subplot(224)
