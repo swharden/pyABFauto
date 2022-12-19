@@ -92,7 +92,8 @@ def singleStep(abf, fig, timeStartA, timeEndA):
     ax1 = plt.subplot(221)
     plt.title("All Sweeps (%d)" % abf.sweepCount)
     fig.plotStacked()
-    plt.axvspan(timeStartA, timeEndA, alpha=.2, color='r', lw=0)
+    plt.axvline(timeStartA, alpha=.2, color='k', ls='--')
+    plt.axvline(timeEndA, alpha=.2, color='k', ls='--')
 
     ax2 = plt.subplot(222)
     fig.grid()
@@ -103,8 +104,9 @@ def singleStep(abf, fig, timeStartA, timeEndA):
     plt.xlabel(abf.sweepLabelC)
 
     ax1 = plt.subplot(223)
-    plt.title("From Rest Potential")
-    fig.plotStacked(100)
+    fig.plotStacked(100, alpha=1)
+    plt.ylabel("Stacked Sweeps")
+    plt.yticks([], None)
     plt.axis([timeStartA-.1, timeEndA+.1, None, None])
 
     ax1 = plt.subplot(224)
