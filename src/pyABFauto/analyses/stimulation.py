@@ -61,7 +61,7 @@ def figureTestOptoResponse(abf, fig, optoEpochNumber=3):
     plt.ylabel(abf.sweepLabelY)
     plt.xlabel(abf.sweepLabelX)
     plt.margins(0, .1)
-    plt.axvspan(optoTimeOn, optoTimeOff, alpha=.5, color='y', edgecolor='y')
+    plt.axvspan(optoTimeOn, optoTimeOff, alpha=.5, color='y')
 
     plt.subplot(212)
 
@@ -85,7 +85,7 @@ def figureTestOptoResponse(abf, fig, optoEpochNumber=3):
     plt.ylabel(abf.sweepLabelY)
     plt.xlabel(abf.sweepLabelX)
     plt.margins(0, .1)
-    plt.axvspan(optoTimeOn, optoTimeOff, alpha=.5, color='y', edgecolor='y')
+    plt.axvspan(optoTimeOn, optoTimeOff, alpha=.5, color='y')
 
 
 def figureShowOptoResponseOverTime(abf, fig, optoEpochNumber=3):
