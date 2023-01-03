@@ -80,6 +80,7 @@ def analyzeAbf(abfPath):
         "03 0112": "0112",
         "04 0502": "0502",
         "05 0501": "0501",
+        "05 0502": "0502",
     }
 
     for search, replace in protocolAliases.items():
