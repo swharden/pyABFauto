@@ -69,15 +69,24 @@ def analyzeAbf(abfPath):
         return
 
     abf = pyabf.ABF(abfPath)
-    protocolID = abf.protocol.split(" ")[0]
+    protocolID = abf.protocol
 
     # manual replacements here for improperly named protocols
-    if "SpritzProtocol" in protocolID:
-        protocolID = "0913"
+    protocolAliases = {
+        "SpritzProtocol": "0913",
+        "Persistent": "0313",
+        "01 0201": "0201",
+        "02 0203": "0203",
+        "03 0112": "0112",
+        "04 0502": "0502",
+        "05 0501": "0501",
+    }
 
-    if protocolID == "Persistent":
-        protocolID = "0313"
+    for search, replace in protocolAliases.items():
+        if search in protocolID:
+            protocolID = protocolID.replace(search, replace)
 
+    protocolID = protocolID.split(" ")[0]
     protocolFunctionName = "analyze_%s" % (protocolID)
     protocolFunctionName = protocolFunctionName.replace("-", "_")
     protocolFunctionName = protocolFunctionName.replace(".", "_")
