@@ -10,6 +10,7 @@ import time
 import sys
 import os
 import imaging
+import locate
 
 # automatically exit after a fixed amount of time
 START_TIME = time.time()
@@ -23,6 +24,7 @@ if True:
 
 
 def watchForever(delaySec=5):
+    CHECK_COUNT = 0
     tracemalloc.start()
     while True:
 
@@ -34,6 +36,10 @@ def watchForever(delaySec=5):
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         watcher = pyABFauto.commandFileWatcher()
         actionTaken = False
+
+        # add recently modified folders to auto-analysis file every minute
+        if (CHECK_COUNT % 6 == 0):
+            locate.addRecentFoldersToAnalysisFile()
 
         # convert new TIFs
         tifPaths = watcher.getTifsNeedingAnalysis()
@@ -75,6 +81,7 @@ def watchForever(delaySec=5):
             print(f"memory: {memory} MB")
 
         # wait and repeat
+        CHECK_COUNT += 1
         time.sleep(delaySec)
 
 
