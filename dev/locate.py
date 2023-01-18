@@ -1,3 +1,4 @@
+import pathlib
 import urllib.request
 
 
@@ -14,9 +15,14 @@ def getRecentFolders(daysBack: int = 1) -> list[str]:
 
 
 def addFoldersToAnalysisFile(folders: list[str]):
-    analysisFilePath = R"X:\Lab Documents\network\autoAnalysisFolders.txt"
-    with open(analysisFilePath) as f:
-        analysisFileText = f.read()
+    analysisFilePath = pathlib.Path(
+        R"X:\Lab Documents\network\autoAnalysisFolders.txt")
+    if analysisFilePath.exists():
+        with open(analysisFilePath) as f:
+            analysisFileText = f.read()
+    else:
+        analysisFileText = ""
+
     for folder in folders:
         if folder in analysisFileText:
             continue
