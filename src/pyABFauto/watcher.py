@@ -56,8 +56,6 @@ class commandFileWatcher:
                 line = os.path.abspath(line)
                 if not line in folders:
                     folders.append(line)
-            else:
-                print("  ERROR: folder does not exist:", line)
 
         return folders
 
