@@ -3,6 +3,7 @@ import sys
 import glob
 import pyabf
 import shutil
+import pathlib
 
 REPO_FOLDER = os.path.dirname(os.path.dirname(__file__))
 assert os.path.exists(REPO_FOLDER + "/src/pyABFauto")
@@ -37,6 +38,10 @@ def deleteStatsFiles(abfFolder):
     for statsFilePath in glob.glob(abfFolder+"/*.sta"):
         print("deleting stats file:", statsFilePath)
         os.remove(statsFilePath)
+
+
+def recursivelyFindAbfs(folder):
+    return pathlib.Path("X:/Data/Alchem/IN-VIVO").glob("**/*.abf")
 
 
 if __name__ == "__main__":
