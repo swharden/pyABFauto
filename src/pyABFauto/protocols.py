@@ -106,6 +106,11 @@ def analyze_0131(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     warnIfBadUnits(abf)
 
 
+def analyze_0143(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
+    pyABFauto.analyses.apGain.singleStep(abf, fig, 1.06, 2.06)
+    warnIfBadUnits(abf)
+
+
 def analyze_3(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):  # 3 SHIV3
     pyABFauto.analyses.apGain.singleStep(abf, fig, 1.07, 1.07+1)
 
