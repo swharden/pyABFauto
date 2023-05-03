@@ -243,6 +243,10 @@ def analyze_0509(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.stimulation.optoResponse(abf, fig, optoEpochNumber=2)
 
 
+def analyze_0510(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
+    pyABFauto.analyses.stimulation.shadeEpochs(abf, fig, epochs=[2, 5])
+
+
 def analyze_0512(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.stimulation.optoResponse(abf, fig, optoEpochNumber=3)
 

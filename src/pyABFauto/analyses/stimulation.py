@@ -88,6 +88,18 @@ def figureTestOptoResponse(abf, fig, optoEpochNumber=3):
     plt.axvspan(optoTimeOn, optoTimeOff, alpha=.5, color='y')
 
 
+def shadeEpochs(abf: pyabf.ABF, fig: pyABFauto.figure.Figure, epochs: list[int], color: str = 'y'):
+    plt.plot(abf.sweepX, abf.sweepY, color='b')
+    for epoch in epochs:
+        t1 = abf.sweepEpochs.p1s[epoch] * abf.dataSecPerPoint
+        t2 = abf.sweepEpochs.p2s[epoch] * abf.dataSecPerPoint
+        plt.axvspan(t1, t2, alpha=.5, color=color)
+    plt.grid(alpha=.5, ls='--')
+    plt.ylabel(abf.sweepLabelY)
+    plt.xlabel(abf.sweepLabelX)
+    plt.margins(0, .1)
+
+
 def figureShowOptoResponseOverTime(abf, fig, optoEpochNumber=3):
     assert isinstance(abf, pyabf.ABF)
     assert isinstance(fig, pyABFauto.figure.Figure)
