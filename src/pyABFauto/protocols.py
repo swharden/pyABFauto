@@ -26,11 +26,6 @@ def warnIfBadUnits(abf: pyabf.ABF):
         pyABFauto.analyses.unknown.badunits()
 
 
-def analyze_0111(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
-    pyABFauto.analyses.apShape.firstAP(abf, fig)
-    warnIfBadUnits(abf)
-
-
 def analyze_1_(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):  # SS VC memtest
     pyABFauto.analyses.apShape.firstAP(abf, fig)
 
@@ -41,6 +36,11 @@ def analyze_5(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):  # 5 ramp gain
 
 def analyze_0110(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.apGain.restPotential(abf, fig)
+    warnIfBadUnits(abf)
+
+
+def analyze_0111(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
+    pyABFauto.analyses.apShape.firstAP(abf, fig)
     warnIfBadUnits(abf)
 
 
