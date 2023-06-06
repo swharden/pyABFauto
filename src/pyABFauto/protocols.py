@@ -131,6 +131,10 @@ def analyze_0206(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.iv.step(abf, fig, 1.5, 2.0, 2.08, 2.18)
 
 
+def analyze_0210(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
+    pyABFauto.analyses.memtest.figureOverTime(abf, fig)
+
+
 def analyze_2_(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.iv.step(abf, fig, .8, .8 + .25, 2.566, 2.7)
 
