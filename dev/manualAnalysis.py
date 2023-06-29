@@ -50,9 +50,6 @@ if __name__ == "__main__":
         R"X:/Data/zProjects/Aging and Cholinergics/experiments/10 uM CCh (bath app)/2022-05-04-DIC2/",
     ]:
         if os.path.isdir(analyzeThis):
-            # deleteStatsFiles(analyzeThis)
-            # lowercaseTifs(analyzeThis)
-            # addFakeParentImages(analyzeThis)
             pyABFauto.analyzeFolder(analyzeThis)
         else:
             pyABFauto.analyzeAbf(analyzeThis)

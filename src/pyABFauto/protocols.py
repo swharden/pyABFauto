@@ -353,7 +353,7 @@ def analyze_0916(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
 
 
 def analyze_0918(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
-    pyABFauto.analyses.todd.vc_ican(abf, fig)
+    pyABFauto.analyses.todd.vc_ican_dt(abf, fig)
 
 
 def analyze_Signal(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):  # SS spike fidelity
