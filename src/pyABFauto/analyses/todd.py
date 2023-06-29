@@ -41,24 +41,35 @@ def vc_ican_dt(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     stim_times = np.arange(abf.sweepCount) * 50
     iadp_by_sweep = [None] * abf.sweepCount
 
-    plt.subplot(121)
     for i in range(abf.sweepCount):
         abf.setSweep(i)
         ys = abf.sweepY[index1:index2]
         baseline = np.mean(ys[-int(len(ys)/5):])
         ys = ys - baseline
         iadp_by_sweep[i] = -np.mean(ys[:int(abf.sampleRate*3)])
+        
+        plt.subplot(211)
+        plt.plot(abf.sweepX, abf.sweepY, color=colors[i], label=f"sweep {i+1}")
+        
+        plt.subplot(223)
         plt.plot(xs, ys, color=colors[i], label=f"sweep {i+1}")
 
+
+    plt.subplot(211)
+    plt.ylabel(abf.sweepLabelY)
+    plt.xlabel(abf.sweepLabelX)
+    plt.grid(alpha=.5, ls='--')
+
+    plt.subplot(223)
     plt.ylabel("$I_{ADP} (pA)$")
     plt.xlabel(abf.sweepLabelX)
     plt.grid(alpha=.5, ls='--')
 
-    plt.subplot(122)
+    plt.subplot(224)
     plt.ylabel("$I_{ADP} (pA)$")
     plt.xlabel("Stimulation Time (msec)")
 
     plt.plot(stim_times, iadp_by_sweep, '--', color='k')
     for i in range(abf.sweepCount):
-        plt.plot(stim_times[i], iadp_by_sweep[i], "o", color=colors[i], ms=15)
+        plt.plot(stim_times[i], iadp_by_sweep[i], "o", color=colors[i], ms=10)
     plt.grid(alpha=.5, ls='--')
