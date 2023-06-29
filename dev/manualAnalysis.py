@@ -40,18 +40,16 @@ def deleteStatsFiles(abfFolder):
         os.remove(statsFilePath)
 
 
-def recursivelyFindAbfs(folder):
-    return pathlib.Path("X:/Data/Alchem/IN-VIVO").glob("**/*.abf")
+def recursivelyFindAndAnalyze(folder, protocol=None):
+    abfPaths = [x for x in pathlib.Path(folder).glob("**/*.abf")]
+    for i, abfPath in enumerate(abfPaths):
+        abf = pyabf.ABF(abfPath, loadData=False)
+        print(f"{i+1} of {len(abfPaths)}: {abf.abfID} {abf.protocol}")
+        if abf.protocol.startswith(protocol):
+            pyABFauto.analyzeAbf(abfPath)
 
 
 if __name__ == "__main__":
-
-    for analyzeThis in [
-        R"X:/Data/zProjects/Aging and Cholinergics/experiments/10 uM CCh (bath app)/2022-05-04-DIC2/",
-    ]:
-        if os.path.isdir(analyzeThis):
-            pyABFauto.analyzeFolder(analyzeThis)
-        else:
-            pyABFauto.analyzeAbf(analyzeThis)
-
+    recursivelyFindAndAnalyze(
+        "X:/Data/zProjects/CCh in rat pups/experiments", "0918")
     print("DONE")
