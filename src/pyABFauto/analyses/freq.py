@@ -33,7 +33,6 @@ def plotSpectrogram(spectrogramData: np.ndarray, times: np.ndarray, freqs: np.nd
     vmax = np.percentile(spectrogramData, 95)
     plt.imshow(spectrogramData, cmap='viridis', aspect='auto', interpolation='nearest',
                origin='lower', extent=[0, times[-1] / 60, 0, freqs[-1]], vmax=vmax)
-    plt.ylabel("Frequency (Hz)")
 
 
 def plotSpectralPowerOverTime(spectrogramData: np.ndarray, times: np.ndarray):
@@ -51,19 +50,59 @@ def addCommentTimes(abf: pyabf.ABF):
                     color='w', alpha=.5, linestyle='--')
 
 
+def plotStevOverTime(abf: pyabf.ABF, channel: int):
+    # calculate binned standard deviation
+    signal1 = abf.getAllYs(channel)
+    binSizeSec = 30
+    binCount = int(len(signal1) / abf.sampleRate / binSizeSec)
+    binStarts = np.arange(binCount) * binSizeSec / 60
+    stdevs1 = np.zeros(binCount)
+    for i in range(binCount):
+        i1 = int(binSizeSec * abf.sampleRate * i)
+        i2 = i1 + int(binSizeSec * abf.sampleRate)
+        stdevs1[i] = np.std(signal1[i1:i2])
+
+    # normalize to first 5 minutes
+    baseline = np.percentile(stdevs1[:10], 50)
+    stdevs1 = stdevs1 / baseline * 100
+
+    plt.axhline(100, color='k', ls='--')
+    plt.grid(alpha=.5, ls='--')
+    plt.plot(binStarts, stdevs1, '.-', color='C0')
+    plt.ylabel("Standard Deviation (%)")
+    plt.xlabel("Time (minutes)")
+    addCommentTimes(abf)
+    ymax = max(stdevs1) * 1.2
+    ymax = min(ymax, 1_000)
+    plt.axis([None, None, 0, ymax])
+
+
 def plotSpectrogramAndPowerOverTime(abf: pyabf.ABF, ax: matplotlib.axes.Axes):
 
-    (dataEEG, times, freqs) = getSpectrogram(abf, 0)
-    (dataBreath, times, freqs) = getSpectrogram(abf, 1)
+    # calculate spectrogram
+    (spectrogram1, times, freqs) = getSpectrogram(abf, 0)
+    (spectrogram2, times, freqs) = getSpectrogram(abf, 1)
 
-    ax1 = plt.subplot(211)
-    plt.title(f"EEG")
-    plotSpectrogram(dataEEG, times, freqs)
+    # top left
+    ax1 = plt.subplot(221)
+    plt.title(f"Channel 1")
+    plt.ylabel("Frequency (Hz)")
+    plotSpectrogram(spectrogram1, times, freqs)
     addCommentTimes(abf)
 
-    ax2 = plt.subplot(212, sharex=ax1)
-    plt.title(f"Breathing")
-    plotSpectrogram(dataBreath, times, freqs)
+    # top right
+    ax2 = plt.subplot(222, sharex=ax1)
+    plt.title(f"Channel 2")
+    plt.ylabel("Frequency (Hz)")
+    plotSpectrogram(spectrogram2, times, freqs)
     addCommentTimes(abf)
+
+    # bottom left
+    plt.subplot(223, sharex=ax1)
+    plotStevOverTime(abf, 0)
+
+    # bottom right
+    plt.subplot(224, sharex=ax2)
+    plotStevOverTime(abf, 1)
 
     plt.tight_layout()
