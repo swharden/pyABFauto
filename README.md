@@ -5,7 +5,7 @@ pyABFauto's _watcher_ module repeatedly scans analysis folders and automatically
 
 When pyABFauto is combined with a dynamic web interface (such as [FlaskABF](https://github.com/swharden/FlaskABF)) and made accessible to the experimenter, the scientist can rapidly assess neuron properties and the outcome of experiments in real time.
 
-### Example Use Cases
+## Usage
 
 Uses are highly customized to the individual and experiment. Common analyses are available in [pyABFauto/analyses](src/pyABFauto/analyses) and are called by [protocols.py](src/pyABFauto/protocols.py) depending on information found in the ABF header (such as clamp-mode, experiment length, and whether or nor tag comments are present).
 
@@ -18,8 +18,26 @@ Voltage-clamp steps reveal current/voltage relationships and voltage-dependent t
 Evoked currents can be monitored over time | ![](dev/data/swhlab/19722020_autoanalysis.png)
 
 
-### Project status: alpha
+## Project Status
 
 This project is currently under development and is not intended to be used by the public. It is made public for reference and as an example application using the latest versions of [pyABF](https://github.com/swharden/pyABF).
 
 An earlier version of byABFauto can be found [here](/dev/pyABFauto-v1).
+
+## Development Environment
+
+```
+python -m venv env
+```
+
+```
+env\Scripts\activate
+```
+
+```
+python.exe -m pip install --upgrade pip
+```
+
+```
+pip install -r requirements.txt
+```
