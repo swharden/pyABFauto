@@ -297,13 +297,7 @@ def analyze_0601(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
 
 
 def analyze_0602(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
-    pyABFauto.analyses.stimulation.figureTestElectricalResponseVC(
-        abf, fig, stimEpochNumber=3)
-
-
-def analyze_0602(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
-    pyABFauto.analyses.stimulation.figureTestElectricalResponseVC(
-        abf, fig, stimEpochNumber=3)
+    pyABFauto.analyses.stimulation.figurePPR(abf, fig, stimEpochNumber=3)
 
 
 def analyze_0606(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
@@ -361,7 +355,7 @@ def analyze_Signal(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):  # SS spike fi
         pyABFauto.analyses.stimulation.optoResponse(
             abf, fig, optoEpochNumber=4)
     else:
-        #pyABFauto.analyses.stimulation.figureTestElectricalResponseVC(abf, fig, stimEpochNumber=4)
+        # pyABFauto.analyses.stimulation.figureTestElectricalResponseVC(abf, fig, stimEpochNumber=4)
         pyABFauto.analyses.timeCourse.apFreqOverTime(abf, fig)
 
 

@@ -488,3 +488,94 @@ def uncaging(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     plt.xlabel(abf.sweepLabelX)
     plt.margins(0, .1)
     plt.grid(alpha=.5, ls='--')
+
+
+def getAverageOfSweeps(abf: pyabf.abf, baseline: list[int], sweeps: list[int], i1: int, i2: int):
+    sweep_count = len(sweeps)
+    point_count = i2 - i1
+    data = np.empty((sweep_count, point_count))
+    for i, sweep in enumerate(sweeps):
+        abf.setSweep(sweep, baseline=baseline)
+        data[i, :] = abf.sweepY[i1:i2]
+    mean = np.mean(data, axis=0)
+    return mean
+
+
+def figurePPR(abf: pyabf.ABF, fig: pyABFauto.figure.Figure, stimEpochNumber=3):
+
+    mt = pyabf.tools.memtest.Memtest(abf)
+
+    optoPointOn = abf.sweepEpochs.p1s[stimEpochNumber]
+    optoPointOff = abf.sweepEpochs.p2s[stimEpochNumber]
+
+    optoTimeOn = optoPointOn * abf.dataSecPerPoint
+    optoTimeOff = optoPointOff * abf.dataSecPerPoint
+
+    displayPoint1 = int(optoPointOn - 0.03 * abf.dataRate)
+    displayPoint2 = displayPoint1 + int(.15 * abf.dataRate)
+
+    baseline = [optoTimeOn - .02, optoTimeOn - .01]
+
+    measureOffset1 = .003
+    measureOffset2 = .015
+    measure = [optoTimeOff + measureOffset1, optoTimeOff + measureOffset2]
+    measureI1 = int(measure[0] * abf.dataRate)
+    measureI2 = int(measure[1] * abf.dataRate)
+
+    sweepTimesSec = np.arange(abf.sweepCount) * abf.sweepIntervalSec
+    sweepTimesMin = sweepTimesSec / 60
+
+    pyabf.filter.gaussian(abf, .25)
+    plt.subplot(221)
+
+    average_sweep_count = 15
+    baseline_sweeps = range(average_sweep_count)
+    drug_sweeps = range(abf.sweepCount - 1 - average_sweep_count,
+                        abf.sweepCount - average_sweep_count)
+
+    segment_xs = abf.sweepX[displayPoint1:displayPoint2]
+
+    baseline_ys = getAverageOfSweeps(abf, baseline, baseline_sweeps,
+                                     displayPoint1, displayPoint2)
+
+    drug_ys = getAverageOfSweeps(abf, baseline, drug_sweeps,
+                                 displayPoint1, displayPoint2)
+
+    plt.plot(segment_xs, baseline_ys, label="baseline")
+    plt.plot(segment_xs, drug_ys, label="drug")
+    plt.legend()
+    plt.axhline(0, color='k', ls='--')
+    fig.grid()
+
+    plt.subplot(222)
+    means = np.full(abf.sweepCount, np.nan)
+    for sweepNumber in abf.sweepList:
+        abf.setSweep(sweepNumber, baseline=baseline)
+        means[sweepNumber] = np.mean(abf.sweepY[measureI1:measureI2])
+    plt.plot(sweepTimesMin, means, '.-')
+    fig.addTagLines(minutes=True)
+    fig.grid()
+    plt.title("First Pulse")
+    plt.axhline(0, color='k', ls='--')
+    plt.ylabel("Mean Current (pA)")
+    plt.xlabel("Time (minutes)")
+    plt.margins(.1, .3)
+
+    plt.subplot(223)
+    fig.grid()
+    plt.title(mt.Ih.name)
+    plt.ylabel("MΩ")
+    plt.xlabel("Time (minutes)")
+    plt.plot(sweepTimesMin, mt.Ih.values, '.-')
+    plt.margins(.1, .3)
+    fig.addTagLines(minutes=True)
+
+    plt.subplot(224)
+    fig.grid()
+    plt.title(mt.Ra.name)
+    plt.ylabel(mt.Ra.units)
+    plt.xlabel("Time (minutes)")
+    plt.plot(sweepTimesMin, mt.Ra.values, '.-')
+    fig.addTagLines(minutes=True)
+    plt.margins(.1, .3)
+    plt.axis([None, None, 0, None])
