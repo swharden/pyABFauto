@@ -2,7 +2,7 @@
 :: not have internet access and can't pull the latest code using git
 
 rmdir X:\Software\pyABFauto /Q /S
-robocopy ..\..\pyABFauto X:\Software\pyABFauto /E /NJH /NFL /NDL
+robocopy ..\..\pyABFauto X:\Software\pyABFauto /E /NJH /NFL /NDL /XD env
 rmdir X:\Software\pyABFauto\src\pyABFauto\__pycache__ /Q /S
 rmdir X:\Software\pyABFauto\src\pyABFauto\analyses\__pycache__ /Q /S
 pause
