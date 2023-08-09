@@ -525,10 +525,15 @@ def figurePPR(abf: pyabf.ABF, fig: pyABFauto.figure.Figure, stimEpochNumber=3):
     sweepTimesSec = np.arange(abf.sweepCount) * abf.sweepIntervalSec
     sweepTimesMin = sweepTimesSec / 60
 
+    p1_i1 = int(abf.sweepEpochs.p1s[3] + .005 * abf.dataRate)
+    p1_i2 = int(abf.sweepEpochs.p1s[3] + .035 * abf.dataRate)
+    p2_i1 = int(abf.sweepEpochs.p1s[5] + .005 * abf.dataRate)
+    p2_i2 = int(abf.sweepEpochs.p1s[5] + .035 * abf.dataRate)
+
     pyabf.filter.gaussian(abf, .25)
     plt.subplot(221)
 
-    average_sweep_count = 15
+    average_sweep_count = abf.sweepCount // 5
     baseline_sweeps = range(average_sweep_count)
     drug_sweeps = range(abf.sweepCount - 1 - average_sweep_count,
                         abf.sweepCount - average_sweep_count)
@@ -541,21 +546,39 @@ def figurePPR(abf: pyabf.ABF, fig: pyABFauto.figure.Figure, stimEpochNumber=3):
     drug_ys = getAverageOfSweeps(abf, baseline, drug_sweeps,
                                  displayPoint1, displayPoint2)
 
-    plt.plot(segment_xs, baseline_ys, label="baseline")
-    plt.plot(segment_xs, drug_ys, label="drug")
-    plt.legend()
+    for epoch in [3, 5]:
+        blank1 = abf.sweepEpochs.p1s[epoch] - displayPoint1 - 10
+        blank2 = blank1 + 40
+        baseline_ys[blank1:blank2] = np.NaN
+        drug_ys[blank1:blank2] = np.NaN
+
+    plt.plot(segment_xs, baseline_ys,
+             label=f"baseline (n={average_sweep_count})")
+    plt.plot(segment_xs, drug_ys,
+             label=f"drug (n={average_sweep_count})")
+    plt.legend(fontsize=8)
     plt.axhline(0, color='k', ls='--')
     fig.grid()
 
     plt.subplot(222)
-    means = np.full(abf.sweepCount, np.nan)
+
+    means1 = np.full(abf.sweepCount, np.nan)
+    means2 = np.full(abf.sweepCount, np.nan)
+
     for sweepNumber in abf.sweepList:
         abf.setSweep(sweepNumber, baseline=baseline)
-        means[sweepNumber] = np.mean(abf.sweepY[measureI1:measureI2])
-    plt.plot(sweepTimesMin, means, '.-')
+        means1[sweepNumber] = np.mean(abf.sweepY[p1_i1:p1_i2])
+        means2[sweepNumber] = np.mean(abf.sweepY[p2_i1:p2_i2])
+
+    plt.scatter(sweepTimesMin, means1, s=40,
+                facecolors='k', edgecolors='k', label="pulse 1")
+    plt.scatter(sweepTimesMin, means2, s=40,
+                facecolors='w', edgecolors='k', label="pulse 2")
+
+    plt.legend(fontsize=8)
+
     fig.addTagLines(minutes=True)
     fig.grid()
-    plt.title("First Pulse")
     plt.axhline(0, color='k', ls='--')
     plt.ylabel("Mean Current (pA)")
     plt.xlabel("Time (minutes)")
