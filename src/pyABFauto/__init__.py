@@ -1,3 +1,6 @@
+import warnings
+warnings.simplefilter("ignore")
+
 import pyABFauto.analyses
 import pyABFauto.figure
 import pyABFauto.protocols
