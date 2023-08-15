@@ -80,7 +80,7 @@ def figureOverTime(abf, fig):
 
     plt.subplot(224)
     fig.grid()
-    fig.plotContinuous(startAtSec=.5, minutes=True)
+    fig.plotContinuous(startAtSec=abf.sweepLengthSec/5, minutes=True)
     fig.addTagLines(minutes=True)
 
     return
