@@ -536,7 +536,7 @@ def figurePPR(abf: pyabf.ABF, fig: pyABFauto.figure.Figure, stimEpochNumber=3):
     average_sweep_count = abf.sweepCount // 5
     baseline_sweeps = range(average_sweep_count)
     drug_sweeps = range(abf.sweepCount - 1 - average_sweep_count,
-                        abf.sweepCount - average_sweep_count)
+                        abf.sweepCount - 1)
 
     segment_xs = abf.sweepX[displayPoint1:displayPoint2]
 
