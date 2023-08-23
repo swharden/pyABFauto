@@ -534,7 +534,7 @@ def figurePPR(abf: pyabf.ABF, fig: pyABFauto.figure.Figure, stimEpochNumber=3):
     plt.subplot(221)
 
     average_sweep_count = abf.sweepCount // 5
-    baseline_sweeps = range(average_sweep_count)
+    baseline_sweeps = range(average_sweep_count, average_sweep_count*2)
     drug_sweeps = range(abf.sweepCount - 1 - average_sweep_count,
                         abf.sweepCount - 1)
 
@@ -553,9 +553,9 @@ def figurePPR(abf: pyabf.ABF, fig: pyABFauto.figure.Figure, stimEpochNumber=3):
         drug_ys[blank1:blank2] = np.NaN
 
     plt.plot(segment_xs, baseline_ys,
-             label=f"baseline (n={average_sweep_count})")
+             label=f"baseline (n={len(baseline_sweeps)})")
     plt.plot(segment_xs, drug_ys,
-             label=f"drug (n={average_sweep_count})")
+             label=f"drug (n={len(drug_sweeps)})")
     plt.legend(fontsize=8)
     plt.axhline(0, color='k', ls='--')
     fig.grid()
