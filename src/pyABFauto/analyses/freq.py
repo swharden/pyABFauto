@@ -126,7 +126,7 @@ def get_breaths_per_minute(abf: pyabf.ABF, channel=1):
     breath_times = [x[0]/60 for x in breaths]
 
     # get binned breathing rate
-    max_bin = 25
+    max_bin = int(abf.dataLengthMin)
     bin_size = .5
     bin_count = max_bin // bin_size
     bins = np.arange(bin_count + 1) * bin_size
