@@ -245,13 +245,14 @@ def get_binned_power(abf: pyabf.ABF, channel: int, freq_min: float, freq_max: fl
 def plot_binned_power(ax, abf: pyabf.ABF, channel: int, freq_min: float, freq_max: float):
     bin_times, binned_power = get_binned_power(abf, channel,
                                                freq_min, freq_max)
-    binned_power = binned_power / np.mean(binned_power[1:10])
-    ax.plot(bin_times, binned_power * 100, '.-')
+    binned_power = binned_power / np.mean(binned_power[1:10]) * 100
+    ax.plot(bin_times, binned_power, '.-')
     ax.set_title(f"EEG Activity ({freq_min}-{freq_max} Hz)")
     ax.set_ylabel("Power (%)")
     ax.set_xlabel("Time (minutes)")
     ax.axhline(100, color='k', ls='--')
     ax.grid(alpha=.5, ls='--')
+    return binned_power[:-1]
 
 
 def plot_breathing_rate(ax, abf: pyabf.ABF, channel: int):
@@ -262,13 +263,23 @@ def plot_breathing_rate(ax, abf: pyabf.ABF, channel: int):
     ax.set_title("Breathing Rate")
     ax.axis([None, None, 0, None])
     ax.grid(alpha=.5, ls='--')
+    return bpm
 
 
 def plot_eeg_power_and_breathing_rate(abf: pyabf.ABF):
     fig, axes = plt.subplots(2, 2, sharex=True, figsize=(8, 6))
     inspect_channel(axes[0][0], abf, 0)
     inspect_channel(axes[0][1], abf, 1)
-    plot_binned_power(axes[1][0], abf, 0, 20, 50)
-    plot_breathing_rate(axes[1][1], abf, 1)
+    eeg = plot_binned_power(axes[1][0], abf, 0, 20, 50)
+    bpm = plot_breathing_rate(axes[1][1], abf, 1)
+    assert len(eeg) == len(bpm)
+    csv = "time (minutes), EEG Activity 20-50 Hz (%), Respiration (bpm)\n"
+    for i in range(len(eeg)):
+        csv += f"{i*.5}, {eeg[i]}, {bpm[i]}\n"
+    csv_folder = pathlib.Path(abf.abfFilePath).parent.joinpath("_autoanalysis")
+    csv_folder.mkdir(exist_ok=True)
+    csv_file = csv_folder.joinpath(abf.abfID+".csv")
+    csv_file.write_text(csv)
+    print(f"saved: {csv_file}")
     plt.margins(0, .1)
     fig.tight_layout()
