@@ -364,4 +364,4 @@ def analyze_xxxx(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
 
 
 def analyze_EEG_2_Channel_Protocol(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
-    pyABFauto.analyses.freq.plotSpectrogramAndPowerOverTime(abf, fig)
+    pyABFauto.analyses.freq.plot_eeg_power_and_breathing_rate(abf)

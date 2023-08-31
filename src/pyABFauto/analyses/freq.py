@@ -170,3 +170,105 @@ def plotSpectrogramAndPowerOverTime(abf: pyabf.ABF, ax: matplotlib.axes.Axes):
     plt.axis([None, None, 0, None])
     plt.grid(alpha=.5, ls='--')
     plt.tight_layout()
+
+
+def inspect_channel(ax, abf: pyabf.ABF, channel: int):
+
+    # plot the trace
+    ys = abf.getAllYs(channel)
+    xs = np.arange(len(ys))/abf.sampleRate
+    ax.plot(xs/60, ys, color='k', lw=.2)
+    ax.grid(alpha=.5, ls='--')
+
+    # auto-scale to fit the majority of data
+    ax.margins(0, .1)
+    ys_baseline = ys[:abf.sampleRate*5*60]
+    ys_baseline_mean = np.mean(ys_baseline)
+    ys_baseline_max = np.percentile(ys_baseline, 55)
+    ys_baseline_min = np.percentile(ys_baseline, 45)
+    ys_baseline_range = (ys_baseline_max - ys_baseline_min) * 100
+    view_min = ys_baseline_mean - ys_baseline_range
+    view_max = ys_baseline_mean + ys_baseline_range
+    ax.axis([None, None, view_min, view_max])
+    ax.set_title(f"Channel {channel+1}")
+
+
+def _bandpass(ys, sample_rate, low, high):
+    sos = scipy.signal.butter(6, [low, high], 'bandpass',
+                              fs=sample_rate, output='sos')
+    return scipy.signal.sosfilt(sos, ys)
+
+
+def get_binned_power(abf: pyabf.ABF, channel: int, freq_min: float, freq_max: float):
+    ys = abf.getAllYs(channel)
+    sample_rate = abf.sampleRate
+
+    binsize_min = .5
+    binsize_sec = binsize_min * 60
+    binsize_points = int(binsize_sec * sample_rate)
+    bin_count = int(abf.dataLengthSec / binsize_sec)
+    bin_times = np.arange(bin_count) * binsize_min
+    bin_edges = np.arange(bin_count) * binsize_points
+    binned_power = [None] * bin_count
+
+    for i, bin_edge in enumerate(bin_edges):
+
+        # isolate a segment in time
+        i1 = bin_edge
+        i2 = bin_edge + binsize_points
+        sample = ys[i1:i2]
+
+        # apply a window
+        window = scipy.signal.windows.hann(len(sample))
+        sample = sample * window
+
+        # calculate the FFT
+        fft = scipy.fft.rfft(sample)
+        fft[0] = 0
+        fft_mag = np.abs(fft)[:-1]
+        fft_power = np.log10(1+fft_mag)
+        xf = scipy.fft.fftfreq(len(sample), 1/sample_rate)[:len(sample)//2]
+
+        # isolate the frequency range of interest
+        i1 = int(20/xf[1])  # high enough to avoid breathing
+        i2 = int(50/xf[1])  # low enough to avoid 60 cycle noise
+        xf = xf[i1:i2]
+        fft_mag = fft_mag[i1:i2]
+        fft_power = fft_power[i1:i2]
+
+        # accumulate
+        binned_power[i] = np.sum(fft_mag)
+
+    return bin_times, binned_power
+
+
+def plot_binned_power(ax, abf: pyabf.ABF, channel: int, freq_min: float, freq_max: float):
+    bin_times, binned_power = get_binned_power(abf, channel,
+                                               freq_min, freq_max)
+    binned_power = binned_power / np.mean(binned_power[1:10])
+    ax.plot(bin_times, binned_power * 100, '.-')
+    ax.set_title(f"EEG Activity ({freq_min}-{freq_max} Hz)")
+    ax.set_ylabel("Power (%)")
+    ax.set_xlabel("Time (minutes)")
+    ax.axhline(100, color='k', ls='--')
+    ax.grid(alpha=.5, ls='--')
+
+
+def plot_breathing_rate(ax, abf: pyabf.ABF, channel: int):
+    bins, bpm = get_breaths_per_minute(abf)
+    ax.plot(bins, bpm, '.-')
+    ax.set_ylabel("BPM")
+    ax.set_xlabel("Time (minutes)")
+    ax.set_title("Breathing Rate")
+    ax.axis([None, None, 0, None])
+    ax.grid(alpha=.5, ls='--')
+
+
+def plot_eeg_power_and_breathing_rate(abf: pyabf.ABF):
+    fig, axes = plt.subplots(2, 2, sharex=True, figsize=(8, 6))
+    inspect_channel(axes[0][0], abf, 0)
+    inspect_channel(axes[0][1], abf, 1)
+    plot_binned_power(axes[1][0], abf, 0, 20, 50)
+    plot_breathing_rate(axes[1][1], abf, 1)
+    plt.margins(0, .1)
+    fig.tight_layout()
