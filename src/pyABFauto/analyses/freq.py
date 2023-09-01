@@ -252,7 +252,7 @@ def plot_binned_power(ax, abf: pyabf.ABF, channel: int, freq_min: float, freq_ma
     ax.set_xlabel("Time (minutes)")
     ax.axhline(100, color='k', ls='--')
     ax.grid(alpha=.5, ls='--')
-    return binned_power[:-1]
+    return binned_power
 
 
 def plot_breathing_rate(ax, abf: pyabf.ABF, channel: int):
@@ -272,7 +272,9 @@ def plot_eeg_power_and_breathing_rate(abf: pyabf.ABF):
     inspect_channel(axes[0][1], abf, 1)
     eeg = plot_binned_power(axes[1][0], abf, 0, 20, 50)
     bpm = plot_breathing_rate(axes[1][1], abf, 1)
-    assert len(eeg) == len(bpm)
+    min_length = min([len(eeg), len(bpm)])
+    eeg = eeg[:min_length]
+    bpm = bpm[:min_length]
     csv = "time (minutes), EEG Activity 20-50 Hz (%), Respiration (bpm)\n"
     for i in range(len(eeg)):
         csv += f"{i*.5}, {eeg[i]}, {bpm[i]}\n"
