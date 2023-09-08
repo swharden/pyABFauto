@@ -49,6 +49,22 @@ def recursivelyFindAndAnalyze(folder, protocol=None):
             pyABFauto.analyzeAbf(abfPath)
 
 
+def deleteAutoanalysisFolders(rootFolder):
+    rootFolder = pathlib.Path(rootFolder)
+    for child in rootFolder.glob("*"):
+        if child.is_dir():
+            if child.name == "_autoanalysis":
+                for child_file in child.glob("*.*"):
+                    print(f"DELETING: {child_file}")
+                    child_file.unlink()
+            else:
+                deleteAutoanalysisFolders(child)
+
+
+def analyzeSingleFile(abfPath):
+    pyABFauto.analyzeAbf(abfPath)
+
+
 if __name__ == "__main__":
     recursivelyFindAndAnalyze(
         "X:/Data/zProjects/CCh in rat pups/experiments", "0918")
