@@ -230,8 +230,8 @@ def get_binned_power(abf: pyabf.ABF, channel: int, freq_min: float, freq_max: fl
         xf = scipy.fft.fftfreq(len(sample), 1/sample_rate)[:len(sample)//2]
 
         # isolate the frequency range of interest
-        i1 = int(20/xf[1])  # high enough to avoid breathing
-        i2 = int(50/xf[1])  # low enough to avoid 60 cycle noise
+        i1 = int(freq_min/xf[1])
+        i2 = int(freq_max/xf[1])
         xf = xf[i1:i2]
         fft_mag = fft_mag[i1:i2]
         fft_power = fft_power[i1:i2]
@@ -266,22 +266,57 @@ def plot_breathing_rate(ax, abf: pyabf.ABF, channel: int):
     return bpm
 
 
-def plot_eeg_power_and_breathing_rate(abf: pyabf.ABF):
-    fig, axes = plt.subplots(2, 2, sharex=True, figsize=(8, 6))
-    inspect_channel(axes[0][0], abf, 0)
-    inspect_channel(axes[0][1], abf, 1)
-    eeg = plot_binned_power(axes[1][0], abf, 0, 35, 55)
-    bpm = plot_breathing_rate(axes[1][1], abf, 1)
-    min_length = min([len(eeg), len(bpm)])
-    eeg = eeg[:min_length]
-    bpm = bpm[:min_length]
-    csv = "Time (minutes), EEG Activity 35-55 Hz, Respiration (bpm)\n"
-    for i in range(len(eeg)):
-        csv += f"{i*.5}, {eeg[i]}, {bpm[i]}\n"
+def save_fft_csv(abf: pyabf.ABF):
+    
+    column_names = []
+    column_names.append("Time (minutes)")
+    column_names.append("Respiration (bpm)")
+    column_names.append("EEG Delta (0.5-4 Hz)")
+    column_names.append("EEG Theta (4-8 Hz)")
+    column_names.append("EEG Alpha (8-12 Hz)")
+    column_names.append("EEG Beta (12-35 Hz)")
+    column_names.append("EEG Gamma (35-55 Hz)")
+    column_names.append("EEG Total (0.5-55 Hz)")
+
+    _, bpm = get_breaths_per_minute(abf, 1)
+
+    _, eeg_delta = get_binned_power(abf, 0, .5, 4)
+    _, eeg_theta = get_binned_power(abf, 0, 4, 8)
+    _, eeg_alpha = get_binned_power(abf, 0, 8, 12)
+    _, eeg_beta = get_binned_power(abf, 0, 12, 35)
+    _, eeg_gamma = get_binned_power(abf, 0, 35, 55)
+    _, eeg_total = get_binned_power(abf, 0, .5, 55)
+
+    # trim to match lengths
+    assert len(bpm) <= len(eeg_total)
+
+    # create CSV text
+    csv = ", ".join(column_names) + "\n"
+    for i in range(len(bpm)):
+        line = []
+        line.append(f"{i*.5}")
+        line.append(f"{bpm[i]}")
+        line.append(f"{eeg_delta[i]}")
+        line.append(f"{eeg_theta[i]}")
+        line.append(f"{eeg_alpha[i]}")
+        line.append(f"{eeg_beta[i]}")
+        line.append(f"{eeg_gamma[i]}")
+        line.append(f"{eeg_total[i]}")
+        csv += ", ".join(line) + "\n"
+
+    # save CSV file
     csv_folder = pathlib.Path(abf.abfFilePath).parent.joinpath("_autoanalysis")
     csv_folder.mkdir(exist_ok=True)
     csv_file = csv_folder.joinpath(abf.abfID+".csv")
     csv_file.write_text(csv)
     print(f"saved: {csv_file}")
+
+def plot_eeg_power_and_breathing_rate(abf: pyabf.ABF):
+    fig, axes = plt.subplots(2, 2, sharex=True, figsize=(8, 6))
+    inspect_channel(axes[0][0], abf, 0)
+    inspect_channel(axes[0][1], abf, 1)
+    plot_binned_power(axes[1][0], abf, 0, .5, 55)
+    plot_breathing_rate(axes[1][1], abf, 1)
+    save_fft_csv(abf)
     plt.margins(0, .1)
     fig.tight_layout()
