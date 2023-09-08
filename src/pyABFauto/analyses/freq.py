@@ -79,6 +79,13 @@ def plotStevOverTime(abf: pyabf.ABF, channel: int):
     plt.axis([None, None, 0, ymax])
 
 
+def lowpass(data: np.ndarray, cutoff: float, sample_rate: float, poles: int = 5):
+    sos = scipy.signal.butter(poles, cutoff, 'lowpass',
+                              fs=sample_rate, output='sos')
+    filtered_data = scipy.signal.sosfiltfilt(sos, data)
+    return filtered_data
+
+
 def smooth(signal: np.ndarray, level: float) -> np.ndarray:
     b, a = scipy.signal.butter(3, 1/level)
     return scipy.signal.filtfilt(b, a, signal)
@@ -199,6 +206,28 @@ def _bandpass(ys, sample_rate, low, high):
     return scipy.signal.sosfilt(sos, ys)
 
 
+def get_binned_stdev(abf: pyabf.ABF, channel: int):
+    ys = abf.getAllYs(channel)
+    sample_rate = abf.sampleRate
+    ys = lowpass(ys, 55, sample_rate)
+
+    binsize_min = .5
+    binsize_sec = binsize_min * 60
+    binsize_points = int(binsize_sec * sample_rate)
+    bin_count = int(abf.dataLengthSec / binsize_sec)
+    bin_times = np.arange(bin_count) * binsize_min
+    bin_edges = np.arange(bin_count) * binsize_points
+    binned_stdev = [None] * bin_count
+
+    for i, bin_edge in enumerate(bin_edges):
+        i1 = bin_edge
+        i2 = bin_edge + binsize_points
+        sample = ys[i1:i2]
+        binned_stdev[i] = np.std(sample)
+
+    return bin_times, binned_stdev
+
+
 def get_binned_power(abf: pyabf.ABF, channel: int, freq_min: float, freq_max: float):
     ys = abf.getAllYs(channel)
     sample_rate = abf.sampleRate
@@ -267,7 +296,7 @@ def plot_breathing_rate(ax, abf: pyabf.ABF, channel: int):
 
 
 def save_fft_csv(abf: pyabf.ABF):
-    
+
     column_names = []
     column_names.append("Time (minutes)")
     column_names.append("Respiration (bpm)")
@@ -277,6 +306,7 @@ def save_fft_csv(abf: pyabf.ABF):
     column_names.append("EEG Beta (12-35 Hz)")
     column_names.append("EEG Gamma (35-55 Hz)")
     column_names.append("EEG Total (0.5-55 Hz)")
+    column_names.append("Standard Deviation")
 
     _, bpm = get_breaths_per_minute(abf, 1)
 
@@ -286,6 +316,8 @@ def save_fft_csv(abf: pyabf.ABF):
     _, eeg_beta = get_binned_power(abf, 0, 12, 35)
     _, eeg_gamma = get_binned_power(abf, 0, 35, 55)
     _, eeg_total = get_binned_power(abf, 0, .5, 55)
+
+    _, stdev = get_binned_stdev(abf, 0)
 
     # trim to match lengths
     assert len(bpm) <= len(eeg_total)
@@ -302,6 +334,7 @@ def save_fft_csv(abf: pyabf.ABF):
         line.append(f"{eeg_beta[i]}")
         line.append(f"{eeg_gamma[i]}")
         line.append(f"{eeg_total[i]}")
+        line.append(f"{stdev[i]}")
         csv += ", ".join(line) + "\n"
 
     # save CSV file
@@ -310,6 +343,7 @@ def save_fft_csv(abf: pyabf.ABF):
     csv_file = csv_folder.joinpath(abf.abfID+".csv")
     csv_file.write_text(csv)
     print(f"saved: {csv_file}")
+
 
 def plot_eeg_power_and_breathing_rate(abf: pyabf.ABF):
     fig, axes = plt.subplots(2, 2, sharex=True, figsize=(8, 6))
