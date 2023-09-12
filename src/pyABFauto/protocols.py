@@ -350,6 +350,10 @@ def analyze_0918(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.todd.vc_ican_dt(abf, fig)
 
 
+def analyze_0919(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
+    pyABFauto.analyses.todd.vc_ican_dt(abf, fig)
+
+
 def analyze_Signal(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):  # SS spike fidelity
     if abf.sweepUnitsY == "pA":
         pyABFauto.analyses.stimulation.optoResponse(
