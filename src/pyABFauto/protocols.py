@@ -7,6 +7,7 @@ import pyabf
 import pyabf.tools
 
 import pyABFauto
+import pyABFauto.analyses.simple
 import pyABFauto.analyses.memtest
 import pyABFauto.analyses.iv
 import pyABFauto.analyses.apShape
@@ -167,6 +168,10 @@ def analyze_0315(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.timeCourse.wideningStep(abf, fig)
 
 
+def analyze_0330(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
+    pyABFauto.analyses.simple.meanSweep(abf, fig)
+
+
 def analyze_0401(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.memtest.figureOverTime(abf, fig)
 
@@ -324,6 +329,20 @@ def analyze_0612(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
 
 def analyze_0613(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.dsi.evokedInwardCurrent(abf, fig)
+
+
+def analyze_0615(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
+    pyABFauto.analyses.stimulation.figureTestElectricalResponseVC(
+        abf, fig, stimEpochNumber=3)
+
+
+def analyze_0616(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
+    pyABFauto.analyses.simple.continuous(abf, fig)
+
+
+def analyze_0617(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
+    pyABFauto.analyses.stimulation.figureStimulationIoCurveVC(
+        abf, fig, stimEpochNumber=3)
 
 
 def analyze_0804(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):

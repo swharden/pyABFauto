@@ -177,7 +177,7 @@ def figureShowOptoResponseOverTime(abf, fig, optoEpochNumber=3):
     plt.axis([None, None, 0, None])
 
 
-def figureTestElectricalResponseVC(abf, fig, stimEpochNumber=3, measureOffset1=.003, measureOffset2=.015):
+def figureTestElectricalResponseVC(abf, fig, stimEpochNumber=3, measureOffset1=.003, measureOffset2=.02):
     assert isinstance(abf, pyabf.ABF)
     assert isinstance(fig, pyABFauto.figure.Figure)
 
@@ -202,19 +202,17 @@ def figureTestElectricalResponseVC(abf, fig, stimEpochNumber=3, measureOffset1=.
     sweepTimesSec = np.arange(abf.sweepCount) * abf.sweepIntervalSec
     sweepTimesMin = sweepTimesSec / 60
 
-    plt.subplot(221)
-    fig.grid()
+    fig2, axs = plt.subplots(2, 2)
+
+    plt.sca(axs[0, 0])
     plt.title("Electrical Response (%d sweeps)" % abf.sweepCount)
     for sweepNumber in abf.sweepList:
         abf.setSweep(sweepNumber, baseline=baseline)
-        means[sweepNumber] = np.mean(abf.sweepY[measureI1:measureI2])
+        means[sweepNumber] = np.min(abf.sweepY[measureI1:measureI2])
         plt.plot(abf.sweepX[displayPoint1:displayPoint2],
                  abf.sweepY[displayPoint1:displayPoint2],
                  alpha=.4, color='b')
-    # meanSweep = getMeanSweep(abf, baseline=baseline)
-    # plt.plot(abf.sweepX[displayPoint1:displayPoint2],
-        # meanSweep[displayPoint1:displayPoint2],
-        # color='b')
+
     plt.axhline(0, color='k', ls='--')
     plt.ylabel(abf.sweepLabelY)
     plt.xlabel(abf.sweepLabelX)
@@ -222,9 +220,8 @@ def figureTestElectricalResponseVC(abf, fig, stimEpochNumber=3, measureOffset1=.
     plt.axvspan(optoTimeOn, optoTimeOff, alpha=.5, color='y')
     plt.axvspan(baseline[0], baseline[1], alpha=.2, color='k')
     plt.axvspan(measure[0], measure[1], alpha=.2, color='r')
-    plt.axis([None, None, -100, 100])
 
-    plt.subplot(222)
+    plt.sca(axs[0, 1])
     fig.grid()
     plt.title("Evoked Current")
     plt.axhline(0, color='k', ls='--')
@@ -234,7 +231,7 @@ def figureTestElectricalResponseVC(abf, fig, stimEpochNumber=3, measureOffset1=.
     plt.xlabel("Experiment Time (minutes)")
     plt.margins(.1, .3)
 
-    plt.subplot(223)
+    plt.sca(axs[1, 0])
     fig.grid()
     plt.title(mt.Ih.name)
     plt.ylabel(mt.Ih.units)
@@ -243,7 +240,7 @@ def figureTestElectricalResponseVC(abf, fig, stimEpochNumber=3, measureOffset1=.
     plt.margins(.1, .3)
     fig.addTagLines(minutes=True)
 
-    plt.subplot(224)
+    plt.sca(axs[1, 1])
     fig.grid()
     plt.title(mt.Ra.name)
     plt.ylabel(mt.Ra.units)
@@ -253,6 +250,57 @@ def figureTestElectricalResponseVC(abf, fig, stimEpochNumber=3, measureOffset1=.
     plt.margins(.1, .3)
     plt.axis([None, None, 0, None])
 
+
+def figureStimulationIoCurveVC(abf: pyabf.ABF, fig: pyABFauto.figure.Figure, stimEpochNumber=3, measureOffset1=.003, measureOffset2=.02):
+
+    optoPointOn = abf.sweepEpochs.p1s[stimEpochNumber]
+    optoPointOff = abf.sweepEpochs.p2s[stimEpochNumber]
+
+    optoTimeOn = optoPointOn * abf.dataSecPerPoint
+    optoTimeOff = optoPointOff * abf.dataSecPerPoint
+
+    displayPoint1 = int(optoPointOn - 0.03 * abf.dataRate)
+    displayPoint2 = int(optoPointOff + 0.05 * abf.dataRate)
+
+    baseline = [optoTimeOn - .02, optoTimeOn - .01]
+
+    measure = [optoTimeOff + measureOffset1, optoTimeOff + measureOffset2]
+    measureI1 = int(measure[0] * abf.dataRate)
+    measureI2 = int(measure[1] * abf.dataRate)
+    means = np.full(abf.sweepCount, np.nan)
+
+    sweepTimesSec = np.arange(abf.sweepCount) * abf.sweepIntervalSec
+    sweepTimesMin = sweepTimesSec / 60
+
+    fig2, axs = plt.subplots(1, 2)
+
+    plt.sca(axs[0])
+    plt.title("Electrical Response (%d sweeps)" % abf.sweepCount)
+    for sweepNumber in abf.sweepList:
+        abf.setSweep(sweepNumber, baseline=baseline)
+        means[sweepNumber] = np.min(abf.sweepY[measureI1:measureI2])
+        plt.plot(abf.sweepX[displayPoint1:displayPoint2],
+                 abf.sweepY[displayPoint1:displayPoint2],
+                 alpha=.4, color='b')
+
+    plt.axhline(0, color='k', ls='--')
+    plt.ylabel(abf.sweepLabelY)
+    plt.xlabel(abf.sweepLabelX)
+    plt.margins(0, .1)
+    plt.axvspan(optoTimeOn, optoTimeOff, alpha=.5, color='y')
+    plt.axvspan(baseline[0], baseline[1], alpha=.2, color='k')
+    plt.axvspan(measure[0], measure[1], alpha=.2, color='r')
+
+    plt.sca(axs[1])
+    percents = 100 * np.arange(abf.sweepCount) / (abf.sweepCount - 1)
+    fig.grid()
+    plt.title("Evoked Current")
+    plt.axhline(0, color='k', ls='--')
+    plt.plot(percents, means, '.-')
+    fig.addTagLines(minutes=True)
+    plt.ylabel("Peak Inward Current (pA)")
+    plt.xlabel("Stimulus (%)")
+    plt.margins(.1, .3)
 
 def figureTestElectricalResponseIC(abf: pyabf.ABF, fig: pyABFauto.figure.Figure, stimEpochNumber: int = 3):
 

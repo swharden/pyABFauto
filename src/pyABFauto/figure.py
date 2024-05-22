@@ -8,6 +8,7 @@ import pyabf
 import matplotlib
 import matplotlib.pyplot as plt
 import pyABFauto
+import numpy as np
 
 matplotlib.use("Agg")
 
@@ -19,7 +20,7 @@ class Figure:
         self._setup()
 
     def sweepColor(self,  reverse=False):
-        #colormap = plt.get_cmap("rainbow")
+        # colormap = plt.get_cmap("rainbow")
 
         # quantized colors from turbo with yellow omitted
         # https://ai.googleblog.com/2019/08/turbo-improved-rainbow-colormap-for.html
@@ -47,6 +48,17 @@ class Figure:
             plt.plot(self.abf.sweepX, self.abf.sweepY + vertOffset * sweepNumber,
                      color=self.sweepColor(), alpha=alpha)
         plt.margins(0, .05)
+        self.labelAxes()
+
+    def plotMean(self, vertOffset=0, alpha=.5):
+        values = np.empty((self.abf.sweepCount, len(self.abf.sweepX)))
+        for sweepNumber in self.abf.sweepList:
+            self.abf.setSweep(sweepNumber)
+            values[sweepNumber] = self.abf.sweepY
+        mean = np.mean(values, 0)
+        plt.plot(self.abf.sweepX, mean)
+        plt.margins(0, .05)
+        plt.grid(alpha=.5)
         self.labelAxes()
 
     def plotContinuous(self, startAtSec=0, minutes=False):

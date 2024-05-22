@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2CD3AFD7-3DB2-456A-B601-0BDD45C88E9E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AbfAutoRunner", "src\pyABFautoRunner\AbfAutoRunner.csproj", "{19A40B74-591A-48A6-9793-8A2B6B1AF899}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{19A40B74-591A-48A6-9793-8A2B6B1AF899}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19A40B74-591A-48A6-9793-8A2B6B1AF899}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19A40B74-591A-48A6-9793-8A2B6B1AF899}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19A40B74-591A-48A6-9793-8A2B6B1AF899}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{19A40B74-591A-48A6-9793-8A2B6B1AF899} = {2CD3AFD7-3DB2-456A-B601-0BDD45C88E9E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0289ACCB-37B8-439A-B2D2-3973AC85E12F}
+	EndGlobalSection
+EndGlobal
