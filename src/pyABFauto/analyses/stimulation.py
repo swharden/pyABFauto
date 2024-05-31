@@ -302,6 +302,7 @@ def figureStimulationIoCurveVC(abf: pyabf.ABF, fig: pyABFauto.figure.Figure, sti
     plt.xlabel("Stimulus (%)")
     plt.margins(.1, .3)
 
+
 def figureTestElectricalResponseIC(abf: pyabf.ABF, fig: pyABFauto.figure.Figure, stimEpochNumber: int = 3):
 
     optoPointOn = abf.sweepEpochs.p1s[stimEpochNumber]
@@ -650,3 +651,77 @@ def figurePPR(abf: pyabf.ABF, fig: pyABFauto.figure.Figure, stimEpochNumber=3):
     fig.addTagLines(minutes=True)
     plt.margins(.1, .3)
     plt.axis([None, None, 0, None])
+
+
+def AMPA(abf: pyabf.ABF, fig: pyABFauto.figure.Figure, stimEpochNumber=3, measureOffset1=.003, measureOffset2=.02):
+
+    # setup smoothing
+    sigma = 1
+    pyabf.filter.gaussian(abf, sigma)
+
+    # determine key swep positions
+    optoPointOn = abf.sweepEpochs.p1s[stimEpochNumber]
+    optoTimeOn = optoPointOn * abf.dataSecPerPoint
+    baseline = [optoTimeOn - .02, optoTimeOn - .01]
+    i1 = optoPointOn + 70
+    i2 = optoPointOn + 1000
+
+    # get mean sweep
+    means = np.empty((abf.sweepCount, abf.sweepPointCount))
+    for sweepNumber in abf.sweepList:
+        abf.setSweep(sweepNumber, baseline=baseline)
+        abf.sweepY[:40000] = np.nan
+        abf.sweepY[50000:] = np.nan
+        means[sweepNumber] = abf.sweepY
+        plt.plot(abf.sweepX, abf.sweepY, color='b', alpha=.1)
+    meanSweep = np.average(means, 0)
+
+    # find peak
+    min_index = np.nanargmin(meanSweep[i1:i2])+i1
+    min_value = meanSweep[min_index]
+
+    plt.plot(abf.sweepX, meanSweep, color='k')
+    plt.plot(abf.sweepX[min_index], min_value, color='k', marker='.', ms=20)
+    plt.axhline(0, color='k', ls='--')
+    plt.grid(alpha=.5, ls='--')
+    plt.xlabel("Time (sec)")
+    plt.ylabel("Current (pA)")
+    plt.title(f"AMPA: {min_value:.02f} pA")
+    plt.margins(0, .1)
+
+
+def NMDA(abf: pyabf.ABF, fig: pyABFauto.figure.Figure, stimEpochNumber=3, measureOffset1=.003, measureOffset2=.02):
+
+    # setup smoothing
+    sigma = 1
+    pyabf.filter.gaussian(abf, sigma)
+
+    # determine key swep positions
+    optoPointOn = abf.sweepEpochs.p1s[stimEpochNumber]
+    optoTimeOn = optoPointOn * abf.dataSecPerPoint
+    baseline = [optoTimeOn - .02, optoTimeOn - .01]
+    nmdaPoint = optoPointOn + int(abf.dataRate * .1)  # 100ms after stim
+
+    # get mean sweep
+    means = np.empty((abf.sweepCount, abf.sweepPointCount))
+    for sweepNumber in abf.sweepList:
+        abf.setSweep(sweepNumber, baseline=baseline)
+        abf.sweepY[:40000] = np.nan
+        abf.sweepY[50000:] = np.nan
+        means[sweepNumber] = abf.sweepY
+        plt.plot(abf.sweepX, abf.sweepY, color='b', alpha=.1)
+    meanSweep = np.average(means, 0)
+
+    # mean value 100ms after stim
+    nmdaValueWidth = 250
+    nmdaValues = meanSweep[nmdaPoint-nmdaValueWidth:nmdaPoint+nmdaValueWidth]
+    nmdaValue = np.mean(nmdaValues)
+
+    plt.plot(abf.sweepX, meanSweep, color='k')
+    plt.plot(abf.sweepX[nmdaPoint], nmdaValue, color='k', marker='.', ms=20)
+    plt.axhline(0, color='k', ls='--')
+    plt.grid(alpha=.5, ls='--')
+    plt.xlabel("Time (sec)")
+    plt.ylabel("Current (pA)")
+    plt.title(f"NMDA: {nmdaValue:.02f} pA")
+    plt.margins(0, .1)

@@ -220,6 +220,10 @@ def analyze_0425(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.amy.showRamp(abf, fig)
 
 
+def analyze_0426(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
+    pyABFauto.analyses.memtest.figureOverTime(abf, fig)
+
+
 def analyze_6(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):  # 6 MT-mon
     analyze_0405(abf, fig)
 
@@ -343,6 +347,14 @@ def analyze_0616(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
 def analyze_0617(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
     pyABFauto.analyses.stimulation.figureStimulationIoCurveVC(
         abf, fig, stimEpochNumber=3)
+
+
+def analyze_0618(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
+    pyABFauto.analyses.stimulation.AMPA(abf, fig, stimEpochNumber=3)
+
+
+def analyze_0619(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
+    pyABFauto.analyses.stimulation.NMDA(abf, fig, stimEpochNumber=3)
 
 
 def analyze_0804(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
