@@ -225,7 +225,7 @@ def analyze_0425(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
 
 
 def analyze_0426(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
-    pyABFauto.analyses.memtest.figureOverTime(abf, fig)
+    pyABFauto.analyses.iv.iv_over_time_4(abf, fig)
 
 
 def analyze_6(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):  # 6 MT-mon
