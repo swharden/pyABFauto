@@ -50,7 +50,7 @@ def step(abf, fig, timeSteadyStart, timeSteadyEnd, timeTailStart, timeTailEnd):
     plt.axvspan(timeTailStart, timeTailEnd,
                 alpha=.1, color='b', lw=0,
                 label="tail")
-    #plt.legend(loc="upper left", fontsize=10)
+    # plt.legend(loc="upper left", fontsize=10)
 
     ax2 = plt.subplot(subplotNumberB)
     fig.grid()
@@ -71,7 +71,7 @@ def step(abf, fig, timeSteadyStart, timeSteadyEnd, timeTailStart, timeTailEnd):
                 color='r', lw=0, label="steady")
     plt.axvspan(timeTailStart, timeTailEnd, alpha=.1,
                 color='b', lw=0, label="tail")
-    #plt.legend(loc="upper left", fontsize=10)
+    # plt.legend(loc="upper left", fontsize=10)
     plt.axis([timeSteadyStart - .05, timeTailEnd + .05, None, None])
 
     ax2 = plt.subplot(224)
@@ -81,3 +81,41 @@ def step(abf, fig, timeSteadyStart, timeSteadyEnd, timeTailStart, timeTailEnd):
     plt.axhline(0, color='k', alpha=.2, ls='--')
     plt.ylabel(abf.sweepLabelY)
     plt.xlabel(abf.sweepLabelC)
+
+
+def step_fast(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
+
+    currents = [np.nan]*abf.sweepCount
+    voltages = [np.nan]*abf.sweepCount
+
+    for sweepNumber in abf.sweepList:
+        abf.setSweep(sweepNumber)
+        i1 = int(len(abf.sweepY) * .75)
+        currents[sweepNumber] = np.mean(abf.sweepY[i1:])
+        voltages[sweepNumber] = abf.sweepC[i1]
+
+    plt.plot(currents, voltages, '.-', color='k', lw=2, ms=10)
+    plt.grid(alpha=.5, ls='--')
+    plt.ylabel("Current (pA)")
+    plt.xlabel("Voltage (mV)")
+    plt.axvline(0, color='k', ls='--')
+    plt.axhline(0, color='k', ls='--')
+
+
+def iv_over_time_4(abf: pyabf.ABF, fig: pyABFauto.figure.Figure):
+
+    currents = [np.nan]*abf.sweepCount
+    voltages = [np.nan]*abf.sweepCount
+
+    for sweepNumber in abf.sweepList:
+        abf.setSweep(sweepNumber)
+        i1 = int(len(abf.sweepY) * .75)
+        currents[sweepNumber] = np.mean(abf.sweepY[i1:])
+        voltages[sweepNumber] = abf.sweepC[i1]
+
+    plt.plot(currents, voltages, '.-', color='k', lw=2, ms=10)
+    plt.grid(alpha=.5, ls='--')
+    plt.ylabel("Current (pA)")
+    plt.xlabel("Voltage (mV)")
+    plt.axvline(0, color='k', ls='--')
+    plt.axhline(0, color='k', ls='--')

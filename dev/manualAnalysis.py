@@ -45,8 +45,9 @@ def recursivelyFindAndAnalyze(folder, protocol=None):
     for i, abfPath in enumerate(abfPaths):
         abf = pyabf.ABF(abfPath, loadData=False)
         print(f"{i+1} of {len(abfPaths)}: {abf.abfID} {abf.protocol}")
-        if abf.protocol.startswith(protocol):
-            pyABFauto.analyzeAbf(abfPath)
+        if protocol and not abf.protocol.startswith(protocol):
+            continue
+        pyABFauto.analyzeAbf(abfPath)
 
 
 def deleteAutoanalysisFolders(rootFolder):
